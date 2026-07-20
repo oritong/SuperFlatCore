@@ -1,0 +1,12 @@
+{
+  "block.gtceu.lv_dual_input_hatch": "§7LV§r Dual Input Hatch",
+  "block.gtceu.lv_dual_output_hatch": "§7LV§r Dual Output Hatch",
+  "block.gtceu.mv_dual_input_hatch": "§bMV§r Dual Input Hatch",
+  "block.gtceu.mv_dual_output_hatch": "§bMV§r Dual Output Hatch",
+  "block.gtceu.hv_dual_input_hatch": "§6HV§r Dual Input Hatch",
+  "block.gtceu.hv_dual_output_hatch": "§6HV§r Dual Output Hatch",
+  "block.gtceu.ev_dual_input_hatch": "§5EV§r Dual Input Hatch",
+  "block.gtceu.ev_dual_output_hatch": "§5EV§r Dual Output Hatch",
+  "block.gtceu.iv_dual_input_hatch": "§9IV§r Dual Input Hatch",
+  "block.gtceu.iv_dual_output_hatch": "§9IV§r Dual Output Hatch"
+}

@@ -1,0 +1,76 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="GNU General Public License version 3"
+issueTrackerURL=""
+
+[[mods]]
+modId="superflatcore"
+version="1.0.14-hotfix.1"
+displayName="SuperFlatCore"
+authors="oritong(use ChatGPT)"
+description='''
+Core mod for the pack **Diamond Continent Jiahao Version**
+'''
+
+[[dependencies.superflatcore]]
+    modId="forge"
+    mandatory=true
+    versionRange="[47,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.20.1,1.21)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="gtceu"
+    mandatory=true
+    versionRange="[7.5.3,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="gtmthings"
+    mandatory=true
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="industrialforegoing"
+    mandatory=true
+    versionRange="[3.5.21,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="ifeu"
+    mandatory=true
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="minopp"
+    mandatory=true
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="tiab"
+    mandatory=true
+    versionRange="[4.0.4,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="jade"
+    mandatory=false
+    versionRange="[11.13.1,)"
+    ordering="AFTER"
+    side="BOTH"

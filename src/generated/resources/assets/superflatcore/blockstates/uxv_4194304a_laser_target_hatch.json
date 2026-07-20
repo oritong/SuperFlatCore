@@ -1,0 +1,28 @@
+﻿{
+    "variants":  {
+                     "facing=down":  {
+                                         "model":  "superflatcore:block/machine/uxv_4194304a_laser_target_hatch",
+                                         "x":  90
+                                     },
+                     "facing=east":  {
+                                         "model":  "superflatcore:block/machine/uxv_4194304a_laser_target_hatch",
+                                         "y":  90
+                                     },
+                     "facing=north":  {
+                                          "model":  "superflatcore:block/machine/uxv_4194304a_laser_target_hatch"
+                                      },
+                     "facing=south":  {
+                                          "model":  "superflatcore:block/machine/uxv_4194304a_laser_target_hatch",
+                                          "y":  180
+                                      },
+                     "facing=up":  {
+                                       "gtceu:z":  180,
+                                       "model":  "superflatcore:block/machine/uxv_4194304a_laser_target_hatch",
+                                       "x":  270
+                                   },
+                     "facing=west":  {
+                                         "model":  "superflatcore:block/machine/uxv_4194304a_laser_target_hatch",
+                                         "y":  270
+                                     }
+                 }
+}

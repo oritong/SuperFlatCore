@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "superflatcore:item/basic_air_intake_cover"
+  }
+}

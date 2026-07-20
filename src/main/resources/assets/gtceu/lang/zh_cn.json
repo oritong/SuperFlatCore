@@ -1,0 +1,12 @@
+{
+  "block.gtceu.lv_dual_input_hatch": "§7LV§r输入总成",
+  "block.gtceu.lv_dual_output_hatch": "§7LV§r输出总成",
+  "block.gtceu.mv_dual_input_hatch": "§bMV§r输入总成",
+  "block.gtceu.mv_dual_output_hatch": "§bMV§r输出总成",
+  "block.gtceu.hv_dual_input_hatch": "§6HV§r输入总成",
+  "block.gtceu.hv_dual_output_hatch": "§6HV§r输出总成",
+  "block.gtceu.ev_dual_input_hatch": "§5EV§r输入总成",
+  "block.gtceu.ev_dual_output_hatch": "§5EV§r输出总成",
+  "block.gtceu.iv_dual_input_hatch": "§9IV§r输入总成",
+  "block.gtceu.iv_dual_output_hatch": "§9IV§r输出总成"
+}

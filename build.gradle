@@ -1,0 +1,88 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
+}
+
+version = '1.0.14-hotfix.1'
+group = 'com.oritong.superflatcore'
+archivesBaseName = 'superflatcore'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                superflatcore { source sourceSets.main }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                superflatcore { source sourceSets.main }
+            }
+        }
+    }
+}
+
+mixin {
+    add sourceSets.main, 'superflatcore.refmap.json'
+    config 'superflatcore.mixins.json'
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven { url = 'https://maven.minecraftforge.net/' }
+    maven { url = "${projectDir}/local_maven" }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
+    compileOnly files('local_maven/com/gregtechceu/gtceu/7.5.3/gtceu-7.5.3.jar')
+    compileOnly files('local_maven/com/hepdd/gtmthings/1.6.0/gtmthings-1.6.0.jar')
+    compileOnly files('local_maven/snownee/jade/11.13.1/jade-1.20.1-Forge-11.13.1.jar')
+    compileOnly files('local_maven/com/buuz135/industrialforegoing/3.5.21/industrialforegoing-1.20.1-3.5.21.jar')
+    compileOnly files('local_maven/cn/zbx1425/minopp/1.4.0/minopp-1.4.0+1.20.1+forge.jar')
+    compileOnly files('local_maven/com/haoict/tiab/4.0.4/time-in-a-bottle-4.0.4-mc1.20.1.jar')
+    compileOnly files('local_maven/com/lowdragmc/ldlib/1.0.50/ldlib-forge-1.0.50.jar')
+    compileOnly files('local_maven/com/tterrag/registrate/Registrate-MC1.20-1.3.11/Registrate-MC1.20-1.3.11.jar')
+}
+
+jar {
+    manifest {
+        attributes([
+            "Specification-Title"     : "superflatcore",
+            "Specification-Vendor"    : "oritong(use ChatGPT)",
+            "Specification-Version"   : "1",
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : project.jar.archiveVersion,
+            "Implementation-Vendor"   : "oritong(use ChatGPT)",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+            "MixinConfigs"            : "superflatcore.mixins.json"
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) { artifact jar }
+    }
+    repositories {
+        maven { url "file://${project.projectDir}/mcmodsrepo" }
+    }
+}
