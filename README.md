@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.15-hotfix.3`
+Current version: `1.0.16-hotfix.6`
 
 ## Features
 
@@ -18,6 +18,7 @@ Current version: `1.0.15-hotfix.3`
 - Changes Industrial Foregoing's Latex Processing Unit latex tank to accept `oritong:latex`.
 - Adds a Jade tooltip overlay for Time in a Bottle accelerators, with a config toggle and block/entity support. It shows acceleration multiplier and remaining time.
 - Adds `GTRecipeModifiers.MULTIPLERECIPE` for GTCEu KubeJS multiblock registrations. Add it to `.recipeModifiers([...])` to let a workable multiblock run multiple matching recipes in one combined runtime batch.
+- Adds Botania `twig_wand` behavior to Ars Nouveau's `ars_nouveau:dominion_wand`. The dominion wand can use Botania wand interactions, and sneak-right-clicking air toggles the Botania wand mode while refreshing the displayed item name. The displayed name keeps the normal dominion wand base name and appends the Botania mode.
 
 ## Build
 
@@ -38,3 +39,5 @@ The built jar will be generated under `build/libs`.
 - Minopp
 - Time In A Bottle (`tiab`) `4.0.4+`
 - Jade `11.13.1+` (optional, for the TIAB tooltip overlay)
+- Botania `1.20.1-448+`
+- Ars Nouveau `4.12.7+`
