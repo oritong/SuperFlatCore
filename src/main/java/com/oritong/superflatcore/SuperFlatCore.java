@@ -7,9 +7,12 @@ import com.oritong.superflatcore.registry.SFItems;
 import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.SFMobEffects;
 import com.oritong.superflatcore.registry.SFRegistrate;
+import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -30,6 +33,8 @@ public class SuperFlatCore {
         modBus.addGenericListener(CoverDefinition.class, SFCovers::registerCovers);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
+        modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
+        MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, DominionWandBotaniaIntegration::attachCapabilities);
 
         LOGGER.info("SuperFlatCore loaded");
     }

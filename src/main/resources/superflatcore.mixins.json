@@ -1,16 +1,32 @@
 {
+  "minVersion": "0.8.5",
   "required": true,
   "package": "com.oritong.superflatcore.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "superflatcore.refmap.json",
   "mixins": [
     "DualHatchPartMachineMixin",
+    "DominionWandMixin",
+    "GTRecipeModifiersMixin",
     "GTMachinesMixin",
     "GTMachineUtilsMixin",
     "InfinityNukeEntityMixin",
-    "LatexProcessingUnitTileMixin"
+    "ItemStackMixin",
+    "LatexProcessingUnitTileMixin",
+    "WorkableMultiblockMachineMixin",
+    "botania.CorporeaCrystalCubeBlockMixin",
+    "botania.CorporeaSparkEntityMixin",
+    "botania.HoveringHourglassBlockMixin",
+    "botania.ManaEnchanterBlockMixin",
+    "botania.ManaSparkEntityMixin",
+    "botania.ManaSpreaderBlockMixin",
+    "botania.PlayerHelperMixin",
+    "botania.RunicAltarBlockEntityMixin"
   ],
-  "client": [],
+  "client": [
+    "client.DominionWandClientMixin",
+    "client.GuiMixin"
+  ],
   "server": [],
   "injectors": {
     "defaultRequire": 1

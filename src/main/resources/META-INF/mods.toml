@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.0.14-hotfix.1"
+version="1.0.16-hotfix.6"
 displayName="SuperFlatCore"
 authors="oritong(use ChatGPT)"
 description='''
@@ -72,5 +72,19 @@ Core mod for the pack **Diamond Continent Jiahao Version**
     modId="jade"
     mandatory=false
     versionRange="[11.13.1,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="botania"
+    mandatory=true
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="ars_nouveau"
+    mandatory=true
+    versionRange="[0,)"
     ordering="AFTER"
     side="BOTH"

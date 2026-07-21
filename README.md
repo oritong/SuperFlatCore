@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.14-hotfix.1`
+Current version: `1.0.15-hotfix.3`
 
 ## Features
 
@@ -17,6 +17,7 @@ Current version: `1.0.14-hotfix.1`
 - Adds the `superflatcore:machine_soul_joy` effect. While active, jumping on GTCEu machines with recipe logic has a 35% chance to spawn a short Time in a Bottle acceleration burst if the machine is not already accelerated.
 - Changes Industrial Foregoing's Latex Processing Unit latex tank to accept `oritong:latex`.
 - Adds a Jade tooltip overlay for Time in a Bottle accelerators, with a config toggle and block/entity support. It shows acceleration multiplier and remaining time.
+- Adds `GTRecipeModifiers.MULTIPLERECIPE` for GTCEu KubeJS multiblock registrations. Add it to `.recipeModifiers([...])` to let a workable multiblock run multiple matching recipes in one combined runtime batch.
 
 ## Build
 
