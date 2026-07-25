@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.0.17"
+version="1.0.18"
 displayName="SuperFlatCore"
 authors="oritong(use ChatGPT)"
 description='''
@@ -93,5 +93,12 @@ Core mod for the pack **Diamond Continent Jiahao Version**
     modId="ars_nouveau"
     mandatory=true
     versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="embers"
+    mandatory=true
+    versionRange="[1.4.7,)"
     ordering="AFTER"
     side="BOTH"

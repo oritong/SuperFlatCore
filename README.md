@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.17`
+Current version: `1.0.18`
 
 ## Features
 
@@ -20,6 +20,7 @@ Current version: `1.0.17`
 - Adds `GTRecipeModifiers.MULTIPLERECIPE` for GTCEu KubeJS multiblock registrations. Add it to `.recipeModifiers([...])` to let a workable multiblock run multiple matching recipes in one combined runtime batch.
 - Adds Botania `twig_wand` behavior to Ars Nouveau's `ars_nouveau:dominion_wand`. The dominion wand can use Botania wand interactions, and sneak-right-clicking air toggles the Botania wand mode while refreshing the displayed item name. The displayed name keeps the normal dominion wand base name and appends the Botania mode.
 - Sneak-right-clicking while holding `beyonddimensions:shattered_space_time_crystallization` in the main hand consumes one crystal and adds 15 minutes to the first Time in a Bottle found in the player's inventory or Curios slots.
+- Adds Embers `tinker_hammer` behavior to items tagged `#gtceu:tools/crafting_mallets`, including recipe tag compatibility, Embers pipe toggling, and ember emitter/receptor linking.
 
 ## Build
 
@@ -43,3 +44,4 @@ The built jar will be generated under `build/libs`.
 - Jade `11.13.1+` (optional, for the TIAB tooltip overlay)
 - Botania `1.20.1-448+`
 - Ars Nouveau `4.12.7+`
+- Embers Rekindled `1.4.7+`

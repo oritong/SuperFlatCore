@@ -9,6 +9,7 @@ import com.oritong.superflatcore.registry.SFMobEffects;
 import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.event.TimeCrystalTiabEvents;
 import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
+import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +36,7 @@ public class SuperFlatCore {
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
         modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
+        EmbersMalletIntegration.register();
         TimeCrystalTiabEvents.requestTiabApi();
         MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, DominionWandBotaniaIntegration::attachCapabilities);
 
