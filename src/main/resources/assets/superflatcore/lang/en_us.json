@@ -204,5 +204,9 @@
     "gtmthings.machine.wireless_energy_hatch.target.tooltip":  "Right click with a Data Stick to change owner, left click to unbind.",
     "gtmthings.machine.wireless_energy_hatch.source.tooltip":  "Right click with a Data Stick to change owner, left click to unbind.",
     "gtmthings.machine.wireless_energy_hatch.tooltip.bind":  "Bound to %s",
-    "gtmthings.machine.wireless_energy_hatch.tooltip.unbind":  "Unbound!"
+    "gtmthings.machine.wireless_energy_hatch.tooltip.unbind":  "Unbound!",
+    "message.superflatcore.time_crystal.added":  "Added 15 minutes to your Time in a Bottle.",
+    "message.superflatcore.time_crystal.no_bottle":  "No Time in a Bottle found in your inventory or Curios slots.",
+    "message.superflatcore.time_crystal.full":  "Your Time in a Bottle is already full.",
+    "message.superflatcore.time_crystal.api_unavailable":  "Time in a Bottle API is not ready."
 }

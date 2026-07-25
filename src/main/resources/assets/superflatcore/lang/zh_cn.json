@@ -204,5 +204,9 @@
     "config.jade.plugin_superflatcore.tiab_info":  "显示 Time in a Bottle 加速信息",
     "config.jade.plugin_superflatcore.tiab_info_desc":  "在 Jade 提示框中显示 Time in a Bottle 加速倍数和剩余时间。",
     "tooltip.superflatcore.tiab.multiplier":  "加速倍数：x%s",
-    "tooltip.superflatcore.tiab.remaining_time":  "剩余时间：%s 秒"
+    "tooltip.superflatcore.tiab.remaining_time":  "剩余时间：%s 秒",
+    "message.superflatcore.time_crystal.added":  "已为时间之瓶增加 15 分钟时间。",
+    "message.superflatcore.time_crystal.no_bottle":  "背包或饰品栏中没有时间之瓶。",
+    "message.superflatcore.time_crystal.full":  "时间之瓶已达到可储存上限。",
+    "message.superflatcore.time_crystal.api_unavailable":  "Time in a Bottle API 尚未就绪。"
 }
