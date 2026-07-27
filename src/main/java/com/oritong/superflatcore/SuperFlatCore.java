@@ -3,6 +3,7 @@ package com.oritong.superflatcore;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.oritong.superflatcore.registry.SFCovers;
+import com.oritong.superflatcore.registry.SFFluids;
 import com.oritong.superflatcore.registry.SFItems;
 import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.SFMobEffects;
@@ -10,6 +11,7 @@ import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.event.TimeCrystalTiabEvents;
 import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
+import com.oritong.superflatcore.integration.rainrot.RainrotDrinkIntegration;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -30,12 +32,14 @@ public class SuperFlatCore {
     public SuperFlatCore() {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         SFRegistrate.REGISTRATE.registerEventListeners(modBus);
+        SFFluids.register(modBus);
         SFItems.register(modBus);
         SFMobEffects.register(modBus);
         modBus.addGenericListener(CoverDefinition.class, SFCovers::registerCovers);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
         modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
+        modBus.addListener(RainrotDrinkIntegration::commonSetup);
         EmbersMalletIntegration.register();
         TimeCrystalTiabEvents.requestTiabApi();
         MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, DominionWandBotaniaIntegration::attachCapabilities);
