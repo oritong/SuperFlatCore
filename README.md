@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.20-hotfix2`
+Current version: `1.0.20-hotfix3`
 
 ## Features
 
@@ -21,7 +21,7 @@ Current version: `1.0.20-hotfix2`
 - Adds Botania `twig_wand` behavior to Ars Nouveau's `ars_nouveau:dominion_wand`. The dominion wand can use Botania wand interactions, and sneak-right-clicking air toggles the Botania wand mode while refreshing the displayed item name. The displayed name keeps the normal dominion wand base name and appends the Botania mode.
 - Sneak-right-clicking while holding `beyonddimensions:shattered_space_time_crystallization` in the main hand consumes one crystal and adds 15 minutes to the first Time in a Bottle found in the player's inventory or Curios slots.
 - Adds Embers `tinker_hammer` behavior to items tagged `#gtceu:tools/crafting_mallets`, including recipe tag compatibility, Embers pipe toggling, and ember emitter/receptor linking.
-- Adds `oritong:latex`, a custom latex fluid with source/flowing forms, a placeable fluid block, and a bucket. It has no water or lava fluid tags and flows slightly faster than lava.
+- Adds `oritong:latex`, a custom latex fluid with source/flowing forms, a placeable fluid block, bucket, and fluid block render resources for recipe viewers. It has no water or lava fluid tags and flows slightly faster than lava.
 - Directly changes RainRot's three Five Pebbsi drinks to always be drinkable at full hunger. Drinking one grants Speed I for 1 minute and Machine Soul Joy for 3 minutes, then returns `gtceu:magnalium_foil` and `gtceu:aluminium_ring`.
 - Adds the SuperFlatCore logo to the Forge mod metadata.
 
