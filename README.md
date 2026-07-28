@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.20-hotfix3`
+Current version: `1.0.21`
 
 ## Features
 
@@ -24,6 +24,7 @@ Current version: `1.0.20-hotfix3`
 - Adds `oritong:latex`, a custom latex fluid with source/flowing forms, a placeable fluid block, bucket, and fluid block render resources for recipe viewers. It has no water or lava fluid tags and flows slightly faster than lava.
 - Directly changes RainRot's three Five Pebbsi drinks to always be drinkable at full hunger. Drinking one grants Speed I for 1 minute and Machine Soul Joy for 3 minutes, then returns `gtceu:magnalium_foil` and `gtceu:aluminium_ring`.
 - Adds the SuperFlatCore logo to the Forge mod metadata.
+- Changes Super Factory Manager's Falling Anvil form JEI display so the consumed catalyst block is shown as `gtceu:steel_block`.
 
 ## Build
 
@@ -49,3 +50,5 @@ The built jar will be generated under `build/libs`.
 - Ars Nouveau `4.12.7+`
 - Embers Rekindled `1.4.7+`
 - RainRot `1.0.0+`
+- Super Factory Manager
+- JEI `15.20.0.134+` (client, for the SFM Falling Anvil form display patch)
