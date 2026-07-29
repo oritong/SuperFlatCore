@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.oritong.superflatcore.machine.ConfigurableAutoMaintenanceHatchPartMachine;
 import com.oritong.superflatcore.machine.WirelessEnergyHatchPartMachine;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -38,9 +37,6 @@ public final class SFMachines {
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
-                    Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.0"),
-                    Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.1"))
             .overlayTieredHullModel(GTCEu.id("block/machine/part/auto_maintenance_hatch"))
             .tier(HV)
             .register();
@@ -51,11 +47,6 @@ public final class SFMachines {
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
-                    Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.0"),
-                    Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.1"),
-                    Component.translatable("superflatcore.machine.cleaning_configurable_auto_maintenance_hatch.tooltip"))
-            .tooltipBuilder((stack, tooltips) -> addCleanroomTooltip(tooltips, CleanroomType.CLEANROOM))
             .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
             .tier(UV)
             .register();
@@ -66,11 +57,6 @@ public final class SFMachines {
             .rotationState(RotationState.ALL)
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-            .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
-                    Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.0"),
-                    Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.1"),
-                    Component.translatable("superflatcore.machine.cleaning_configurable_auto_maintenance_hatch.tooltip"))
-            .tooltipBuilder((stack, tooltips) -> addCleanroomTooltip(tooltips, CleanroomType.STERILE_CLEANROOM))
             .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
             .tier(UHV)
             .register();
@@ -82,11 +68,6 @@ public final class SFMachines {
                     .rotationState(RotationState.ALL)
                     .abilities(PartAbility.MAINTENANCE)
                     .modelProperty(GTMachineModelProperties.IS_FORMED, false)
-                    .tooltips(Component.translatable("gtceu.part_sharing.disabled"),
-                            Component.translatable("superflatcore.machine.configurable_auto_maintenance_hatch.tooltip.0"),
-                            Component.translatable("superflatcore.machine.creative_configurable_auto_maintenance_hatch.tooltip"),
-                            Component.translatable("superflatcore.machine.cleaning_configurable_auto_maintenance_hatch.tooltip"))
-                    .tooltipBuilder((stack, tooltips) -> addCleanroomTooltip(tooltips, CleanroomType.STERILE_CLEANROOM))
                     .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
                     .tier(UHV)
                     .register();
@@ -270,8 +251,4 @@ public final class SFMachines {
         }
     }
 
-    private static void addCleanroomTooltip(java.util.List<Component> tooltips, CleanroomType cleanroomType) {
-        tooltips.add(Component.literal("  ")
-                .append(Component.translatable(cleanroomType.getTranslationKey()).withStyle(ChatFormatting.GREEN)));
-    }
 }
