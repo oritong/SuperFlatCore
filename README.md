@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.21`
+Current version: `1.0.21-hotfix5`
 
 ## Features
 
@@ -10,10 +10,10 @@ Current version: `1.0.21`
 - Adds five air intake covers that supply GTCEu air to attached fluid containers once per second in 20-tick batches: basic `30 mB/t` (`600 mB/s` actual), advanced `150 mB/t` (`3,000 mB/s` actual), elite `500 mB/t` (`10,000 mB/s` actual), ultimate `1,000 mB/t` (`20,000 mB/s` actual), and creative `Integer.MAX_VALUE mB/t` capped at `Integer.MAX_VALUE` per batch.
 - Adds configurable automatic maintenance hatches: base, cleanroom, sterile cleanroom, and creative sterile cleanroom. Base/cleanroom/sterile range is `0.5x` to `1.5x`; creative sterile range is `0.001x` to `100x`. Normal click changes `0.01x`, Shift-click changes `0.10x`, Ctrl-click changes `1.00x`, and Ctrl+Shift jumps to the min/max.
 - Expands GTCEu dual input/output hatch registration tiers from LuV+ to LV+ without changing recipe generation, and fixes low-tier dual hatch slot/capacity scaling.
-- Adds SuperFlatCore 64A energy/dynamo hatches from HV onward, plus 262,144A, 1,048,576A, and 4,194,304A laser target/source hatches from IV onward.
+- Adds SuperFlatCore 262,144A, 1,048,576A, and 4,194,304A laser target/source hatches from IV onward.
 - Adds GTMThings-compatible wireless 64A energy/dynamo hatches from HV onward and wireless 262,144A, 1,048,576A, and 4,194,304A laser target/source hatches from IV onward. These use GTMThings' wireless energy pool.
 - Changes Industrial Foregoing's Infinity Nuke ignition item from flint and steel to `ifeu:dragon_star`, consuming one dragon star when ignition succeeds.
-- Adds `superflatcore:employee_companion`, which summons GregTech employee holographic projections using Minopp auto players, cycles their focus mode while held, and removes them with sneak-right-click.
+- Adds `superflatcore:employee_companion`, which summons GregTech employee holographic projections using Minopp auto players, cycles their focus mode while held, and removes them with sneak-right-click. Summoned projections receive localized random codes like `Employee Projection#A67H`, with a 0.5% chance to be named `ChocoFox`.
 - Adds the `superflatcore:machine_soul_joy` effect. While active, jumping on GTCEu machines with recipe logic has a 35% chance to spawn a short Time in a Bottle acceleration burst if the machine is not already accelerated.
 - Changes Industrial Foregoing's Latex Processing Unit latex tank to accept `oritong:latex`.
 - Adds a Jade tooltip overlay for Time in a Bottle accelerators, with a config toggle and block/entity support. It shows acceleration multiplier and remaining time.

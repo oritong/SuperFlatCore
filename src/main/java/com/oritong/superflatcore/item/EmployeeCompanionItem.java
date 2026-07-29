@@ -19,6 +19,8 @@ import net.minecraft.world.phys.Vec3;
 
 public class EmployeeCompanionItem extends Item {
     private static final String MODE_TAG = "SuperFlatCoreEmployeeCompanionMode";
+    private static final char[] NAME_CODE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    private static final float CHOCOFOX_CHANCE = 0.005F;
 
     public EmployeeCompanionItem(Properties properties) {
         super(properties);
@@ -27,18 +29,22 @@ public class EmployeeCompanionItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
+        if (player.isShiftKeyDown()) {
+            return InteractionResultHolder.pass(stack);
+        }
         if (level instanceof ServerLevel serverLevel) {
             EntityAutoPlayer autoPlayer = Mino.ENTITY_AUTO_PLAYER.get().create(serverLevel);
             if (autoPlayer == null) {
                 return InteractionResultHolder.fail(stack);
             }
 
+            RandomSource random = player.getRandom();
             Vec3 spawnPos = getSpawnPos(player);
             autoPlayer.moveTo(spawnPos.x, spawnPos.y, spawnPos.z, player.getYRot(), 0.0F);
             autoPlayer.setYHeadRot(player.getYRot());
-            autoPlayer.setCustomName(Component.literal(EmployeeCompanionNames.random(player.getRandom())));
+            autoPlayer.setCustomName(createProjectionName(random));
             autoPlayer.setCustomNameVisible(true);
-            applyMode(autoPlayer, CompanionMode.NORMAL, player.getRandom());
+            applyMode(autoPlayer, CompanionMode.NORMAL, random);
             serverLevel.addFreshEntity(autoPlayer);
             sendSummonedMessage(player, autoPlayer);
         }
@@ -68,6 +74,21 @@ public class EmployeeCompanionItem extends Item {
         }
         horizontal = horizontal.normalize().scale(1.5D);
         return new Vec3(player.getX() + horizontal.x, player.getY(), player.getZ() + horizontal.z);
+    }
+
+    private static Component createProjectionName(RandomSource random) {
+        if (random.nextFloat() < CHOCOFOX_CHANCE) {
+            return Component.translatable("entity.superflatcore.employee_companion.chocofox");
+        }
+        return Component.translatable("entity.superflatcore.employee_companion.projection", randomNameCode(random));
+    }
+
+    private static String randomNameCode(RandomSource random) {
+        StringBuilder code = new StringBuilder(4);
+        for (int i = 0; i < 4; i++) {
+            code.append(NAME_CODE_CHARS[random.nextInt(NAME_CODE_CHARS.length)]);
+        }
+        return code.toString();
     }
 
     private static CompanionMode getMode(EntityAutoPlayer autoPlayer) {
