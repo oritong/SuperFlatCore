@@ -12,6 +12,7 @@ import com.oritong.superflatcore.event.TimeCrystalTiabEvents;
 import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
 import com.oritong.superflatcore.integration.rainrot.RainrotDrinkIntegration;
+import com.oritong.superflatcore.network.SFNetwork;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -42,6 +43,7 @@ public class SuperFlatCore {
         modBus.addListener(RainrotDrinkIntegration::commonSetup);
         EmbersMalletIntegration.register();
         TimeCrystalTiabEvents.requestTiabApi();
+        SFNetwork.register();
         MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, DominionWandBotaniaIntegration::attachCapabilities);
 
         LOGGER.info("SuperFlatCore loaded");

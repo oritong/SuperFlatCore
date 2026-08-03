@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.21-hotfix6`
+Current version: `1.0.25-hotfix5`
 
 ## Features
 
@@ -14,11 +14,15 @@ Current version: `1.0.21-hotfix6`
 - Adds GTMThings-compatible wireless 64A energy/dynamo hatches from HV onward and wireless 262,144A, 1,048,576A, and 4,194,304A laser target/source hatches from IV onward. These use GTMThings' wireless energy pool.
 - Changes Industrial Foregoing's Infinity Nuke ignition item from flint and steel to `ifeu:dragon_star`, consuming one dragon star when ignition succeeds.
 - Adds `superflatcore:employee_companion`, which summons GregTech employee holographic projections using Minopp auto players, cycles their focus mode while held, and removes them with sneak-right-click. Summoned projections receive localized random codes like `Employee Projection#A67H`, with a 0.5% chance to be named `ChocoFox`.
-- Adds the `superflatcore:machine_soul_joy` effect. While active, jumping on GTCEu machines with recipe logic has a 35% chance to spawn a short Time in a Bottle acceleration burst if the machine is not already accelerated.
+- Adds the `superflatcore:machine_soul_joy` effect. While active, jumping on GTCEu machines with recipe logic has a 35% chance to spawn a 2-4 second Time in a Bottle acceleration burst if the machine is not already accelerated. Generator-type machines instead receive a short x0.5 (75%) or x0.25 (25%) slowdown, replacing a Machine Soul Displeasure acceleration if present.
+- Adds `superflatcore:machine_soul_displeasure`. Every 5 seconds, it applies a 30-second x0.5 (75%) or x0.25 (25%) recipe-logic slowdown to eligible GTCEu machines in the surrounding 3x3 chunk area, excluding machines already affected by Time in a Bottle. Generator-type machines instead receive a 30-second x2 (75%) or x4 (25%) Time in a Bottle acceleration. Slowdowns use a red Time in a Bottle-style block-surface multiplier display.
 - Changes Industrial Foregoing's Latex Processing Unit latex tank to accept `oritong:latex`.
-- Adds a Jade tooltip overlay for Time in a Bottle accelerators, with a config toggle and block/entity support. It shows acceleration multiplier and remaining time.
+- Adds a Jade tooltip overlay for Time in a Bottle accelerators and Machine Soul Displeasure slowdowns, with a config toggle and block/entity support. It shows the multiplier and remaining time.
 - Adds `GTRecipeModifiers.MULTIPLERECIPE` for GTCEu KubeJS multiblock registrations. Add it to `.recipeModifiers([...])` to let a workable multiblock run multiple matching recipes in one combined runtime batch.
+- Adds `GTRecipeModifiers.PROPORTIONAL_INPUT`. It requires all consumable item and fluid inputs to be supplied as the same whole-number multiple of the recipe quantities; a mismatched batch is consumed but produces no outputs.
+- Adds `dont_touch_me:dont_touch_me`. It resets to stage 0 when a player enters the world, advances one stage per right-click, changes texture per stage, plays glass break sounds, applies grayscale/nausea/purple-black screen effects, resets after 10 seconds of inactivity, and crashes only the local client if pressed again at stage 5.
 - Adds Botania `twig_wand` behavior to Ars Nouveau's `ars_nouveau:dominion_wand`. The dominion wand can use Botania wand interactions, and sneak-right-clicking air toggles the Botania wand mode while refreshing the displayed item name. The displayed name keeps the normal dominion wand base name and appends the Botania mode.
+- Right-clicking with `ars_nouveau:fire_essence` consumes one essence and launches a vanilla small fireball in the player's facing direction.
 - Sneak-right-clicking while holding `beyonddimensions:shattered_space_time_crystallization` in the main hand consumes one crystal and adds 15 minutes to the first Time in a Bottle found in the player's inventory or Curios slots.
 - Adds Embers `tinker_hammer` behavior to items tagged `#gtceu:tools/crafting_mallets`, including recipe tag compatibility, Embers pipe toggling, and ember emitter/receptor linking.
 - Adds `oritong:latex`, a custom latex fluid with source/flowing forms, a placeable fluid block, bucket, and fluid block render resources for recipe viewers. It has no water or lava fluid tags and flows slightly faster than lava.

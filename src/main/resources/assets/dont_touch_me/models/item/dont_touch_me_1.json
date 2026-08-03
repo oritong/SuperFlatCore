@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "dont_touch_me:item/dont_touch_me_1"
+  }
+}

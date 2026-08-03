@@ -25,6 +25,7 @@ public final class GTRecipeModifiersBridge {
     public static final RecipeModifier PARALLEL_HATCH = GTRecipeModifiers.PARALLEL_HATCH;
     public static final RecipeModifier BATCH_MODE = GTRecipeModifiers.BATCH_MODE;
     public static final RecipeModifier MULTIPLERECIPE = SFRecipeModifiers.MULTIPLERECIPE;
+    public static final RecipeModifier PROPORTIONAL_INPUT = SFRecipeModifiers.PROPORTIONAL_INPUT;
 
     private GTRecipeModifiersBridge() {}
 

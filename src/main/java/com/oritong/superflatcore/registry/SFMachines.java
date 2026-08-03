@@ -26,7 +26,7 @@ import static com.gregtechceu.gtceu.api.GTValues.HV;
 import static com.gregtechceu.gtceu.api.GTValues.IV;
 import static com.gregtechceu.gtceu.api.GTValues.MAX;
 import static com.gregtechceu.gtceu.api.GTValues.UHV;
-import static com.gregtechceu.gtceu.api.GTValues.UV;
+import static com.gregtechceu.gtceu.api.GTValues.ZPM;
 
 public final class SFMachines {
     private static final ResourceLocation GTCEU_ITEM_TAB = new ResourceLocation("gtceu", "item");
@@ -38,7 +38,7 @@ public final class SFMachines {
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .overlayTieredHullModel(GTCEu.id("block/machine/part/auto_maintenance_hatch"))
-            .tier(HV)
+            .tier(IV)
             .register();
 
     public static final MachineDefinition CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH = SFRegistrate.REGISTRATE
@@ -48,7 +48,7 @@ public final class SFMachines {
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
-            .tier(UV)
+            .tier(IV)
             .register();
 
     public static final MachineDefinition STERILE_CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH = SFRegistrate.REGISTRATE
@@ -58,7 +58,7 @@ public final class SFMachines {
             .abilities(PartAbility.MAINTENANCE)
             .modelProperty(GTMachineModelProperties.IS_FORMED, false)
             .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
-            .tier(UHV)
+            .tier(ZPM)
             .register();
 
     public static final MachineDefinition CREATIVE_STERILE_CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH =
@@ -69,7 +69,7 @@ public final class SFMachines {
                     .abilities(PartAbility.MAINTENANCE)
                     .modelProperty(GTMachineModelProperties.IS_FORMED, false)
                     .overlayTieredHullModel(GTCEu.id("block/machine/part/cleaning_maintenance_hatch"))
-                    .tier(UHV)
+                    .tier(MAX)
                     .register();
 
     public static final MachineDefinition[] LASER_INPUT_HATCH_262144 = registerLaserHatch(IO.IN, 262144,

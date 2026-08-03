@@ -14,6 +14,7 @@
     "ItemFoodPropertiesAccessor",
     "ItemStackMixin",
     "LatexProcessingUnitTileMixin",
+    "RecipeLogicMixin",
     "WorkableMultiblockMachineMixin",
     "botania.CorporeaCrystalCubeBlockMixin",
     "botania.CorporeaSparkEntityMixin",
@@ -27,7 +28,8 @@
   "client": [
     "client.DominionWandClientMixin",
     "client.GuiMixin",
-    "client.sfm.FallingAnvilJEICategoryMixin"
+    "client.sfm.FallingAnvilJEICategoryMixin",
+    "client.TiabTimeAcceleratorRendererMixin"
   ],
   "server": [],
   "injectors": {

@@ -138,7 +138,7 @@ public class EmployeeCompanionItem extends Item {
                 autoPlayer.autoPlayer.aiNoPlayerDraw = false;
                 autoPlayer.autoPlayer.aiForgetChance = 0.0F;
                 autoPlayer.autoPlayer.aiNoDelay = 2;
-                autoPlayer.autoPlayer.aiStartGame = true;
+                autoPlayer.autoPlayer.aiStartGame = false;
             }
         }
     }

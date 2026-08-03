@@ -12,9 +12,9 @@
       "model": {
         "parent": "gtceu:block/machine/part/cleaning_maintenance_hatch",
         "textures": {
-          "bottom": "gtceu:block/casings/voltage/uv/bottom",
-          "side": "gtceu:block/casings/voltage/uv/side",
-          "top": "gtceu:block/casings/voltage/uv/top"
+          "bottom": "gtceu:block/casings/voltage/iv/bottom",
+          "side": "gtceu:block/casings/voltage/iv/side",
+          "top": "gtceu:block/casings/voltage/iv/top"
         }
       }
     }

@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "dont_touch_me:item/dont_touch_me"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "dont_touch_me:stage": 1
+      },
+      "model": "dont_touch_me:item/dont_touch_me_1"
+    },
+    {
+      "predicate": {
+        "dont_touch_me:stage": 2
+      },
+      "model": "dont_touch_me:item/dont_touch_me_2"
+    },
+    {
+      "predicate": {
+        "dont_touch_me:stage": 3
+      },
+      "model": "dont_touch_me:item/dont_touch_me_3"
+    },
+    {
+      "predicate": {
+        "dont_touch_me:stage": 4
+      },
+      "model": "dont_touch_me:item/dont_touch_me_4"
+    },
+    {
+      "predicate": {
+        "dont_touch_me:stage": 5
+      },
+      "model": "dont_touch_me:item/dont_touch_me_5"
+    }
+  ]
+}
