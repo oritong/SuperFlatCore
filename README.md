@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.0.25-hotfix5`
+Current version: `1.1.3-hotfix2`
 
 ## Features
 
@@ -24,7 +24,8 @@ Current version: `1.0.25-hotfix5`
 - Adds Botania `twig_wand` behavior to Ars Nouveau's `ars_nouveau:dominion_wand`. The dominion wand can use Botania wand interactions, and sneak-right-clicking air toggles the Botania wand mode while refreshing the displayed item name. The displayed name keeps the normal dominion wand base name and appends the Botania mode.
 - Right-clicking with `ars_nouveau:fire_essence` consumes one essence and launches a vanilla small fireball in the player's facing direction.
 - Sneak-right-clicking while holding `beyonddimensions:shattered_space_time_crystallization` in the main hand consumes one crystal and adds 15 minutes to the first Time in a Bottle found in the player's inventory or Curios slots.
-- Adds Embers `tinker_hammer` behavior to items tagged `#gtceu:tools/crafting_mallets`, including recipe tag compatibility, Embers pipe toggling, and ember emitter/receptor linking.
+- Adds Embers `tinker_hammer` behavior to items tagged `#gtceu:tools/crafting_mallets`, including recipe tag compatibility, Embers pipe toggling, ember emitter/receptor linking, and AtomicEmbersDecayed centrifuge/reactor operation.
+- Integrates AtomicEmbersDecayed reactor accidents with EzUnclear: Atomic reactor meltdowns enter EzUnclear's confirmation queue and execute only after its normal chat confirmation.
 - Adds `oritong:latex`, a custom latex fluid with source/flowing forms, a placeable fluid block, bucket, and fluid block render resources for recipe viewers. It has no water or lava fluid tags and flows slightly faster than lava.
 - Directly changes RainRot's three Five Pebbsi drinks to always be drinkable at full hunger. Drinking one grants Speed I for 1 minute and Machine Soul Joy for 3 minutes, then returns `gtceu:magnalium_foil` and `gtceu:aluminium_ring`.
 - Adds the SuperFlatCore logo to the Forge mod metadata.

@@ -187,5 +187,8 @@
     "message.superflatcore.time_crystal.added":  "已为时间之瓶增加 15 分钟时间。",
     "message.superflatcore.time_crystal.no_bottle":  "背包或饰品栏中没有时间之瓶。",
     "message.superflatcore.time_crystal.full":  "时间之瓶已达到可储存上限。",
-    "message.superflatcore.time_crystal.api_unavailable":  "Time in a Bottle API 尚未就绪。"
+    "message.superflatcore.time_crystal.api_unavailable":  "Time in a Bottle API 尚未就绪。",
+    "commands.superflatcore.spawn.success":  "已传送至世界出生点。",
+    "commands.superflatcore.spawn.unavailable":  "无法传送至世界出生点。",
+    "commands.superflatcore.spawn.no_position":  "世界出生点附近没有可用的安全位置。"
 }

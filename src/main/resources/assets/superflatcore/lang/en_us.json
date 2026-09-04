@@ -187,5 +187,8 @@
     "message.superflatcore.time_crystal.added":  "Added 15 minutes to your Time in a Bottle.",
     "message.superflatcore.time_crystal.no_bottle":  "No Time in a Bottle found in your inventory or Curios slots.",
     "message.superflatcore.time_crystal.full":  "Your Time in a Bottle is already full.",
-    "message.superflatcore.time_crystal.api_unavailable":  "Time in a Bottle API is not ready."
+    "message.superflatcore.time_crystal.api_unavailable":  "Time in a Bottle API is not ready.",
+    "commands.superflatcore.spawn.success":  "Teleported to the world spawn.",
+    "commands.superflatcore.spawn.unavailable":  "The world spawn is unavailable.",
+    "commands.superflatcore.spawn.no_position":  "No safe position is available near the world spawn."
 }

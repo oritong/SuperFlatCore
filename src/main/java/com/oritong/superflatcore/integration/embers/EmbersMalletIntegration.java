@@ -153,7 +153,7 @@ public final class EmbersMalletIntegration {
         return new HammerTarget(new BlockPos(nbt.getInt("targetX"), nbt.getInt("targetY"), nbt.getInt("targetZ")), face);
     }
 
-    private static boolean isCraftingMallet(ItemStack stack) {
+    public static boolean isCraftingMallet(ItemStack stack) {
         return !stack.isEmpty() && stack.is(CRAFTING_MALLETS);
     }
 

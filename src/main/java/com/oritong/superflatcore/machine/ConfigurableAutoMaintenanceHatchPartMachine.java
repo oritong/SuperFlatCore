@@ -26,7 +26,7 @@ import net.minecraft.network.chat.Style;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -71,7 +71,7 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatc
         this.minDurationMultiplier = minDurationMultiplier;
         this.maxDurationMultiplier = maxDurationMultiplier;
         this.cleanroomProvider = cleanroomType == null ? null :
-                DummyCleanroom.createForTypes(Collections.singletonList(cleanroomType));
+                DummyCleanroom.createForTypes(getSupportedCleanroomTypes(cleanroomType));
     }
 
     @Override
@@ -148,6 +148,11 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatc
 
     public void setDurationMultiplier(float durationMultiplier) {
         this.durationMultiplier = clampDurationMultiplier(durationMultiplier);
+    }
+
+    public boolean supportsCleanroom(CleanroomType requiredType) {
+        return cleanroomProvider != null && cleanroomProvider.isClean()
+                && cleanroomProvider.getTypes().contains(requiredType);
     }
 
     @Override
@@ -228,6 +233,13 @@ public class ConfigurableAutoMaintenanceHatchPartMachine extends MaintenanceHatc
             return minDurationMultiplier;
         }
         return durationMultiplier;
+    }
+
+    private static List<CleanroomType> getSupportedCleanroomTypes(CleanroomType cleanroomType) {
+        if (cleanroomType == CleanroomType.STERILE_CLEANROOM) {
+            return List.of(CleanroomType.CLEANROOM, CleanroomType.STERILE_CLEANROOM);
+        }
+        return List.of(cleanroomType);
     }
 
     private static Component getDurationText(Supplier<Float> multiplier) {
