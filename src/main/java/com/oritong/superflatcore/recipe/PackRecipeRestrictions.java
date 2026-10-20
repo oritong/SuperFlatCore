@@ -31,7 +31,8 @@ public final class PackRecipeRestrictions {
 
     public static boolean hidesCategory(String namespace, String path) {
         return switch (namespace) {
-            case "ironfurnaces" -> path.startsWith("category_generator_");
+            // EMI's JEI bridge uses the RecipeType UID, not the category's translation key.
+            case "ironfurnaces" -> path.startsWith("generator_");
             case "ifeu" -> IFEU_TYPES.contains(path);
             case "industrialforegoing" -> "bioreactor".equals(path);
             case "mekanism" -> MEKANISM_CATEGORIES.contains(path);
