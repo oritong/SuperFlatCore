@@ -2,10 +2,11 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.1.3-hotfix2`
+Current version: `1.3.32`
 
 ## Features
 
+- **Combustion Generator fuel:** GregTech combustion generators accept 4 mB of `gtceu:creosote` for 12 ticks (0.6 seconds) at 32 EU/t, generating 384 EU per batch.
 - Adds `superflatcore:super_infinite_water_cover`, a GTCEu cover that fills attached fluid containers with up to `Integer.MAX_VALUE` mB of water once per second.
 - Adds five air intake covers that supply GTCEu air to attached fluid containers once per second in 20-tick batches: basic `30 mB/t` (`600 mB/s` actual), advanced `150 mB/t` (`3,000 mB/s` actual), elite `500 mB/t` (`10,000 mB/s` actual), ultimate `1,000 mB/t` (`20,000 mB/s` actual), and creative `Integer.MAX_VALUE mB/t` capped at `Integer.MAX_VALUE` per batch.
 - Adds configurable automatic maintenance hatches: base, cleanroom, sterile cleanroom, and creative sterile cleanroom. Base/cleanroom/sterile range is `0.5x` to `1.5x`; creative sterile range is `0.001x` to `100x`. Normal click changes `0.01x`, Shift-click changes `0.10x`, Ctrl-click changes `1.00x`, and Ctrl+Shift jumps to the min/max.

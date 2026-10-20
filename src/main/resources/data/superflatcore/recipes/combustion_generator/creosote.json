@@ -1,0 +1,27 @@
+{
+  "type": "gtceu:combustion_generator",
+  "inputs": {
+    "fluid": [
+      {
+        "content": {
+          "amount": 4,
+          "value": {
+            "fluid": "gtceu:creosote"
+          }
+        },
+        "chance": 10000,
+        "maxChance": 10000
+      }
+    ]
+  },
+  "tickOutputs": {
+    "eu": [
+      {
+        "content": 32,
+        "chance": 10000,
+        "maxChance": 10000
+      }
+    ]
+  },
+  "duration": 12
+}
