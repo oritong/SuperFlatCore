@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.3.32-hotfix1"
+version="1.3.33"
 displayName="SuperFlatCore"
 logoFile="superflatcore.png"
 authors="oritong(use ChatGPT)"
@@ -136,5 +136,47 @@ Core mod for the pack **Diamond Continent Jiahao Version**
     modId="jei"
     mandatory=true
     versionRange="[0,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.superflatcore]]
+    modId="mekanism"
+    mandatory=true
+    versionRange="[10.4.16,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="mekanismgenerators"
+    mandatory=true
+    versionRange="[10.4.16,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="tconstruct"
+    mandatory=true
+    versionRange="[0,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="mantle"
+    mandatory=true
+    versionRange="[1.11.104,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="ironfurnaces"
+    mandatory=true
+    versionRange="[4.1.8,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="emi"
+    mandatory=true
+    versionRange="[1.1.24,)"
     ordering="AFTER"
     side="CLIENT"

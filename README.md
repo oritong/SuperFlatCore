@@ -2,10 +2,11 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.3.32-hotfix1`
+Current version: `1.3.33`
 
 ## Features
 
+- **Pack recipe restrictions:** Removes Iron Furnaces generator categories; IFEU dragon/dragon-star generator, infuser, and structure-information categories; Industrial Foregoing biofuel recipes; selected Mekanism processing categories; and Tinkers' Construct modifiers, tool building, and modifier worktable recipes from EMI. Corresponding registered processing recipes are removed on reload and synchronization. Industrial Foregoing machine-output displays retain only meat, pink slime, and dry rubber. Mekanism fission reactors no longer check or form their multiblock structure, and nutritional liquifiers no longer generate food recipes.
 - **Large Coke Oven:** An 11x11x11 multiblock using existing GT coke oven recipes with up to 32 parallel operations, without adding EU consumption or changing recipe duration. Coke bricks in the lower B positions accept item/fluid input and output parts; the top E position requires exactly one muffler hatch. The controller and formed hatches use the GT coke-brick casing appearance.
 - **Combustion Generator fuel:** GregTech combustion generators accept 4 mB of `gtceu:creosote` for 12 ticks (0.6 seconds) at 32 EU/t, generating 384 EU per batch.
 - Adds `superflatcore:super_infinite_water_cover`, a GTCEu cover that fills attached fluid containers with up to `Integer.MAX_VALUE` mB of water once per second.
@@ -59,3 +60,5 @@ The built jar will be generated under `build/libs`.
 - RainRot `1.0.0+`
 - Super Factory Manager
 - JEI `15.20.0.134+` (client, for the SFM Falling Anvil form display patch)
+
+- **Recipe restrictions:** Iron Furnaces 4.1.8+, Mekanism and Mekanism Generators 10.4.16+, Tinkers' Construct and Mantle are required on both sides; EMI 1.1.24+ is required on the client.
