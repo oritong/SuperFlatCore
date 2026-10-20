@@ -1,4 +1,5 @@
 {
+    "block.superflatcore.large_coke_oven": "大型焦炉",
     "item.superflatcore.super_infinite_water_cover":  "超级无限水覆盖板",
     "item.superflatcore.super_infinite_water_cover.tooltip":  "§7作§f覆盖板§7时为所附着的容器供§9水§7，最高每秒输入 §f2,147,483,647 mB§7。",
     "item.superflatcore.air_intake_cover.tooltip":  "§7作§f覆盖板§7时为所附着的容器供§b空气§7，速率 §f%s mB/t§7。",

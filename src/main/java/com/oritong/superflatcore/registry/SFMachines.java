@@ -5,6 +5,11 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.oritong.superflatcore.machine.LargeCokeOvenMachine;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -27,6 +32,10 @@ import static com.gregtechceu.gtceu.api.GTValues.IV;
 import static com.gregtechceu.gtceu.api.GTValues.MAX;
 import static com.gregtechceu.gtceu.api.GTValues.UHV;
 import static com.gregtechceu.gtceu.api.GTValues.ZPM;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.autoAbilities;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.controller;
 
 public final class SFMachines {
     private static final ResourceLocation GTCEU_ITEM_TAB = new ResourceLocation("gtceu", "item");
@@ -101,6 +110,37 @@ public final class SFMachines {
     public static final MachineDefinition[] WIRELESS_LASER_OUTPUT_HATCH_4194304 = registerWirelessLaserHatch(IO.OUT,
             4194304, PartAbility.OUTPUT_LASER);
 
+    public static final MachineDefinition LARGE_COKE_OVEN = SFRegistrate.REGISTRATE
+            .multiblock("large_coke_oven", LargeCokeOvenMachine::new)
+            .langValue("Large Coke Oven")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTRecipeTypes.COKE_OVEN_RECIPES)
+            .recipeModifier(LargeCokeOvenMachine::recipeModifier, true)
+            .appearanceBlock(GTBlocks.CASING_COKE_BRICKS)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("   AAAAA   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ")
+                    .aisle("  AAAAAAA  ", "   BBBBB   ", "   BBBBB   ", "   AAAAA   ", "   AAAAA   ", "           ", "           ", "           ", "           ", "           ", "           ")
+                    .aisle(" AAAAAAAAA ", "  B  D  B  ", "  B     B  ", "  A     A  ", "  A     A  ", "   AAAAA   ", "     A     ", "     A     ", "     A     ", "           ", "           ")
+                    .aisle("AAAAAAAAAAA", " B   D   B ", " B       B ", " A       A ", " A       A ", "  AAAAAAA  ", "    ADA    ", "    A A    ", "    A A    ", "    AAA    ", "           ")
+                    .aisle("AAAAAAAAAAA", " B   D   B ", " B       B ", " A       A ", " A       A ", "  AA   AA  ", "   A D A   ", "   A   A   ", "   A   A   ", "   AAAAA   ", "    AAA    ")
+                    .aisle("AAAAAAAAAAA", " BDDDDDDDB ", " B   D   B ", " A   D   A ", " A   D   A ", "  AA D AA  ", "  ADDDDDA  ", "  A  D  A  ", "  A  D  A  ", "   AADAA   ", "    AEA    ")
+                    .aisle("AAAAAAAAAAA", " B   D   B ", " B       B ", " A       A ", " A       A ", "  AA   AA  ", "   A D A   ", "   A   A   ", "   A   A   ", "   AAAAA   ", "    AAA    ")
+                    .aisle("AAAAAAAAAAA", " B   D   B ", " B       B ", " A       A ", " A       A ", "  AAAAAAA  ", "    ADA    ", "    A A    ", "    A A    ", "    AAA    ", "           ")
+                    .aisle(" AAAAAAAAA ", "  B  D  B  ", "  B     B  ", "  A     A  ", "  A     A  ", "   AAAAA   ", "     A     ", "     A     ", "     A     ", "           ", "           ")
+                    .aisle("  AAAAAAA  ", "   BBCBB   ", "   BBBBB   ", "   AAAAA   ", "   AAAAA   ", "           ", "           ", "           ", "           ", "           ", "           ")
+                    .aisle("   AAAAA   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ")
+                    .where('C', controller(blocks(definition.get())))
+                    .where('B', blocks(GTBlocks.CASING_COKE_BRICKS.get())
+                            .or(autoAbilities(definition.getRecipeTypes(), false, false, true, true, true, true)))
+                    .where('A', blocks(GTBlocks.CASING_COKE_BRICKS.get()))
+                    .where('D', blocks(GTBlocks.CASING_BRONZE_PIPE.get()))
+                    .where('E', abilities(PartAbility.MUFFLER).setExactLimit(1))
+                    .where(' ', Predicates.any())
+                    .build())
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_coke_bricks"),
+                    GTCEu.id("block/multiblock/coke_oven"))
+            .register();
+
     private SFMachines() {}
 
     public static void init() {}
@@ -115,6 +155,7 @@ public final class SFMachines {
             event.accept(CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH.asStack());
             event.accept(STERILE_CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH.asStack());
             event.accept(CREATIVE_STERILE_CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH.asStack());
+            event.accept(LARGE_COKE_OVEN.asStack());
             addTieredMachines(event, LASER_INPUT_HATCH_262144);
             addTieredMachines(event, LASER_OUTPUT_HATCH_262144);
             addTieredMachines(event, LASER_INPUT_HATCH_1048576);

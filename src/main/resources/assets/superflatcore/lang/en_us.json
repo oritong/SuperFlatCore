@@ -1,4 +1,5 @@
 {
+    "block.superflatcore.large_coke_oven": "Large Coke Oven",
     "item.superflatcore.super_infinite_water_cover":  "Super Infinite Water Cover",
     "item.superflatcore.super_infinite_water_cover.tooltip":  "§7Fills attached containers with §9Water§7 as a §fCover§7 at up to §f2,147,483,647 mB/s§7.",
     "item.superflatcore.air_intake_cover.tooltip":  "§7Supplies attached containers with §bAir§7 as a §fCover§7 at §f%s mB/t§7.",

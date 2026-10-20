@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east": { "model": "superflatcore:block/machine/large_coke_oven", "y": 90 },
+    "facing=north": { "model": "superflatcore:block/machine/large_coke_oven" },
+    "facing=south": { "model": "superflatcore:block/machine/large_coke_oven", "y": 180 },
+    "facing=west": { "model": "superflatcore:block/machine/large_coke_oven", "y": 270 }
+  }
+}

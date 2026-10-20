@@ -2,10 +2,11 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.3.32`
+Current version: `1.3.32-hotfix1`
 
 ## Features
 
+- **Large Coke Oven:** An 11x11x11 multiblock using existing GT coke oven recipes with up to 32 parallel operations, without adding EU consumption or changing recipe duration. Coke bricks in the lower B positions accept item/fluid input and output parts; the top E position requires exactly one muffler hatch. The controller and formed hatches use the GT coke-brick casing appearance.
 - **Combustion Generator fuel:** GregTech combustion generators accept 4 mB of `gtceu:creosote` for 12 ticks (0.6 seconds) at 32 EU/t, generating 384 EU per batch.
 - Adds `superflatcore:super_infinite_water_cover`, a GTCEu cover that fills attached fluid containers with up to `Integer.MAX_VALUE` mB of water once per second.
 - Adds five air intake covers that supply GTCEu air to attached fluid containers once per second in 20-tick batches: basic `30 mB/t` (`600 mB/s` actual), advanced `150 mB/t` (`3,000 mB/s` actual), elite `500 mB/t` (`10,000 mB/s` actual), ultimate `1,000 mB/t` (`20,000 mB/s` actual), and creative `Integer.MAX_VALUE mB/t` capped at `Integer.MAX_VALUE` per batch.
