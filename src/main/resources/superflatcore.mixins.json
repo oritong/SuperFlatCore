@@ -38,6 +38,7 @@
     "botania.RunicAltarBlockEntityMixin"
   ],
   "client": [
+    "client.ContainerEventHandlerMouseClickedMixin",
     "client.PackEmiRecipesMixin",
     "client.DominionWandClientMixin",
     "client.GuiMixin",
