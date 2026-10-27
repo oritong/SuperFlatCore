@@ -2,9 +2,11 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.3.34`
+Current version: `1.3.35`
 
 ## Features
+
+- **Tool Welding Assembler:** LV-and-up single-block machines with the assembler front overlay, nine item input slots, one item output and two reserved fluid input tanks. GT's generated manual tools (including flint tools, mallets and plungers), electric tools and netherite upgrades are redirected here. Original material quantities and output NBT are retained; crafting-tool catalysts are removed. Manual recipes use ULV, electric recipes use their tool tier, at 1 A for 100 ticks without overclocking. Configured circuits distinguish manual tool shapes with identical remaining materials. Electric assembly transfers the input power unit's capacity and charge; netherite upgrades retain the base tool's NBT. Machine crafting uses the tiered assembler component pattern.
 
 - **Pack recipe restrictions:** Removes all three Iron Furnaces generator categories (`ironfurnaces:generator_regular`, `generator_blasting`, and `generator_smoking`), including dynamically generated fuel/food entries; IFEU dragon/dragon-star generator, infuser, and structure-information categories; Industrial Foregoing biofuel recipes; selected Mekanism processing categories; and Tinkers' Construct modifiers, tool building, and modifier worktable recipes from EMI. Corresponding registered processing recipes are removed on reload and synchronization. Industrial Foregoing machine-output displays retain only meat, pink slime, and dry rubber. Mekanism fission reactors no longer check or form their multiblock structure, and nutritional liquifiers no longer generate food recipes.
 - **Large Coke Oven:** An 11x11x11 multiblock using existing GT coke oven recipes with up to 32 parallel operations, without adding EU consumption or changing recipe duration. Coke bricks in the lower B positions accept item/fluid input and output parts; the top E position requires exactly one muffler hatch. The controller and formed hatches use the GT coke-brick casing appearance.

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "superflatcore:block/machine/uxv_tool_welding_assembler",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "superflatcore:block/machine/uxv_tool_welding_assembler"
+    },
+    "facing=south": {
+      "model": "superflatcore:block/machine/uxv_tool_welding_assembler",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "superflatcore:block/machine/uxv_tool_welding_assembler",
+      "y": 270
+    }
+  }
+}

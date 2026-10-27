@@ -21,6 +21,8 @@
     "GTRecipeModifiersMixin",
     "GTMachinesMixin",
     "GTMachineUtilsMixin",
+    "GTToolRecipeHandlerMixin",
+    "GTCustomToolRecipesMixin",
     "InfinityNukeEntityMixin",
     "ItemFoodPropertiesAccessor",
     "ItemStackMixin",

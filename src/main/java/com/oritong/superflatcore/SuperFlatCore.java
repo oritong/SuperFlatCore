@@ -8,6 +8,8 @@ import com.oritong.superflatcore.registry.SFItems;
 import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.SFMobEffects;
 import com.oritong.superflatcore.registry.SFRegistrate;
+import com.oritong.superflatcore.registry.SFToolMachines;
+import com.oritong.superflatcore.recipe.SFToolRecipeTypes;
 import com.oritong.superflatcore.event.TimeCrystalTiabEvents;
 import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
@@ -37,6 +39,10 @@ public class SuperFlatCore {
         SFItems.register(modBus);
         SFMobEffects.register(modBus);
         modBus.addGenericListener(CoverDefinition.class, SFCovers::registerCovers);
+        modBus.addGenericListener(com.gregtechceu.gtceu.api.recipe.GTRecipeType.class,
+                SFToolRecipeTypes::registerRecipeTypes);
+        modBus.addGenericListener(MachineDefinition.class, SFToolMachines::registerMachines);
+        modBus.addListener(SFToolMachines::addCreativeTabItems);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
         modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
