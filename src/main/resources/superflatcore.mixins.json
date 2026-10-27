@@ -39,6 +39,7 @@
   ],
   "client": [
     "client.ContainerEventHandlerMouseClickedMixin",
+    "client.JeiForgePluginFinderMixin",
     "client.PackEmiRecipesMixin",
     "client.DominionWandClientMixin",
     "client.GuiMixin",
