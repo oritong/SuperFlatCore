@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "superflatcore:block/machine/steel_component_assembly_line"
+    },
+    "facing=east": {
+      "model": "superflatcore:block/machine/steel_component_assembly_line",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "superflatcore:block/machine/steel_component_assembly_line",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "superflatcore:block/machine/steel_component_assembly_line",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "superflatcore:block/machine/steel_component_assembly_line",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "superflatcore:block/machine/steel_component_assembly_line",
+      "x": 90
+    }
+  }
+}

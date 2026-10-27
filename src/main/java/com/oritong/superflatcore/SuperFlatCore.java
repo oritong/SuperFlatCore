@@ -2,6 +2,7 @@ package com.oritong.superflatcore;
 
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.oritong.superflatcore.registry.SFCovers;
 import com.oritong.superflatcore.registry.SFFluids;
 import com.oritong.superflatcore.registry.SFItems;
@@ -10,6 +11,8 @@ import com.oritong.superflatcore.registry.SFMobEffects;
 import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.registry.SFToolMachines;
 import com.oritong.superflatcore.recipe.SFToolRecipeTypes;
+import com.oritong.superflatcore.registry.SFComponentMachines;
+import com.oritong.superflatcore.recipe.SFComponentRecipeTypes;
 import com.oritong.superflatcore.event.TimeCrystalTiabEvents;
 import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
@@ -43,6 +46,9 @@ public class SuperFlatCore {
                 SFToolRecipeTypes::registerRecipeTypes);
         modBus.addGenericListener(MachineDefinition.class, SFToolMachines::registerMachines);
         modBus.addListener(SFToolMachines::addCreativeTabItems);
+        modBus.addGenericListener(GTRecipeType.class, SFComponentRecipeTypes::registerRecipeTypes);
+        modBus.addGenericListener(MachineDefinition.class, SFComponentMachines::registerMachines);
+        modBus.addListener(SFComponentMachines::addCreativeTabItems);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
         modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
