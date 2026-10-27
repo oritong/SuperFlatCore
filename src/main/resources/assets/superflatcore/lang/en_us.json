@@ -1,6 +1,6 @@
 {
     "block.superflatcore.steel_component_assembly_line": "Steel Component Assembly Line",
-    "superflatcore.component_assembly_line": "Component Assembly Line",
+    "superflatcore.component_assembly_line": "Primitive Component Assembly Line",
     "superflatcore.multiblock.muffler_full": "Muffler hatch is full",
     "superflatcore.multiblock.fixed_parallel": "Fixed parallel limit: %s",
     "superflatcore.tool_welding_assembler": "Tool Welding Assembler",
