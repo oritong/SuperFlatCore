@@ -2,6 +2,7 @@
     "block.superflatcore.steel_component_assembly_line": "Steel Component Assembly Line",
     "superflatcore.component_assembly_line": "Primitive Component Assembly Line",
     "superflatcore.multiblock.muffler_full": "Muffler hatch is full",
+    "superflatcore.multiblock.insufficient_component_muffler_tier": "Assembling these components requires a %s or higher muffler hatch",
     "superflatcore.multiblock.fixed_parallel": "Fixed parallel limit: %s",
     "superflatcore.tool_welding_assembler": "Tool Welding Assembler",
     "superflatcore.machine.tool_welding_assembler.tooltip": "Care for your employees. Say no to handcrafting tools.",

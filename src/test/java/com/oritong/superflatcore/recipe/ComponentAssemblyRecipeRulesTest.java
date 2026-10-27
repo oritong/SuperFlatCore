@@ -7,8 +7,28 @@ public final class ComponentAssemblyRecipeRulesTest {
         for (String component : new String[] {"electric_motor", "electric_piston", "electric_pump", "conveyor_module",
                 "robot_arm", "field_generator", "emitter", "sensor"}) {
             expect(ComponentAssemblyRecipeRules.isComponent("gtceu", "lv_" + component), "LV " + component);
+            expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "lv_" + component) == 1,
+                    "GTNN fallback entries resolve to LV for " + component);
             expect(ComponentAssemblyRecipeRules.isComponent("gtceu", "opv_" + component), "OpV " + component);
+            int mvTier = ComponentAssemblyRecipeRules.getComponentTier("gtceu", "mv_" + component);
+            expect(mvTier == 2, "MV output tier for " + component);
+            expect(!ComponentAssemblyRecipeRules.isMufflerTierSufficient(1, mvTier),
+                    "LV muffler rejects MV " + component + " even with an LV-power recipe");
+            expect(ComponentAssemblyRecipeRules.isMufflerTierSufficient(2, mvTier),
+                    "MV muffler accepts MV " + component + " regardless of recipe EU/t");
+            expect(ComponentAssemblyRecipeRules.isMufflerTierSufficient(3, mvTier),
+                    "HV muffler accepts lower-tier " + component);
         }
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "ulv_electric_motor") == 0, "ULV tier index");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "lv_electric_motor") == 1, "LV tier index");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "luv_electric_motor") == 6, "LuV tier index");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "opv_electric_motor") == 13, "OpV tier index");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "max_electric_motor") == 14, "MAX tier index");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "lv_machine_hull") == -1, "Non-component tier");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("gtceu", "fake_electric_motor") == -1, "Invalid tier");
+        expect(ComponentAssemblyRecipeRules.getComponentTier("minecraft", "mv_sensor") == -1, "Foreign namespace tier");
+        expect(ComponentAssemblyRecipeRules.isMufflerTierSufficient(1, -1), "Other recipes retain normal power checks");
+        expect(!ComponentAssemblyRecipeRules.isMufflerTierSufficient(-1, -1), "Missing muffler cannot run recipes");
         expect(!ComponentAssemblyRecipeRules.isComponent("gtceu", "lv_machine_hull"), "Exclude machine hulls");
         expect(!ComponentAssemblyRecipeRules.isComponent("gtceu", "lv_fluid_regulator"), "Exclude fluid regulators");
         expect(!ComponentAssemblyRecipeRules.isComponent("gtceu", "lv_electric_motor_extra"), "Exact component names");

@@ -10,8 +10,9 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
-import com.gregtechceu.gtceu.utils.GTUtil;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.oritong.superflatcore.recipe.ComponentAssemblyRecipeRules;
+import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -40,30 +41,10 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
         return null;
     }
 
-    private long getMufflerVoltage() {
-        MufflerPartMachine muffler = getMuffler();
-        return muffler == null ? 0 : GTValues.V[muffler.getTier()];
-    }
-
-    @Override
-    public long getMaxVoltage() {
-        return Math.min(super.getMaxVoltage(), getMufflerVoltage());
-    }
-
-    @Override
-    public long getOverclockVoltage() {
-        return Math.min(super.getOverclockVoltage(), getMufflerVoltage());
-    }
-
-    @Override
-    public int getMaxOverclockTier() {
-        return GTUtil.getFloorTierByVoltage(getMaxVoltage());
-    }
-
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
-        // Check the single recipe before overclocking and multiplying EU for parallel operations.
-        if (recipe.getInputEUt().voltage() > getMaxVoltage()) {
+        // Assembler recipes can make MV or higher components at LV EU/t; gate by the outputs themselves.
+        if (getMufflerFailure(recipe) != null) {
             return null;
         }
         return super.getRealRecipe(recipe);
@@ -76,7 +57,7 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
         int parallels = ParallelLogic.getParallelAmountWithoutEU(machine, recipe, MAX_PARALLELS);
         long recipeEUt = recipe.getInputEUt().getTotalEU();
         if (recipeEUt > 0) {
-            // Muffler tier limits each recipe's voltage, not the sum drawn by all 32 operations.
+            // The component-tier gate is independent of the combined power drawn by parallel operations.
             long availableEUt = line.getParallelSupplyVoltage();
             parallels = (int) Math.min(parallels, availableEUt / recipeEUt);
         }
@@ -109,9 +90,23 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
         return Component.translatable("superflatcore.multiblock.muffler_full");
     }
 
+    private Component getMufflerFailure(GTRecipe recipe) {
+        Component failure = getMufflerFailure();
+        if (failure != null || recipe == null) {
+            return failure;
+        }
+        MufflerPartMachine muffler = getMuffler();
+        int requiredTier = ComponentAssemblyRecipes.getRequiredComponentTier(recipe);
+        if (!ComponentAssemblyRecipeRules.isMufflerTierSufficient(muffler.getTier(), requiredTier)) {
+            return Component.translatable("superflatcore.multiblock.insufficient_component_muffler_tier",
+                    GTValues.VNF[requiredTier]);
+        }
+        return null;
+    }
+
     @Override
     public boolean beforeWorking(GTRecipe recipe) {
-        return getMufflerFailure() == null && super.beforeWorking(recipe);
+        return getMufflerFailure(recipe) == null && super.beforeWorking(recipe);
     }
 
     @Override
@@ -126,7 +121,7 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
         return new RecipeLogic(this) {
             @Override
             public void handleRecipeWorking() {
-                Component failure = getMufflerFailure();
+                Component failure = getMufflerFailure(lastRecipe);
                 if (failure != null) {
                     // Pause before tick IO: retain the batch and progress, and consume no EU while full.
                     setWaiting(failure);
@@ -142,7 +137,7 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
         super.addDisplayText(textList);
         if (isFormed()) {
             textList.add(Component.translatable("superflatcore.multiblock.fixed_parallel", MAX_PARALLELS));
-            Component failure = getMufflerFailure();
+            Component failure = getMufflerFailure(recipeLogic.getLastRecipe());
             if (failure != null) {
                 textList.add(failure);
             }

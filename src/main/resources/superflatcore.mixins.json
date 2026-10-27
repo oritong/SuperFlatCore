@@ -23,6 +23,7 @@
     "GTMachineUtilsMixin",
     "GTToolRecipeHandlerMixin",
     "GTCustomToolRecipesMixin",
+    "GTNNComponentAssemblyLineRecipeHandlerMixin",
     "InfinityNukeEntityMixin",
     "ItemFoodPropertiesAccessor",
     "ItemStackMixin",

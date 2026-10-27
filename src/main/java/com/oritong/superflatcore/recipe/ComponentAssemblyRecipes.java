@@ -31,7 +31,7 @@ public final class ComponentAssemblyRecipes {
         copies.keySet().removeIf(ComponentAssemblyRecipes::isGenerated);
         byName.keySet().removeIf(ComponentAssemblyRecipes::isGenerated);
         for (Recipe<?> value : recipes.getOrDefault(GTRecipeTypes.ASSEMBLER_RECIPES, Map.of()).values()) {
-            if (!(value instanceof GTRecipe source) || !hasComponentOutput(source)) {
+            if (!(value instanceof GTRecipe source) || getRequiredComponentTier(source) < 0) {
                 continue;
             }
             ResourceLocation sourceId = source.getId();
@@ -53,16 +53,19 @@ public final class ComponentAssemblyRecipes {
         return SuperFlatCore.MODID.equals(id.getNamespace()) && id.getPath().startsWith(GENERATED_PREFIX);
     }
 
-    private static boolean hasComponentOutput(GTRecipe recipe) {
+    public static int getRequiredComponentTier(GTRecipe recipe) {
+        int requiredTier = -1;
         for (Content output : recipe.getOutputContents(ItemRecipeCapability.CAP)) {
             for (var stack : ItemRecipeCapability.CAP.of(output.content).getItems()) {
-                ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
-                if (!stack.isEmpty() && ComponentAssemblyRecipeRules.isComponent(itemId.getNamespace(), itemId.getPath())) {
-                    return true;
+                if (stack.isEmpty()) {
+                    continue;
                 }
+                ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(stack.getItem());
+                requiredTier = Math.max(requiredTier,
+                        ComponentAssemblyRecipeRules.getComponentTier(itemId.getNamespace(), itemId.getPath()));
             }
         }
-        return false;
+        return requiredTier;
     }
 
     private static GTRecipe copyRecipe(GTRecipe source, ResourceLocation id) {
