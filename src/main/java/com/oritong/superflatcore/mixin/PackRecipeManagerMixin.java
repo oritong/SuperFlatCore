@@ -1,6 +1,7 @@
 package com.oritong.superflatcore.mixin;
 
 import com.oritong.superflatcore.recipe.PackRecipeRestrictions;
+import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -42,6 +43,7 @@ public abstract class PackRecipeManagerMixin {
             });
             keptTypes.put(type, Collections.unmodifiableMap(kept));
         });
+        ComponentAssemblyRecipes.populate(keptTypes, keptByName);
         recipes = Collections.unmodifiableMap(keptTypes);
         byName = Collections.unmodifiableMap(keptByName);
     }
