@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.machine.ToolWeldingAssemblerMachine;
 import com.oritong.superflatcore.recipe.SFToolRecipeTypes;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -18,7 +19,7 @@ public final class SFToolMachines {
     public static final MachineDefinition[] TOOL_WELDING_ASSEMBLER = GTMachineUtils.registerTieredMachines(
             SFRegistrate.REGISTRATE, "tool_welding_assembler", ToolWeldingAssemblerMachine::new,
             (tier, builder) -> builder
-                    .langValue(GTValues.VN[tier] + " Tool Welding Assembler")
+                    .langValue(GTValues.VNF[tier] + ChatFormatting.RESET + " Tool Welding Assembler")
                     .rotationState(RotationState.NON_Y_AXIS)
                     .recipeType(SFToolRecipeTypes.TOOL_WELDING_ASSEMBLER_RECIPES)
                     .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(
