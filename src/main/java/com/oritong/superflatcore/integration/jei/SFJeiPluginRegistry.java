@@ -24,7 +24,6 @@ public final class SFJeiPluginRegistry {
     private static final List<String> PLUGIN_CLASSES = List.of(
             "mezz.jei.library.plugins.vanilla.VanillaPlugin",
             "mezz.jei.library.plugins.jei.JeiInternalPlugin",
-            "dev.emi.emi.jemi.JemiPlugin",
             "mezz.jei.forge.plugins.forge.ForgeGuiPlugin",
             "mezz.jei.gui.plugins.JeiGuiPlugin",
             "com.shiory.atomicembers.compat.jei.AtomicEmbersJeiPlugin",
