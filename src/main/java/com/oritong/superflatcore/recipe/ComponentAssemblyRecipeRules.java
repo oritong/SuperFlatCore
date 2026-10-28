@@ -33,7 +33,10 @@ public final class ComponentAssemblyRecipeRules {
     }
 
     public static int scaleDuration(int ticks) {
-        return (int) Math.min(Integer.MAX_VALUE, Math.max(1, (ticks * 5L + 2) / 4));
+        // Derived recipes must expose the same duration as their source assembler recipes.
+        // The machine applies its runtime penalty separately, so this value must not be
+        // scaled while the recipe is copied into the recipe viewer.
+        return Math.max(1, ticks);
     }
 
     public static long scaleVoltage(long voltage) {

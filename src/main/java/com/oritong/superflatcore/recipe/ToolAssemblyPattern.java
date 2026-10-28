@@ -19,7 +19,7 @@ final class ToolAssemblyPattern {
                 if (symbol == ' ' || isTool.test(symbol)) {
                     continue;
                 }
-                JsonElement ingredient = keys.get(String.valueOf(symbol));
+                JsonElement ingredient = replaceVanillaStick(keys.get(String.valueOf(symbol)));
                 if (ingredient == null) {
                     throw new IllegalArgumentException("Undefined tool recipe symbol: " + symbol);
                 }
@@ -27,5 +27,34 @@ final class ToolAssemblyPattern {
             }
         }
         return counts;
+    }
+
+    /** Uses GregTech's treated wood rod wherever a generated tool recipe asks for a vanilla stick. */
+    static JsonElement replaceVanillaStick(JsonElement ingredient) {
+        if (ingredient == null) {
+            return null;
+        }
+        if (ingredient.isJsonPrimitive() && ingredient.getAsJsonPrimitive().isString()
+                && "minecraft:stick".equals(ingredient.getAsString())) {
+            return new com.google.gson.JsonPrimitive("gtceu:treated_wood_rod");
+        }
+        if (ingredient.isJsonArray()) {
+            var copy = ingredient.getAsJsonArray().deepCopy();
+            for (int index = 0; index < copy.size(); index++) {
+                copy.set(index, replaceVanillaStick(copy.get(index)));
+            }
+            return copy;
+        }
+        if (ingredient.isJsonObject()) {
+            var copy = ingredient.getAsJsonObject().deepCopy();
+            if (copy.has("item") && "minecraft:stick".equals(copy.get("item").getAsString())) {
+                copy.addProperty("item", "gtceu:treated_wood_rod");
+            }
+            if (copy.has("items")) {
+                copy.add("items", replaceVanillaStick(copy.get("items")));
+            }
+            return copy;
+        }
+        return ingredient.deepCopy();
     }
 }

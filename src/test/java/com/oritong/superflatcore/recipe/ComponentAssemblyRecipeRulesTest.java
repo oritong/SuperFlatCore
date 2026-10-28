@@ -36,8 +36,8 @@ public final class ComponentAssemblyRecipeRulesTest {
         expect(!ComponentAssemblyRecipeRules.isComponent("gtceu", "wrapped_lv_electric_motor"), "Exclude wrapped items");
         expect(!ComponentAssemblyRecipeRules.isComponent("minecraft", "lv_electric_motor"), "GT namespace only");
         expect(!ComponentAssemblyRecipeRules.isComponent("gtceu", "electric_motor"), "Tier required");
-        expect(ComponentAssemblyRecipeRules.scaleDuration(100) == 125, "5 seconds becomes 6.25 seconds");
-        expect(ComponentAssemblyRecipeRules.scaleDuration(10) == 13, "Half tick rounds up");
+        expect(ComponentAssemblyRecipeRules.scaleDuration(100) == 100, "Assembler duration remains unchanged in copied recipes");
+        expect(ComponentAssemblyRecipeRules.scaleDuration(10) == 10, "Copied recipe duration retains every tick");
         expect(ComponentAssemblyRecipeRules.scaleDuration(1) == 1, "Positive minimum duration");
         expect(ComponentAssemblyRecipeRules.scaleDuration(Integer.MAX_VALUE) == Integer.MAX_VALUE, "Duration saturates");
         expect(ComponentAssemblyRecipeRules.scaleVoltage(32) == 29, "LV power rounds to 29 EU/t");

@@ -32,7 +32,13 @@ public final class ToolAssemblyPatternTest {
         } catch (IllegalArgumentException expected) {
             // Invalid source recipes must not silently lose materials.
         }
-        System.out.println("Passed 8 tool assembly material-count checks.");
+        JsonObject vanillaStick = new JsonObject();
+        vanillaStick.addProperty("item", "minecraft:stick");
+        JsonElement replacedStick = ToolAssemblyPattern.replaceVanillaStick(vanillaStick);
+        if (!"gtceu:treated_wood_rod".equals(replacedStick.getAsJsonObject().get("item").getAsString())) {
+            throw new AssertionError("Vanilla sticks must use GregTech treated wood rods");
+        }
+        System.out.println("Passed 8 tool assembly material-count checks and stick substitution check.");
     }
 
     private static void check(String name, String[] pattern, Map<Character, String> keys,

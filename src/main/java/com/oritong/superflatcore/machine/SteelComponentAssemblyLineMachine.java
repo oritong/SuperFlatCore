@@ -73,6 +73,15 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
                 .build();
     }
 
+    public static ModifierFunction durationModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof SteelComponentAssemblyLineMachine)) {
+            return ModifierFunction.NULL;
+        }
+        return ModifierFunction.builder()
+                .durationMultiplier(2)
+                .build();
+    }
+
     private long getParallelSupplyVoltage() {
         return super.getOverclockVoltage();
     }

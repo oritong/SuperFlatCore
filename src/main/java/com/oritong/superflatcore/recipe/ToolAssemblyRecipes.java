@@ -80,9 +80,9 @@ public final class ToolAssemblyRecipes {
                 addShapedInputs(builder, json);
             } else {
                 // A consumed tool being upgraded is an input, not a crafting-tool catalyst.
-                builder.inputItems(Ingredient.fromJson(json.get("base")), 1)
-                        .inputItems(Ingredient.fromJson(json.get("addition")), 1)
-                        .inputItems(Ingredient.fromJson(json.get("template")), 1)
+                builder.inputItems(Ingredient.fromJson(ToolAssemblyPattern.replaceVanillaStick(json.get("base"))), 1)
+                        .inputItems(Ingredient.fromJson(ToolAssemblyPattern.replaceVanillaStick(json.get("addition"))), 1)
+                        .inputItems(Ingredient.fromJson(ToolAssemblyPattern.replaceVanillaStick(json.get("template"))), 1)
                         .addData(UPGRADE_INGREDIENT, json.get("base").toString());
             }
             if (json.has("chargeIngredient")) {
