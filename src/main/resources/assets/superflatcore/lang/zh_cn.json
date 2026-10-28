@@ -2,7 +2,7 @@
     "block.superflatcore.steel_component_assembly_line": "钢制部件装配线",
     "superflatcore.component_assembly_line": "原始部件装配线",
     "superflatcore.multiblock.muffler_full": "消声仓已满",
-    "superflatcore.multiblock.insufficient_component_muffler_tier": "组装此等级部件需要 %s 或更高等级的消声仓",
+    "superflatcore.multiblock.insufficient_component_muffler_tier": "消声仓等级过低",
     "superflatcore.multiblock.fixed_parallel": "固定并行上限：%s",
     "superflatcore.tool_welding_assembler": "工具焊接组装器",
     "superflatcore.machine.tool_welding_assembler.tooltip": "关爱员工身体，拒绝手搓工具。",

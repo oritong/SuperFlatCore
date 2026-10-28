@@ -44,7 +44,9 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         // Assembler recipes can make MV or higher components at LV EU/t; gate by the outputs themselves.
-        if (getMufflerFailure(recipe) != null) {
+        Component failure = getMufflerFailure(recipe);
+        if (failure != null) {
+            RecipeLogic.putFailureReason(this, recipe, failure);
             return null;
         }
         return super.getRealRecipe(recipe);
@@ -106,7 +108,13 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
 
     @Override
     public boolean beforeWorking(GTRecipe recipe) {
-        return getMufflerFailure(recipe) == null && super.beforeWorking(recipe);
+        Component failure = getMufflerFailure(recipe);
+        if (failure != null) {
+            // The hatch may change between recipe search and setup; keep the reason in the idle failure list.
+            RecipeLogic.putFailureReason(this, recipe, failure);
+            return false;
+        }
+        return super.beforeWorking(recipe);
     }
 
     @Override
@@ -137,10 +145,6 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
         super.addDisplayText(textList);
         if (isFormed()) {
             textList.add(Component.translatable("superflatcore.multiblock.fixed_parallel", MAX_PARALLELS));
-            Component failure = getMufflerFailure(recipeLogic.getLastRecipe());
-            if (failure != null) {
-                textList.add(failure);
-            }
         }
     }
 }
