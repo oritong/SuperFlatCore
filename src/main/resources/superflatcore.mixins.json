@@ -46,7 +46,6 @@
     "client.PackEmiRecipesMixin",
     "client.EmiLostItemStackMixin",
     "client.EmiLostItemTagMixin",
-    "client.EmiJemiBridgeMixin",
     "client.DominionWandClientMixin",
     "client.GuiMixin",
     "client.sfm.FallingAnvilJEICategoryMixin",

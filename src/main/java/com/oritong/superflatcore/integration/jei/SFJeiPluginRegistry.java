@@ -26,6 +26,7 @@ public final class SFJeiPluginRegistry {
             "mezz.jei.library.plugins.jei.JeiInternalPlugin",
             "mezz.jei.forge.plugins.forge.ForgeGuiPlugin",
             "mezz.jei.gui.plugins.JeiGuiPlugin",
+            "dev.emi.emi.jemi.JemiPlugin",
             "com.shiory.atomicembers.compat.jei.AtomicEmbersJeiPlugin",
             "codechicken.lib.internal.compat.JEIPlugin",
             "fr.iglee42.cmr.jei.CMRJEI",
