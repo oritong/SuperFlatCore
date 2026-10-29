@@ -29,7 +29,7 @@ public abstract class EmiLostItemStackMixin {
     }
 
     @Unique
-    static boolean superflatcore$isLostItem(EmiStack stack) {
+    private static boolean superflatcore$isLostItem(EmiStack stack) {
         ResourceLocation id = stack.getId();
         return id != null && id.equals(new ResourceLocation("kubejs", "lost_item"));
     }
