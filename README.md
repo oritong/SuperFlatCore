@@ -1,8 +1,12 @@
 # SuperFlatCore
 
-Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
+SuperFlatCore (SFC) is the core mod for the Diamond Continent Jiahao modpack. It adds pack-specific machines and resources, and connects the mods used by the pack.
 
-Current version: `1.3.38-hotfix6`
+Current version: `1.3.38-hotfix14`
+
+Minecraft: `1.20.1`
+
+Forge: `47.2.0`
 
 ## Features
 
