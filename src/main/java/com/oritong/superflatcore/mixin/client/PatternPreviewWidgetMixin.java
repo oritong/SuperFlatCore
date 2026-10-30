@@ -28,6 +28,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -93,13 +94,9 @@ public abstract class PatternPreviewWidgetMixin extends WidgetGroup {
 
             SlotWidget original = candidates[slotIndex++];
             List<ItemStack> abilityCandidates = new ArrayList<>();
-            Set<String> abilityNames = new LinkedHashSet<>();
-            for (ItemStack stack : predicateCandidates) {
-                List<PartAbility> abilities = superflatcore$abilitiesFor(stack);
-                if (!abilities.isEmpty()) {
-                    abilityCandidates.add(stack);
-                    abilities.stream().map(PartAbility::getName).forEach(abilityNames::add);
-                }
+            Set<String> abilityNames = superflatcore$abilitiesForPredicate(predicateCandidates);
+            if (!abilityNames.isEmpty()) {
+                abilityCandidates.addAll(predicateCandidates);
             }
 
             // A predicate may combine an ability hatch with ordinary casing alternatives.
@@ -131,21 +128,29 @@ public abstract class PatternPreviewWidgetMixin extends WidgetGroup {
     }
 
     @Unique
-    private static List<PartAbility> superflatcore$abilitiesFor(ItemStack stack) {
-        Block block = Block.byItem(stack.getItem());
-        if (block == net.minecraft.world.level.block.Blocks.AIR) {
-            return List.of();
+    private static Set<String> superflatcore$abilitiesForPredicate(List<ItemStack> candidates) {
+        Set<Block> candidateBlocks = new HashSet<>();
+        for (ItemStack stack : candidates) {
+            Block block = Block.byItem(stack.getItem());
+            if (block == net.minecraft.world.level.block.Blocks.AIR) {
+                return Set.of();
+            }
+            candidateBlocks.add(block);
+        }
+        if (candidateBlocks.isEmpty()) {
+            return Set.of();
         }
 
-        List<PartAbility> matches = new ArrayList<>();
+        Set<String> matches = new LinkedHashSet<>();
         for (Field field : PartAbility.class.getFields()) {
             if (!Modifier.isStatic(field.getModifiers()) || field.getType() != PartAbility.class) {
                 continue;
             }
             try {
                 PartAbility ability = (PartAbility) field.get(null);
-                if (ability != null && ability.isApplicable(block)) {
-                    matches.add(ability);
+                if (ability != null && !ability.getAllBlocks().isEmpty()
+                        && new HashSet<>(ability.getAllBlocks()).equals(candidateBlocks)) {
+                    matches.add(ability.getName());
                 }
             } catch (IllegalAccessException ignored) {
                 // PartAbility's public API fields are accessible; ignore non-public additions.
