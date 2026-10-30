@@ -43,6 +43,7 @@
   "client": [
     "client.ContainerEventHandlerMouseClickedMixin",
     "client.JeiForgePluginFinderMixin",
+    "client.EmiSearchCacheMixin",
     "client.PackEmiRecipesMixin",
     "client.EmiLostItemStackMixin",
     "client.EmiLostItemTagMixin",
