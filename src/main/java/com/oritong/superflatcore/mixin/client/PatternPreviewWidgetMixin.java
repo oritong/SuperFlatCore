@@ -4,7 +4,7 @@ import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.oritong.superflatcore.client.widget.AbilityCandidateSlotWidget;
-import com.oritong.superflatcore.mixin.AbilityPredicateMetadata;
+import com.oritong.superflatcore.util.AbilityPredicateMetadata;
 import com.lowdragmc.lowdraglib.gui.widget.SceneWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 

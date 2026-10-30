@@ -1,4 +1,4 @@
-package com.oritong.superflatcore.mixin;
+package com.oritong.superflatcore.util;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
@@ -10,14 +10,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Keeps the ability that produced a GTCEu predicate.
- *
- * GTCEu's {@code Predicates.abilities} deliberately returns a normal
- * {@code PredicateBlocks}, so the original ability is otherwise lost before
- * the client structure preview gets to inspect it. Identity is used because
- * TraceabilityPredicate.or() reuses the same SimplePredicate instances.
- */
+/** Keeps the GTCEu ability associated with the simple predicates it creates. */
 public final class AbilityPredicateMetadata {
     private static final Map<SimplePredicate, List<String>> ABILITIES =
             Collections.synchronizedMap(new IdentityHashMap<>());
