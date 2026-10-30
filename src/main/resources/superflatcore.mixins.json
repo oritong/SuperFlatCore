@@ -49,6 +49,7 @@
     "client.EmiLostItemTagMixin",
     "client.DominionWandClientMixin",
     "client.GuiMixin",
+    "client.PatternPreviewWidgetMixin",
     "client.sfm.FallingAnvilJEICategoryMixin",
     "client.TiabTimeAcceleratorRendererMixin"
   ],
