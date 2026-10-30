@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
+import com.oritong.superflatcore.client.widget.AbilityCandidateSlotWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SceneWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 

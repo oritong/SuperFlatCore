@@ -1,4 +1,4 @@
-package com.oritong.superflatcore.mixin.client;
+package com.oritong.superflatcore.client.widget;
 
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 
@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.Objects;
 
 /** A fixed ability preview slot that opens a dedicated EMI list of valid parts. */
-final class AbilityCandidateSlotWidget extends SlotWidget {
+public final class AbilityCandidateSlotWidget extends SlotWidget {
     private final List<ItemStack> candidates;
     private final List<String> abilities;
 
-    AbilityCandidateSlotWidget(List<ItemStack> candidates, List<String> abilities, int x, int y) {
+    public AbilityCandidateSlotWidget(List<ItemStack> candidates, List<String> abilities, int x, int y) {
         super(new ItemStackHandler(1), 0, x, y, false, false);
         this.candidates = candidates.stream().map(ItemStack::copy).toList();
         this.abilities = List.copyOf(abilities);
