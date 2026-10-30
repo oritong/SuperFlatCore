@@ -2,9 +2,9 @@ package com.oritong.superflatcore.mixin.client;
 
 import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.oritong.superflatcore.client.widget.AbilityCandidateSlotWidget;
+import com.oritong.superflatcore.mixin.AbilityPredicateMetadata;
 import com.lowdragmc.lowdraglib.gui.widget.SceneWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,11 +24,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -93,15 +88,12 @@ public abstract class PatternPreviewWidgetMixin extends WidgetGroup {
             }
 
             SlotWidget original = candidates[slotIndex++];
-            List<ItemStack> abilityCandidates = new ArrayList<>();
-            Set<String> abilityNames = superflatcore$abilitiesForPredicate(predicateCandidates);
-            if (!abilityNames.isEmpty()) {
-                abilityCandidates.addAll(predicateCandidates);
-            }
+            Set<String> abilityNames = Set.copyOf(AbilityPredicateMetadata.get(predicate));
 
-            // A predicate may combine an ability hatch with ordinary casing alternatives.
-            // Keep GTCEu's cycling preview for those mixed slots so no valid block is hidden.
-            if (abilityCandidates.isEmpty() || abilityCandidates.size() != predicateCandidates.size()) {
+            // Only predicates created by Predicates.abilities/ability are replaced.
+            // Ordinary block predicates (including a casing.or(ability) branch) keep
+            // GTCEu's original cycling preview.
+            if (abilityNames.isEmpty()) {
                 replacement.add(original);
                 continue;
             }
@@ -111,11 +103,11 @@ public abstract class PatternPreviewWidgetMixin extends WidgetGroup {
             tooltip.add(Component.translatable("superflatcore.multiblock.ability.available"));
             abilityNames.stream().map(PatternPreviewWidgetMixin::superflatcore$abilityName).forEach(tooltip::add);
             tooltip.addAll(predicate.getToolTips(null));
-            tooltip.add(Component.translatable("superflatcore.multiblock.ability.count", abilityCandidates.size()));
+            tooltip.add(Component.translatable("superflatcore.multiblock.ability.count", predicateCandidates.size()));
             tooltip.add(Component.translatable("superflatcore.multiblock.ability.click"));
 
             AbilityCandidateSlotWidget slot = new AbilityCandidateSlotWidget(
-                    abilityCandidates,
+                    predicateCandidates,
                     List.copyOf(abilityNames),
                     original.getSelfPositionX(),
                     original.getSelfPositionY());
@@ -125,38 +117,6 @@ public abstract class PatternPreviewWidgetMixin extends WidgetGroup {
             addWidget(slot);
         }
         candidates = replacement.toArray(SlotWidget[]::new);
-    }
-
-    @Unique
-    private static Set<String> superflatcore$abilitiesForPredicate(List<ItemStack> candidates) {
-        Set<Block> candidateBlocks = new HashSet<>();
-        for (ItemStack stack : candidates) {
-            Block block = Block.byItem(stack.getItem());
-            if (block == net.minecraft.world.level.block.Blocks.AIR) {
-                return Set.of();
-            }
-            candidateBlocks.add(block);
-        }
-        if (candidateBlocks.isEmpty()) {
-            return Set.of();
-        }
-
-        Set<String> matches = new LinkedHashSet<>();
-        for (Field field : PartAbility.class.getFields()) {
-            if (!Modifier.isStatic(field.getModifiers()) || field.getType() != PartAbility.class) {
-                continue;
-            }
-            try {
-                PartAbility ability = (PartAbility) field.get(null);
-                if (ability != null && !ability.getAllBlocks().isEmpty()
-                        && new HashSet<>(ability.getAllBlocks()).equals(candidateBlocks)) {
-                    matches.add(ability.getName());
-                }
-            } catch (IllegalAccessException ignored) {
-                // PartAbility's public API fields are accessible; ignore non-public additions.
-            }
-        }
-        return matches;
     }
 
     @Unique
