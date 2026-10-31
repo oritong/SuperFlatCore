@@ -40,6 +40,9 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.controller;
 public final class SFMachines {
     private static final ResourceLocation GTCEU_ITEM_TAB = new ResourceLocation("gtceu", "item");
     private static final int ENERGY_64A = 64;
+    // Force the void miner definition to initialize with the other machine definitions,
+    // before creative-tab contents are built and Registrate's mod event bus is closed.
+    public static final MachineDefinition LARGE_VOID_MINER = SFVoidMachines.LARGE_VOID_MINER;
 
     public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = SFRegistrate.REGISTRATE
             .machine("configurable_auto_maintenance_hatch", ConfigurableAutoMaintenanceHatchPartMachine::new)
