@@ -156,6 +156,7 @@ public final class SFMachines {
             event.accept(STERILE_CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH.asStack());
             event.accept(CREATIVE_STERILE_CLEANING_CONFIGURABLE_AUTO_MAINTENANCE_HATCH.asStack());
             event.accept(LARGE_COKE_OVEN.asStack());
+            event.accept(SFVoidMachines.LARGE_VOID_MINER.asStack());
             addTieredMachines(event, LASER_INPUT_HATCH_262144);
             addTieredMachines(event, LASER_OUTPUT_HATCH_262144);
             addTieredMachines(event, LASER_INPUT_HATCH_1048576);
