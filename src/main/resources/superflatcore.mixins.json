@@ -21,6 +21,7 @@
     "GTRecipeModifiersMixin",
     "GTMachinesMixin",
     "GTMachineUtilsMixin",
+    "GTMaterialBlocksOreVariantsMixin",
     "GTToolRecipeHandlerMixin",
     "GTCustomToolRecipesMixin",
     "PredicatesAbilitiesMixin",
