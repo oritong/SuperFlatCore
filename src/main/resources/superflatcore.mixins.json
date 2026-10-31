@@ -43,6 +43,7 @@
   ],
   "client": [
     "client.ContainerEventHandlerMouseClickedMixin",
+    "client.JemiRecipeSlotIngredientListMixin",
     "client.JeiForgePluginFinderMixin",
     "client.EmiSearchCacheMixin",
     "client.PackEmiRecipesMixin",
