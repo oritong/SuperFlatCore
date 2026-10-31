@@ -7,11 +7,13 @@ import com.oritong.superflatcore.SuperFlatCore;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -49,6 +51,22 @@ public final class SFUpdateChecker {
     @SubscribeEvent
     public static void onLoggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
         CHECKED_THIS_SESSION.set(false);
+    }
+
+    @SubscribeEvent
+    public static void registerClientCommands(RegisterClientCommandsEvent event) {
+        event.getDispatcher().register(Commands.literal("sfc")
+                .then(Commands.literal("update_debug")
+                        .executes(context -> {
+                            announce(new Manifest(CURRENT_PACK_VERSION, FALLBACK_DOWNLOAD_URL));
+                            return 1;
+                        })));
+        event.getDispatcher().register(Commands.literal("superflatcore")
+                .then(Commands.literal("update_debug")
+                        .executes(context -> {
+                            announce(new Manifest(CURRENT_PACK_VERSION, FALLBACK_DOWNLOAD_URL));
+                            return 1;
+                        })));
     }
 
     private static void checkInBackground() {
