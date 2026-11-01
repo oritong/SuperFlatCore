@@ -316,5 +316,17 @@
     "superflatcore.multiblock.ability.optical_data_transmission": "Any optical data transmission hatch",
     "superflatcore.multiblock.ability.data_access": "Any data access hatch",
     "superflatcore.multiblock.ability.hpca_component": "Any HPCA component",
-    "superflatcore.multiblock.ability.object_holder": "Any object holder"
+    "superflatcore.multiblock.ability.object_holder": "Any object holder",
+    "block.superflatcore.lv_energy_input_hatch_4a": "4§eA§r §7LV§r Energy Hatch",
+    "block.superflatcore.lv_energy_output_hatch_4a": "4§eA§r §7LV§r Dynamo Hatch",
+    "block.superflatcore.mv_energy_input_hatch_4a": "4§eA§r §bMV§r Energy Hatch",
+    "block.superflatcore.mv_energy_output_hatch_4a": "4§eA§r §bMV§r Dynamo Hatch",
+    "block.superflatcore.hv_energy_input_hatch_4a": "4§eA§r §6HV§r Energy Hatch",
+    "block.superflatcore.hv_energy_output_hatch_4a": "4§eA§r §6HV§r Dynamo Hatch",
+    "block.superflatcore.mv_energy_input_hatch_16a": "16§eA§r §bMV§r Energy Hatch",
+    "block.superflatcore.mv_energy_output_hatch_16a": "16§eA§r §bMV§r Dynamo Hatch",
+    "block.superflatcore.hv_energy_input_hatch_16a": "16§eA§r §6HV§r Energy Hatch",
+    "block.superflatcore.hv_energy_output_hatch_16a": "16§eA§r §6HV§r Dynamo Hatch",
+    "block.superflatcore.hv_substation_input_hatch_64a": "64§eA§r §6HV§r Substation Energy Hatch",
+    "block.superflatcore.hv_substation_output_hatch_64a": "64§eA§r §6HV§r Substation Dynamo Hatch"
 }

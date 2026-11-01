@@ -316,5 +316,17 @@
     "superflatcore.multiblock.ability.optical_data_transmission": "任意光学数据发送仓",
     "superflatcore.multiblock.ability.data_access": "任意数据访问仓",
     "superflatcore.multiblock.ability.hpca_component": "任意 HPCA 部件",
-    "superflatcore.multiblock.ability.object_holder": "任意对象仓"
+    "superflatcore.multiblock.ability.object_holder": "任意对象仓",
+    "block.superflatcore.lv_energy_input_hatch_4a": "4安§7LV§r能源仓",
+    "block.superflatcore.lv_energy_output_hatch_4a": "4安§7LV§r动力仓",
+    "block.superflatcore.mv_energy_input_hatch_4a": "4安§bMV§r能源仓",
+    "block.superflatcore.mv_energy_output_hatch_4a": "4安§bMV§r动力仓",
+    "block.superflatcore.hv_energy_input_hatch_4a": "4安§6HV§r能源仓",
+    "block.superflatcore.hv_energy_output_hatch_4a": "4安§6HV§r动力仓",
+    "block.superflatcore.mv_energy_input_hatch_16a": "16安§bMV§r能源仓",
+    "block.superflatcore.mv_energy_output_hatch_16a": "16安§bMV§r动力仓",
+    "block.superflatcore.hv_energy_input_hatch_16a": "16安§6HV§r能源仓",
+    "block.superflatcore.hv_energy_output_hatch_16a": "16安§6HV§r动力仓",
+    "block.superflatcore.hv_substation_input_hatch_64a": "64安§6HV§r变电能源仓",
+    "block.superflatcore.hv_substation_output_hatch_64a": "64安§6HV§r变电动力仓"
 }
