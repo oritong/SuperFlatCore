@@ -537,12 +537,6 @@ public class SFGTAddon implements IGTAddon {
         for (int tier : tiersBetween(LV, receiverMaxTier)) {
             removeWirelessRecipe(consumer, "wireless_energy_receive_cover_" + VN[tier].toLowerCase(Locale.ROOT) + "_4a");
         }
-        for (int tier : tiersBetween(HV, maxTier)) {
-            removeWirelessRecipe(consumer, "wireless_energy_input_hatch_" + VN[tier].toLowerCase(Locale.ROOT) + "_64a",
-                    SuperFlatCore.MODID);
-            removeWirelessRecipe(consumer, "wireless_energy_output_hatch_" + VN[tier].toLowerCase(Locale.ROOT) + "_64a",
-                    SuperFlatCore.MODID);
-        }
     }
 
     private static void removeWirelessRecipe(Consumer<ResourceLocation> consumer, String path) {
