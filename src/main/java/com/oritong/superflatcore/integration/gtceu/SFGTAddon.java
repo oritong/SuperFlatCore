@@ -119,17 +119,17 @@ public class SFGTAddon implements IGTAddon {
                 SFMachines.SUBSTATION_ENERGY_OUTPUT_HATCH);
 
         addAmpHatchRecipes(provider, energyInput4A, ENERGY_INPUT_HATCH, null,
-                "energy_hatch_4a", GTCraftingComponents.WIRE_QUAD, 2, 100, false);
+                "energy_hatch_4a", GTCraftingComponents.WIRE_QUAD, 2, 4, 100, false);
         addAmpHatchRecipes(provider, energyOutput4A, ENERGY_OUTPUT_HATCH, null,
-                "dynamo_hatch_4a", GTCraftingComponents.WIRE_QUAD, 2, 100, true);
+                "dynamo_hatch_4a", GTCraftingComponents.WIRE_QUAD, 2, 4, 100, true);
         addAmpHatchRecipes(provider, energyInput16A, energyInput4A, TRANSFORMER,
-                "energy_hatch_16a", GTCraftingComponents.WIRE_OCT, 4, 200, false);
+                "energy_hatch_16a", GTCraftingComponents.WIRE_OCT, 4, 8, 200, false);
         addAmpHatchRecipes(provider, energyOutput16A, energyOutput4A, TRANSFORMER,
-                "dynamo_hatch_16a", GTCraftingComponents.WIRE_OCT, 4, 200, true);
+                "dynamo_hatch_16a", GTCraftingComponents.WIRE_OCT, 4, 8, 200, true);
         addAmpHatchRecipes(provider, substationEnergyInput, energyInput16A, POWER_TRANSFORMER,
-                "substation_energy_hatch", GTCraftingComponents.WIRE_HEX, 6, 400, false);
+                "substation_energy_hatch", GTCraftingComponents.WIRE_HEX, 6, 16, 400, false);
         addAmpHatchRecipes(provider, substationEnergyOutput, energyOutput16A, POWER_TRANSFORMER,
-                "substation_dynamo_hatch", GTCraftingComponents.WIRE_HEX, 6, 400, true);
+                "substation_dynamo_hatch", GTCraftingComponents.WIRE_HEX, 6, 16, 400, true);
     }
 
     private static MachineDefinition[] addMissingPackHatches(MachineDefinition[] gtMachines,
@@ -289,13 +289,14 @@ public class SFGTAddon implements IGTAddon {
     private static void addAmpHatchRecipes(Consumer<FinishedRecipe> provider, MachineDefinition[] outputs,
                                             MachineDefinition[] previous, MachineDefinition[] transformers,
                                             String idPrefix, CraftingComponent wireComponent, int plateCount,
-                                            int duration, boolean dynamo) {
+                                            int ceramicCount, int duration, boolean dynamo) {
         int tiers = Math.min(VN.length, outputs.length);
         for (int tier = 0; tier < tiers; tier++) {
             MachineDefinition output = outputs[tier];
             if (output == null) continue;
             ItemStack ceramic = ceramicPlate(tier);
             if (ceramic.isEmpty()) continue;
+            ceramic.setCount(ceramicCount);
 
             String name = VN[tier].toLowerCase(Locale.ROOT);
             GTRecipeBuilder builder = ASSEMBLER_RECIPES.recipeBuilder(SuperFlatCore.id(idPrefix + "_" + name));
