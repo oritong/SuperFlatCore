@@ -1,5 +1,7 @@
 package com.oritong.superflatcore.integration.gtceu;
 
+import com.hepdd.gtmthings.data.CustomItems;
+import com.hepdd.gtmthings.data.WirelessMachines;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
@@ -87,6 +89,7 @@ public class SFGTAddon implements IGTAddon {
         }
 
         addEnergyHatchRecipes(provider);
+        addWirelessEnergyHatchRecipes(provider);
     }
 
     /**
@@ -328,6 +331,169 @@ public class SFGTAddon implements IGTAddon {
         }
     }
 
+    /**
+     * Replace GTMThings' wireless 4A/16A hatch recipes and add the pack's 64A
+     * wireless hatches. These recipes intentionally remain assembler recipes.
+     */
+    private static void addWirelessEnergyHatchRecipes(Consumer<FinishedRecipe> provider) {
+        addWirelessReceiver4ARecipes(provider);
+
+        MachineDefinition[] energyInput4A = addMissingPackHatches(ENERGY_INPUT_HATCH_4A,
+                SFMachines.ENERGY_INPUT_HATCH_4A);
+        MachineDefinition[] energyOutput4A = addMissingPackHatches(ENERGY_OUTPUT_HATCH_4A,
+                SFMachines.ENERGY_OUTPUT_HATCH_4A);
+        MachineDefinition[] energyInput16A = addMissingPackHatches(ENERGY_INPUT_HATCH_16A,
+                SFMachines.ENERGY_INPUT_HATCH_16A);
+        MachineDefinition[] energyOutput16A = addMissingPackHatches(ENERGY_OUTPUT_HATCH_16A,
+                SFMachines.ENERGY_OUTPUT_HATCH_16A);
+
+        int maxTier = com.gregtechceu.gtceu.api.GTCEuAPI.isHighTier() ? OpV : UV;
+        for (int tier : tiersBetween(LV, maxTier)) {
+            addWirelessHatchRecipe(provider, tier, energyInput4A, WirelessMachines.WIRELESS_ENERGY_INPUT_HATCH_4A,
+                    1, "wireless_energy_input_hatch", "_4a");
+            addWirelessHatchRecipe(provider, tier, energyOutput4A, WirelessMachines.WIRELESS_ENERGY_OUTPUT_HATCH_4A,
+                    1, "wireless_energy_output_hatch", "_4a");
+            addWirelessHatchRecipe(provider, tier, energyInput16A, WirelessMachines.WIRELESS_ENERGY_INPUT_HATCH_16A,
+                    4, "wireless_energy_input_hatch", "_16a");
+            addWirelessHatchRecipe(provider, tier, energyOutput16A, WirelessMachines.WIRELESS_ENERGY_OUTPUT_HATCH_16A,
+                    4, "wireless_energy_output_hatch", "_16a");
+        }
+
+        for (int tier : tiersBetween(HV, maxTier)) {
+            addWirelessHatchRecipe(provider, tier, SFMachines.SUBSTATION_ENERGY_INPUT_HATCH,
+                    SFMachines.WIRELESS_ENERGY_INPUT_HATCH_64A, 16,
+                    "wireless_energy_input_hatch", "_64a", SuperFlatCore.MODID);
+            addWirelessHatchRecipe(provider, tier, SFMachines.SUBSTATION_ENERGY_OUTPUT_HATCH,
+                    SFMachines.WIRELESS_ENERGY_OUTPUT_HATCH_64A, 16,
+                    "wireless_energy_output_hatch", "_64a", SuperFlatCore.MODID);
+        }
+    }
+
+    private static void addWirelessHatchRecipe(Consumer<FinishedRecipe> provider, int tier,
+                                                MachineDefinition[] wiredHatches,
+                                                MachineDefinition[] wirelessHatches,
+                                                int receiverCount, String idPrefix, String amperageSuffix) {
+        addWirelessHatchRecipe(provider, tier, wiredHatches, wirelessHatches, receiverCount,
+                idPrefix, amperageSuffix, SuperFlatCore.MODID);
+    }
+
+    private static void addWirelessHatchRecipe(Consumer<FinishedRecipe> provider, int tier,
+                                                MachineDefinition[] wiredHatches,
+                                                MachineDefinition[] wirelessHatches,
+                                                int receiverCount, String idPrefix, String amperageSuffix,
+                                                String namespace) {
+        if (tier >= wiredHatches.length || tier >= wirelessHatches.length
+                || wiredHatches[tier] == null || wirelessHatches[tier] == null) {
+            return;
+        }
+        ItemStack receiver = wirelessReceiveCover4A(tier);
+        if (receiver.isEmpty()) {
+            return;
+        }
+        receiver.setCount(receiverCount);
+
+        ASSEMBLER_RECIPES.recipeBuilder(new ResourceLocation(namespace,
+                        idPrefix + "_" + VN[tier].toLowerCase(Locale.ROOT) + amperageSuffix))
+                .inputItems(wiredHatches[tier])
+                .inputItems(receiver)
+                .inputItems(COVER_ENERGY_DETECTOR_ADVANCED)
+                .inputFluids(SolderingAlloy, 144)
+                .outputItems(wirelessHatches[tier])
+                .duration(200)
+                .EUt(VA[tier])
+                .save(provider);
+    }
+
+    private static void addWirelessReceiver4ARecipes(Consumer<FinishedRecipe> provider) {
+        int maxTier = com.gregtechceu.gtceu.api.GTCEuAPI.isHighTier() ? OpV : UV;
+        for (int tier : tiersBetween(LV, maxTier)) {
+            ItemStack oneAmp = wirelessReceiveCover(tier);
+            ItemStack fourAmp = wirelessReceiveCover4A(tier);
+            if (oneAmp.isEmpty() || fourAmp.isEmpty()) {
+                continue;
+            }
+            GTRecipeBuilder builder = ASSEMBLER_RECIPES.recipeBuilder(new ResourceLocation(SuperFlatCore.MODID,
+                    "wireless_energy_receive_cover_" + VN[tier].toLowerCase(Locale.ROOT) + "_4a"));
+            builder.inputItems(oneAmp.copyWithCount(4));
+            switch (tier) {
+                case LV -> builder.inputItems(INDUCTOR, 4)
+                        .inputItems(cableGtQuadruple, Tin, 4)
+                        .inputItems(VOLTAGE_COIL_LV, 2);
+                case MV -> builder.inputItems(INDUCTOR, 8)
+                        .inputItems(cableGtQuadruple, Copper, 4)
+                        .inputItems(VOLTAGE_COIL_MV, 2);
+                case HV -> builder.inputItems(SMD_INDUCTOR, 4)
+                        .inputItems(cableGtQuadruple, Gold, 4)
+                        .inputItems(VOLTAGE_COIL_HV, 2);
+                case EV -> builder.inputItems(SMD_INDUCTOR, 8)
+                        .inputItems(cableGtQuadruple, Aluminium, 4)
+                        .inputItems(VOLTAGE_COIL_EV, 2);
+                case IV -> builder.inputItems(ADVANCED_SMD_INDUCTOR, 4)
+                        .inputItems(cableGtQuadruple, Platinum, 4)
+                        .inputItems(VOLTAGE_COIL_IV, 2);
+                case LuV -> builder.inputItems(ADVANCED_SMD_INDUCTOR, 8)
+                        .inputItems(cableGtQuadruple, NiobiumTitanium, 4)
+                        .inputItems(VOLTAGE_COIL_LuV, 2);
+                case ZPM -> builder.inputItems(ADVANCED_SMD_INDUCTOR, 16)
+                        .inputItems(cableGtQuadruple, VanadiumGallium, 4)
+                        .inputItems(VOLTAGE_COIL_ZPM, 2);
+                case UV -> builder.inputItems(ADVANCED_SMD_INDUCTOR, 32)
+                        .inputItems(cableGtQuadruple, YttriumBariumCuprate, 4)
+                        .inputItems(VOLTAGE_COIL_UV, 2);
+                case UHV -> builder.inputItems(ADVANCED_SMD_INDUCTOR, 64)
+                        .inputItems(cableGtQuadruple, Trinium, 4)
+                        .inputItems(VOLTAGE_COIL_UV, 2);
+                default -> {
+                    continue;
+                }
+            }
+            builder.inputItems(plateDouble, BatteryAlloy, 2)
+                    .inputFluids(SolderingAlloy, 144)
+                    .outputItems(fourAmp)
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+        }
+    }
+
+    private static ItemStack wirelessReceiveCover(int tier) {
+        return switch (tier) {
+            case LV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LV.asStack();
+            case MV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_MV.asStack();
+            case HV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_HV.asStack();
+            case EV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_EV.asStack();
+            case IV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_IV.asStack();
+            case LuV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LUV.asStack();
+            case ZPM -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_ZPM.asStack();
+            case UV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UV.asStack();
+            case UHV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UHV.asStack();
+            case UEV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UEV.asStack();
+            case UIV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UIV.asStack();
+            case UXV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UXV.asStack();
+            case OpV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_OPV.asStack();
+            default -> ItemStack.EMPTY;
+        };
+    }
+
+    private static ItemStack wirelessReceiveCover4A(int tier) {
+        return switch (tier) {
+            case LV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LV_4A.asStack();
+            case MV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_MV_4A.asStack();
+            case HV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_HV_4A.asStack();
+            case EV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_EV_4A.asStack();
+            case IV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_IV_4A.asStack();
+            case LuV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LUV_4A.asStack();
+            case ZPM -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_ZPM_4A.asStack();
+            case UV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UV_4A.asStack();
+            case UHV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UHV_4A.asStack();
+            case UEV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UEV_4A.asStack();
+            case UIV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UIV_4A.asStack();
+            case UXV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UXV_4A.asStack();
+            case OpV -> CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_OPV_4A.asStack();
+            default -> ItemStack.EMPTY;
+        };
+    }
+
     private static ItemStack ceramicPlate(int tier) {
         String name;
         if (tier <= LV) {
@@ -358,6 +524,33 @@ public class SFGTAddon implements IGTAddon {
         removeTieredRecipes(consumer, ENERGY_OUTPUT_HATCH_16A.length, "dynamo_hatch_16a");
         removeTieredRecipes(consumer, SUBSTATION_ENERGY_INPUT_HATCH.length, "substation_energy_hatch");
         removeTieredRecipes(consumer, SUBSTATION_ENERGY_OUTPUT_HATCH.length, "substation_dynamo_hatch");
+
+        int maxTier = com.gregtechceu.gtceu.api.GTCEuAPI.isHighTier() ? OpV : UV;
+        for (int tier : tiersBetween(LV, maxTier)) {
+            String name = VN[tier].toLowerCase(Locale.ROOT);
+            removeWirelessRecipe(consumer, "wireless_energy_input_hatch_" + name + "_4a");
+            removeWirelessRecipe(consumer, "wireless_energy_output_hatch_" + name + "_4a");
+            removeWirelessRecipe(consumer, "wireless_energy_input_hatch_" + name + "_16a");
+            removeWirelessRecipe(consumer, "wireless_energy_output_hatch_" + name + "_16a");
+        }
+        int receiverMaxTier = com.gregtechceu.gtceu.api.GTCEuAPI.isHighTier() ? OpV : UV;
+        for (int tier : tiersBetween(LV, receiverMaxTier)) {
+            removeWirelessRecipe(consumer, "wireless_energy_receive_cover_" + VN[tier].toLowerCase(Locale.ROOT) + "_4a");
+        }
+        for (int tier : tiersBetween(HV, maxTier)) {
+            removeWirelessRecipe(consumer, "wireless_energy_input_hatch_" + VN[tier].toLowerCase(Locale.ROOT) + "_64a",
+                    SuperFlatCore.MODID);
+            removeWirelessRecipe(consumer, "wireless_energy_output_hatch_" + VN[tier].toLowerCase(Locale.ROOT) + "_64a",
+                    SuperFlatCore.MODID);
+        }
+    }
+
+    private static void removeWirelessRecipe(Consumer<ResourceLocation> consumer, String path) {
+        removeWirelessRecipe(consumer, path, "gtmthings");
+    }
+
+    private static void removeWirelessRecipe(Consumer<ResourceLocation> consumer, String path, String namespace) {
+        consumer.accept(new ResourceLocation(namespace, "assembler/" + path));
     }
 
     private static void removeTieredRecipes(Consumer<ResourceLocation> consumer, int length, String prefix) {
