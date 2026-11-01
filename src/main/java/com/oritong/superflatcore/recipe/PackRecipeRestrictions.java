@@ -2,6 +2,9 @@ package com.oritong.superflatcore.recipe;
 
 import java.util.Set;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
+
 /** Recipe and viewer category IDs are intentionally separate: JEI often uses machine IDs. */
 public final class PackRecipeRestrictions {
     private static final Set<String> IFEU_TYPES = Set.of(
@@ -44,5 +47,24 @@ public final class PackRecipeRestrictions {
 
     public static boolean keepsIndustrialOutput(String id) {
         return INDUSTRIAL_OUTPUTS.contains(id);
+    }
+
+    /**
+     * Energy and dynamo hatches are intentionally machine-only recipes. GTCEu
+     * injects its generated crafting recipes through a dynamic pack, so filter
+     * them again after the final recipe map has been assembled.
+     */
+    public static boolean removesManualEnergyHatchRecipe(RecipeType<?> type, ResourceLocation id) {
+        if (type != RecipeType.CRAFTING) {
+            return false;
+        }
+        if (!id.getNamespace().equals("gtceu") && !id.getNamespace().equals("superflatcore")) {
+            return false;
+        }
+        String path = id.getPath();
+        return path.startsWith("energy_hatch_")
+                || path.startsWith("dynamo_hatch_")
+                || path.startsWith("substation_energy_hatch")
+                || path.startsWith("substation_dynamo_hatch");
     }
 }

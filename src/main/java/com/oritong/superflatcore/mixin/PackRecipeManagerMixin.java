@@ -35,7 +35,10 @@ public abstract class PackRecipeManagerMixin {
                     && PackRecipeRestrictions.removesRecipeType(typeId.getNamespace(), typeId.getPath());
             Map<ResourceLocation, Recipe<?>> kept = new LinkedHashMap<>();
             entries.forEach((id, recipe) -> {
-                if (removeType || recipe instanceof IDisplayModifierRecipe || recipe instanceof ToolBuildingRecipe) {
+                if (removeType
+                        || PackRecipeRestrictions.removesManualEnergyHatchRecipe(type, id)
+                        || recipe instanceof IDisplayModifierRecipe
+                        || recipe instanceof ToolBuildingRecipe) {
                     keptByName.remove(id);
                 } else {
                     kept.put(id, recipe);

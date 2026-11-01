@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.4-hotfix3`
+Current version: `1.4.4-hotfix4`
 
 ## Features
 
