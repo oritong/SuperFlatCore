@@ -1,0 +1,32 @@
+[
+  {
+    "source": "D:\\MCMOD\\SuperFlatCore\\src\\main\\resources\\assets\\gtceu\\textures\\item\\material_sets\\dull\\wind_rotor.png",
+    "image_size": [
+      128,
+      128
+    ],
+    "displayed_box": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\SuperFlatCore\\src\\main\\resources\\assets\\superflatcore\\textures\\item\\wind_rotor.png",
+    "image_size": [
+      128,
+      128
+    ],
+    "displayed_box": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "frame_index": 0,
+    "animation": null
+  }
+]

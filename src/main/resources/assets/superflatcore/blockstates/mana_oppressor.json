@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east": { "model": "superflatcore:block/machine/mana_oppressor", "y": 90 },
+    "facing=north": { "model": "superflatcore:block/machine/mana_oppressor" },
+    "facing=south": { "model": "superflatcore:block/machine/mana_oppressor", "y": 180 },
+    "facing=west": { "model": "superflatcore:block/machine/mana_oppressor", "y": 270 }
+  }
+}

@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.item.DontTouchMeItem;
 import com.oritong.superflatcore.item.EmployeeCompanionItem;
+import com.oritong.superflatcore.item.StructureDetectBehavior;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -61,6 +62,14 @@ public final class SFItems {
             "employee_companion",
             () -> new EmployeeCompanionItem(new Item.Properties()));
 
+    public static final RegistryObject<ComponentItem> STRUCTURE_DETECT = ITEMS.register(
+            "structure_detect",
+            () -> {
+                ComponentItem item = ComponentItem.create(new Item.Properties().stacksTo(1));
+                item.attachComponents(StructureDetectBehavior.INSTANCE);
+                return item;
+            });
+
     public static final RegistryObject<DontTouchMeItem> DONT_TOUCH_ME = DONT_TOUCH_ME_ITEMS.register(
             "dont_touch_me",
             () -> new DontTouchMeItem(new Item.Properties().stacksTo(1)));
@@ -80,7 +89,8 @@ public final class SFItems {
             ELITE_AIR_INTAKE_COVER,
             ULTIMATE_AIR_INTAKE_COVER,
             CREATIVE_AIR_INTAKE_COVER,
-            EMPLOYEE_COMPANION);
+            EMPLOYEE_COMPANION,
+            STRUCTURE_DETECT);
 
     private SFItems() {}
 

@@ -1,6 +1,8 @@
 package com.oritong.superflatcore.mixin;
 
 import com.oritong.superflatcore.integration.ezunclear.EzUnclearIntegration;
+import com.oritong.superflatcore.integration.mekanism.MekanismRadiationIntegration;
+import com.shiory.atomicembers.feature.reactor.blockentity.ReactorInputBlockEntity;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -64,6 +66,8 @@ public abstract class AtomicReactorInputBlockEntityMixin {
         Set<BlockPos> executingAccidents = SUPER_FLAT_CORE_EXECUTING_ACCIDENTS.get();
         executingAccidents.add(center);
         try {
+            MekanismRadiationIntegration.radiateReactor(server, center,
+                    (ReactorInputBlockEntity) (Object) reactor);
             reactor.superflatcore$triggerAccident(server, center, destroyPump);
         } finally {
             executingAccidents.remove(center);

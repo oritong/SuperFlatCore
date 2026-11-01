@@ -1,0 +1,43 @@
+{
+  "size": 16,
+  "style_guide": "Blockbench Minecraft Style Guide: midtone silhouette, dark outline, top-left light, no anti-aliasing",
+  "palette": {
+    "o": "#121922",
+    "k": "#1b2a36",
+    "d": "#354653",
+    "m": "#71818c",
+    "h": "#b9c5ca",
+    "b": "#102d43",
+    "t": "#1f5b72",
+    "c": "#3e97a5",
+    "L": "#8eddd6",
+    "a": "#c98550",
+    "p": "#e8c39f",
+    "s": "#bd906d",
+    "e": "#354732",
+    "g": "#4db37f",
+    "G": "#8bdd96"
+  },
+  "sprites": {
+    "employee_companion": {
+      "pixels": [
+        "................",
+        "....ommmmddo....",
+        "...ohmkkmkdoo...",
+        "...ohbbbbbbdo...",
+        "...ohLcctbbdo...",
+        "...omctttbbdo...",
+        "...ombaaaaado...",
+        "...ombapppsdo...",
+        "...ombpepepdo...",
+        "...ombppsppdo...",
+        "...omggpgggdo...",
+        "...omgGggggdo...",
+        "...omkkkkkkdo...",
+        "...omddhhdddo...",
+        "....oddddddo....",
+        "................"
+      ]
+    }
+  }
+}

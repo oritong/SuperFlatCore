@@ -1,6 +1,7 @@
 # Gradle
 .gradle/
 build/
+build_codex_*/
 gradle-app.setting
 !gradle-wrapper.jar
 
@@ -23,3 +24,18 @@ crash-reports/
 # OS
 .DS_Store
 Thumbs.db
+
+# Local wiki draft
+WIKI_zh-CN.md
+
+# Local dependency artifacts (existing tracked files remain tracked)
+/local_maven/
+
+# Local bytecode inspection output
+/*-javap.txt
+/ldslot.txt
+/ppw.txt
+/ppw-decompiled.txt
+/simple.txt
+/simple-decompiled.txt
+/slot.txt

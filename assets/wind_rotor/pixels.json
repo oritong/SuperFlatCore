@@ -1,0 +1,35 @@
+{
+  "size": 16,
+  "game_texture_size": 16,
+  "style_guide": "Blockbench Minecraft Style Guide: midtone silhouette, dark outline, top-left light, no anti-aliasing",
+  "palette": {
+    "k": "#2a2a2a",
+    "o": "#494949",
+    "d": "#717171",
+    "m": "#a4a4a4",
+    "l": "#c9c9c9",
+    "h": "#ebebeb"
+  },
+  "sprites": {
+    "wind_rotor": {
+      "pixels": [
+        "................",
+        "................",
+        "......oo........",
+        ".....ohlo.......",
+        ".....ohlmk......",
+        "......ohmk......",
+        "......omdo......",
+        "......ohlo......",
+        "....oohmkoooo...",
+        "...ohhomdollhk..",
+        "...ohlmokmlllk..",
+        "..ohlmk..kkkk...",
+        "...kkk..........",
+        "................",
+        "................",
+        "................"
+      ]
+    }
+  }
+}

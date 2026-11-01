@@ -1,0 +1,41 @@
+{
+  "type": "superflatcore:supercritical_steam_turbine",
+  "inputs": {
+    "fluid": [
+      {
+        "content": {
+          "amount": 1280,
+          "value": {
+            "fluid": "gtceu:supercritical_steam"
+          }
+        },
+        "chance": 10000,
+        "maxChance": 10000
+      }
+    ]
+  },
+  "outputs": {
+    "fluid": [
+      {
+        "content": {
+          "amount": 8,
+          "value": {
+            "fluid": "gtceu:distilled_water"
+          }
+        },
+        "chance": 10000,
+        "maxChance": 10000
+      }
+    ]
+  },
+  "tickOutputs": {
+    "eu": [
+      {
+        "content": 128,
+        "chance": 10000,
+        "maxChance": 10000
+      }
+    ]
+  },
+  "duration": 30
+}

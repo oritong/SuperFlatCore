@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east": { "model": "superflatcore:block/machine/wind_generator", "y": 90 },
+    "facing=north": { "model": "superflatcore:block/machine/wind_generator" },
+    "facing=south": { "model": "superflatcore:block/machine/wind_generator", "y": 180 },
+    "facing=west": { "model": "superflatcore:block/machine/wind_generator", "y": 270 }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "size": 16,
+  "style_guide": "Minecraft-style phone frame with the original holographic employee screen, native 16x16 pixels",
+  "palette": {
+    "o": "#121922",
+    "k": "#1b2a36",
+    "d": "#354653",
+    "m": "#71818c",
+    "h": "#b9c5ca",
+    "b": "#133044",
+    "t": "#215267",
+    "c": "#397f91",
+    "L": "#78bfcc",
+    "p": "#e0fff8",
+    "s": "#90d6d9",
+    "u": "#47adc3",
+    "U": "#94e5e2",
+    "j": "#287253",
+    "g": "#4fc88c",
+    "G": "#a4f0b5",
+    "a": "#e5b069",
+    "r": "#9d6e42"
+  },
+  "sprites": {
+    "employee_companion": {
+      "pixels": [
+        "................",
+        "....ommmmddo....",
+        "...ohmkkmkdoo...",
+        "...ohLctbbbdo...",
+        "...ohcttbbbdo...",
+        "...omcbppbbdo...",
+        "...omtbpsbbdo...",
+        "...ombUssubdo...",
+        "...ombuUuubdo...",
+        "...ombbbbbbdo...",
+        "...omGgbbaado...",
+        "...omjgbbrado...",
+        "...omkkkkkkdo...",
+        "...omddhhdddo...",
+        "....oddddddo....",
+        "................"
+      ]
+    }
+  }
+}

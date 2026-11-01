@@ -1,0 +1,50 @@
+{
+  "size": 16,
+  "palette": {
+    "o": "#17202a",
+    "k": "#101a23",
+    "d": "#2d3b49",
+    "m": "#526674",
+    "v": "#718591",
+    "h": "#9babba",
+    "H": "#dfebef",
+    "q": "#708693",
+    "w": "#b9c9d0",
+    "b": "#133044",
+    "t": "#215267",
+    "c": "#397f91",
+    "L": "#78bfcc",
+    "p": "#e0fff8",
+    "s": "#90d6d9",
+    "u": "#47adc3",
+    "U": "#94e5e2",
+    "j": "#287253",
+    "g": "#4fc88c",
+    "G": "#a4f0b5",
+    "a": "#e5b069",
+    "r": "#9d6e42",
+    "n": "#bdcdd5"
+  },
+  "sprites": {
+    "employee_companion": {
+      "pixels": [
+        "................",
+        "....owwmmdo.....",
+        "...oHmkkmLvo....",
+        "...owLctbbbmo...",
+        "...ohcttbbbdo...",
+        "...ohcbppbbdv...",
+        "...oqtbpsbbdv...",
+        "...oqbUssubdo...",
+        "...oqbuUuubdo...",
+        "...oqbbbbbbdo...",
+        "...oqGgbbaado...",
+        "...oqjgbbrado...",
+        "...omkknnkkdo...",
+        "...odqmmmmmdo...",
+        "....oddddddo....",
+        "................"
+      ]
+    }
+  }
+}

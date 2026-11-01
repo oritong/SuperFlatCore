@@ -4,6 +4,8 @@ import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.oritong.superflatcore.registry.SFCovers;
+import com.oritong.superflatcore.registry.SFBlocks;
+import com.oritong.superflatcore.registry.SFBlockEntities;
 import com.oritong.superflatcore.registry.SFFluids;
 import com.oritong.superflatcore.registry.SFItems;
 import com.oritong.superflatcore.registry.SFMachines;
@@ -13,8 +15,12 @@ import com.oritong.superflatcore.registry.SFToolMachines;
 import com.oritong.superflatcore.recipe.SFToolRecipeTypes;
 import com.oritong.superflatcore.registry.SFComponentMachines;
 import com.oritong.superflatcore.recipe.SFComponentRecipeTypes;
+import com.oritong.superflatcore.config.SFConfig;
+import com.oritong.superflatcore.recipe.SFRecipeTypes;
 import com.oritong.superflatcore.event.TimeCrystalTiabEvents;
 import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegration;
+import com.oritong.superflatcore.integration.botania.ManaSparkHatchIntegration;
+import com.oritong.superflatcore.integration.create.CorundumSpoutingIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
 import com.oritong.superflatcore.integration.rainrot.RainrotDrinkIntegration;
 import com.oritong.superflatcore.network.SFNetwork;
@@ -36,8 +42,11 @@ public class SuperFlatCore {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public SuperFlatCore() {
+        SFConfig.register();
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         SFRegistrate.REGISTRATE.registerEventListeners(modBus);
+        SFBlocks.init();
+        SFBlockEntities.init();
         SFFluids.register(modBus);
         SFItems.register(modBus);
         SFMobEffects.register(modBus);
@@ -49,9 +58,12 @@ public class SuperFlatCore {
         modBus.addGenericListener(GTRecipeType.class, SFComponentRecipeTypes::registerRecipeTypes);
         modBus.addGenericListener(MachineDefinition.class, SFComponentMachines::registerMachines);
         modBus.addListener(SFComponentMachines::addCreativeTabItems);
+        modBus.addGenericListener(GTRecipeType.class, SFRecipeTypes::registerRecipeTypes);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
         modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
+        ManaSparkHatchIntegration.register();
+        modBus.addListener(CorundumSpoutingIntegration::commonSetup);
         modBus.addListener(RainrotDrinkIntegration::commonSetup);
         EmbersMalletIntegration.register();
         TimeCrystalTiabEvents.requestTiabApi();

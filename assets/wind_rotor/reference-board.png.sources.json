@@ -1,0 +1,62 @@
+[
+  {
+    "source": "D:\\MCMOD\\SuperFlatCore\\src\\main\\resources\\assets\\superflatcore\\textures\\item\\wind_rotor.png",
+    "image_size": [
+      128,
+      128
+    ],
+    "displayed_box": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\MIT\\机械动力-1.20.1-6.0.6版本-之后的版本贴图转为ARR\\assets\\create\\textures\\item\\propeller.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\LGPLv3\\GTM\\assets\\gtceu\\textures\\item\\material_sets\\shiny\\rotor.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\LGPLv3\\GTM\\assets\\gtceu\\textures\\item\\material_sets\\dull\\rotor.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  }
+]

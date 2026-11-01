@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "superflatcore:supercritical_turbine_casing",
+    "superflatcore:earth_corundum_cluster",
+    "superflatcore:fire_corundum_cluster",
+    "superflatcore:metal_corundum_cluster",
+    "superflatcore:wood_corundum_cluster",
+    "superflatcore:water_corundum_cluster"
+  ]
+}

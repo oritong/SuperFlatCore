@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.3.38-hotfix6`
+Current version: `1.4.4`
 
 ## Features
 
@@ -12,33 +12,65 @@ Current version: `1.3.38-hotfix6`
 
 - **GTNN Component Assembly Line:** Corrects the component tier lookup after GT's missing-tier fallbacks are expanded, so LV components retain LV recipe voltage and casing requirements instead of being promoted to MAX.
 
-- **Pack recipe restrictions:** Removes all three Iron Furnaces generator categories (`ironfurnaces:generator_regular`, `generator_blasting`, and `generator_smoking`), including dynamically generated fuel/food entries; IFEU dragon/dragon-star generator, infuser, and structure-information categories; Industrial Foregoing biofuel recipes; selected Mekanism processing categories; and Tinkers' Construct modifiers, tool building, and modifier worktable recipes from EMI. Corresponding registered processing recipes are removed on reload and synchronization. Industrial Foregoing machine-output displays retain only meat, pink slime, and dry rubber. Mekanism fission reactors no longer check or form their multiblock structure, and nutritional liquifiers no longer generate food recipes.
-- **Large Coke Oven:** An 11x11x11 multiblock using existing GT coke oven recipes with up to 32 parallel operations, without adding EU consumption or changing recipe duration. Coke bricks in the lower B positions accept item/fluid input and output parts; the top E position requires exactly one muffler hatch. The controller and formed hatches use the GT coke-brick casing appearance.
+### Machines and parts
+
 - **Combustion Generator fuel:** GregTech combustion generators accept 4 mB of `gtceu:creosote` for 12 ticks (0.6 seconds) at 32 EU/t, generating 384 EU per batch.
-- Adds `superflatcore:super_infinite_water_cover`, a GTCEu cover that fills attached fluid containers with up to `Integer.MAX_VALUE` mB of water once per second.
-- Adds five air intake covers that supply GTCEu air to attached fluid containers once per second in 20-tick batches: basic `30 mB/t` (`600 mB/s` actual), advanced `150 mB/t` (`3,000 mB/s` actual), elite `500 mB/t` (`10,000 mB/s` actual), ultimate `1,000 mB/t` (`20,000 mB/s` actual), and creative `Integer.MAX_VALUE mB/t` capped at `Integer.MAX_VALUE` per batch.
-- Adds configurable automatic maintenance hatches: base, cleanroom, sterile cleanroom, and creative sterile cleanroom. Base/cleanroom/sterile range is `0.5x` to `1.5x`; creative sterile range is `0.001x` to `100x`. Normal click changes `0.01x`, Shift-click changes `0.10x`, Ctrl-click changes `1.00x`, and Ctrl+Shift jumps to the min/max.
-- Expands GTCEu dual input/output hatch registration tiers from LuV+ to LV+ without changing recipe generation, and fixes low-tier dual hatch slot/capacity scaling.
-- Adds SuperFlatCore 262,144A, 1,048,576A, and 4,194,304A laser target/source hatches from IV onward.
-- Adds GTMThings-compatible wireless 64A energy/dynamo hatches from HV onward and wireless 262,144A, 1,048,576A, and 4,194,304A laser target/source hatches from IV onward. These use GTMThings' wireless energy pool.
-- Changes Industrial Foregoing's Infinity Nuke ignition item from flint and steel to `ifeu:dragon_star`, consuming one dragon star when ignition succeeds.
-- Adds `superflatcore:employee_companion`, which summons GregTech employee holographic projections using Minopp auto players, cycles their focus mode while held, and removes them with sneak-right-click. Summoned projections receive localized random codes like `Employee Projection#A67H`, with a 0.5% chance to be named `ChocoFox`.
-- Adds the `superflatcore:machine_soul_joy` effect. While active, jumping on GTCEu machines with recipe logic has a 35% chance to spawn a 2-4 second Time in a Bottle acceleration burst if the machine is not already accelerated. Generator-type machines instead receive a short x0.5 (75%) or x0.25 (25%) slowdown, replacing a Machine Soul Displeasure acceleration if present.
-- Adds `superflatcore:machine_soul_displeasure`. Every 5 seconds, it applies a 30-second x0.5 (75%) or x0.25 (25%) recipe-logic slowdown to eligible GTCEu machines in the surrounding 3x3 chunk area, excluding machines already affected by Time in a Bottle. Generator-type machines instead receive a 30-second x2 (75%) or x4 (25%) Time in a Bottle acceleration. Slowdowns use a red Time in a Bottle-style block-surface multiplier display.
-- Changes Industrial Foregoing's Latex Processing Unit latex tank to accept `oritong:latex`.
-- Adds a Jade tooltip overlay for Time in a Bottle accelerators and Machine Soul Displeasure slowdowns, with a config toggle and block/entity support. It shows the multiplier and remaining time.
-- Adds `GTRecipeModifiers.MULTIPLERECIPE` for GTCEu KubeJS multiblock registrations. Add it to `.recipeModifiers([...])` to let a workable multiblock run multiple matching recipes in one combined runtime batch.
-- Adds `GTRecipeModifiers.PROPORTIONAL_INPUT`. It requires all consumable item and fluid inputs to be supplied as the same whole-number multiple of the recipe quantities; a mismatched batch is consumed but produces no outputs.
-- Adds `dont_touch_me:dont_touch_me`. It resets to stage 0 when a player enters the world, advances one stage per right-click, changes texture per stage, plays glass break sounds, applies grayscale/nausea/purple-black screen effects, resets after 10 seconds of inactivity, and crashes only the local client if pressed again at stage 5.
-- Adds Botania `twig_wand` behavior to Ars Nouveau's `ars_nouveau:dominion_wand`. The dominion wand can use Botania wand interactions, and sneak-right-clicking air toggles the Botania wand mode while refreshing the displayed item name. The displayed name keeps the normal dominion wand base name and appends the Botania mode.
-- Right-clicking with `ars_nouveau:fire_essence` consumes one essence and launches a vanilla small fireball in the player's facing direction.
-- Sneak-right-clicking while holding `beyonddimensions:shattered_space_time_crystallization` in the main hand consumes one crystal and adds 15 minutes to the first Time in a Bottle found in the player's inventory or Curios slots.
-- Adds Embers `tinker_hammer` behavior to items tagged `#gtceu:tools/crafting_mallets`, including recipe tag compatibility, Embers pipe toggling, ember emitter/receptor linking, and AtomicEmbersDecayed centrifuge/reactor operation.
-- Integrates AtomicEmbersDecayed reactor accidents with EzUnclear: Atomic reactor meltdowns enter EzUnclear's confirmation queue and execute only after its normal chat confirmation.
-- Adds `oritong:latex`, a custom latex fluid with source/flowing forms, a placeable fluid block, bucket, and fluid block render resources for recipe viewers. It has no water or lava fluid tags and flows slightly faster than lava.
-- Directly changes RainRot's three Five Pebbsi drinks to always be drinkable at full hunger. Drinking one grants Speed I for 1 minute and Machine Soul Joy for 3 minutes, then returns `gtceu:magnalium_foil` and `gtceu:aluminium_ring`.
-- Adds the SuperFlatCore logo to the Forge mod metadata.
-- Changes Super Factory Manager's Falling Anvil form JEI display so the consumed catalyst block is shown as `gtceu:steel_block`.
+- **Large Coke Oven:** An 11x11x11 multiblock using existing GT coke oven recipes with up to 32 parallel operations, without adding EU consumption or changing recipe duration. Coke bricks in the lower B positions accept item/fluid input and output parts; the top E position requires exactly one muffler hatch. The controller and formed hatches use the GT coke-brick casing appearance.
+- **Wind Generator:** A GregTech-style Mekanism wind generator that outputs EU. It requires open sky and Y >= 0. Height efficiency rises from 35% at Y=0 to 100% at Y=128, then remains at 100%. Output is `base output × height efficiency × rotor wind output`. The rotor slot accepts SFC wind rotors. Defaults are 60 EU/t base output, 6 durability lost per second while generating, and 2 per second when wind is available but the buffer is full; all three values are configurable.
+- **Mana Oppressor:** A GT multiblock with Botania mana infusion and mana oppression modes. It consumes `technicalflowers:mana` at 1 mB per mana. Its mana input hatch has a single spark slot in the left GUI sidebar. Installing a spark enables input from mana bursts and nearby mana pools with sparks in the selected color network (white by default), using Botania's 12-block scan range and up to 1,000 mana per pool per tick. Isolated sparks are excluded. The hatch creates no spark entity and never sends mana back; removing the spark or filling the hatch stops network intake. Infusion uses recipe pedestals without consuming them, runs for 40 ticks, supports item-count and mixed-recipe parallel processing, and cannot use a parallel hatch. Oppression mode uses its own recipe type and parallel hatches. The machine has no EU input or output. Both modes display mana requirements in the machine GUI and JEI.
+- **Heat Exchanger:** Adds a GT multiblock recipe type for heat exchange recipes.
+- **IV Supercritical Steam Turbine:** Includes a turbine casing and a built-in recipe that consumes 1,280 mB of supercritical steam per 30 ticks, generates 128 EU/t, and returns 8 mB of distilled water.
+- **Radioactive fluid handling:** Adds Create-connected radioactive tanks (16,000 mB per block) and GT radioactive fluid input/output hatches (256,000 mB). Radiation is released when stored radioactive fluid is spilled or relevant storage is dismantled; AE2 storage and AtomicEmbersDecayed reactor integrations are also supported.
+- **GT parts:** Adds configurable automatic maintenance hatches, LV-and-up dual input/output hatches, high-amperage and wireless energy/laser hatches, mana and radioactive fluid hatches, and GT cover attachments for infinite water and air intake.
+
+### World resources
+
+- Adds small, medium, large, and full clusters for earth, wood, water, fire, and metal corundum. Breaking a full cluster always drops 2-3 matching GT gems, independent of tool and Fortune.
+- Create spouts can grow clusters by pouring at least 325 mB of mana. The first growth requires the matching Botania metamorphic stone above its corresponding base block; later stages can also grow on blackstone. Stage growth chances are 75%, 65%, and 55%. Each successful pour has a 22% chance to turn the metamorphic stone into blackstone.
+
+| Element | Base block |
+| --- | --- |
+| Water | `botania:manasteel_block` |
+| Wood | `botania:mana_diamond_block` |
+| Fire | `tconstruct:pig_iron_block` |
+| Earth | `embers:dawnstone_block` |
+| Metal | `ars_nouveau:source_gem_block` |
+- Replaces Botania's Terrestrial Agglomeration Plate structure. When formed, a mana-glass Menger sponge appears above the plate, tilted 45 degrees, rotating and changing color, with its size cycling between 1.75x and 2.5x.
+
+### Mod integrations
+
+- **Pack recipe restrictions:** Removes all three Iron Furnaces generator categories (`ironfurnaces:generator_regular`, `generator_blasting`, and `generator_smoking`), including dynamically generated fuel/food entries; IFEU dragon/dragon-star generator, infuser, and structure-information categories; Industrial Foregoing biofuel recipes; selected Mekanism processing categories; and Tinkers' Construct modifiers, tool building, and modifier worktable recipes from EMI. Corresponding registered processing recipes are removed on reload and synchronization. Industrial Foregoing machine-output displays retain only meat, pink slime, and dry rubber. Mekanism fission reactors no longer check or form their multiblock structure, and nutritional liquifiers no longer generate food recipes.
+- **Botania and Ars Nouveau:** Sets Source Jar capacity to 128,000 Source, adds Botania wand interactions to the Dominion Wand, launches a fireball when Fire Essence is used, and connects Botania infusion recipes to the Mana Oppressor.
+- **Technical Flowers:** Functional flowers in Botania's `botania:floating_flowers` block tag can also draw mana from fluid pipes adjacent to their sides, using Technical Flowers' own pipe checks and mana conversion.
+- **Occultism:** Its dimensional mineshaft uses GTNN's dimension ore pool instead of its original drops; raw bauxite and raw coal are excluded. Otherstone trades require blackstone, Otherworld Tree trades require a Pure Daisy, and Manasteel Shears are needed to obtain leaves from Otherworld Leaves.
+- Occultism's outdated miner-result recipes are hidden from EMI because the Dimensional Mineshaft now uses GTNN's dimension-specific ore pool.
+- **Mekanism and AtomicEmbersDecayed:** Prevents Mekanism Energized Smelters from generating vanilla smelting recipes. Adds a standard reactor structure and Mekanism radiation handling for radioactive fluids and reactor accidents; EzUnclear can gate reactor accidents behind its confirmation flow.
+- **MoreBurners:** The Ember Burner attempts to consume `100 ×` its configured Ember Cost every five seconds, then runs for five seconds. A running burner can heat an Embers Mini Boiler below it.
+- **Create, GregTech, and Industrial Foregoing:** Adds wind rotor material recipes and corundum growth; updates the Infinity Nuke ignition item and Latex Processing Unit fluid; hides selected automatically generated Industrial Foregoing recipes from JEI.
+- Industrial Foregoing speed, efficiency, processing, and range addons work in upgrade slots even when obtained without NBT. Their original upgrade values are initialized when needed, preserving existing item data and the machines' restrictions on duplicate or unsupported upgrades.
+- This also applies to Industrial Foregoing: Extra Upgrades (`ifeu`) tier 3-6 speed, efficiency, and processing addons, with their original upgrade values.
+- **Other integrations:** RainRot drink effects and a 64-item Data Pearl stack limit; GTNN mining output; AE2 radioactive-fluid restrictions; Super Factory Manager catalyst display; GT multiblock preview panning; spring bounce behavior; and TIAB/Jade machine effect displays.
+- **Merged Diamond Core fixes:** AE2 pattern amount limits and ExtendedAE Infinity Cell handling; GT parallel hatch initialization; Pipez energy transfer into GT machines; GTMThings wireless FE input; BetterGTAE pattern hatch/assembler behavior; EMI recipe filling for TConstruct crafting stations and Botania fluid outputs; and fixes for ME Requester fields, GTMQOL data-stick rendering, and Industrial Foregoing JEI subtype lookup.
+
+### Player features and recipe tools
+
+- **Chat flight:** Send `中国人能飞` in chat to enable and immediately enter creative-style flight, or `曼巴out` to stop it. No operator permission is required, and the player's game mode stays unchanged. Flight permission persists through reconnects, respawns, and dimension changes until disabled. Normal flight controls still apply, and disabling the feature preserves Creative/Spectator mode flight permission.
+- **`/spawn`:** Teleports a player to a safe standing position near the Overworld world spawn. It can be used without an operator permission level.
+- **Structure Detect:** Reports GT multiblock formation errors and highlights the problem position. Sneak-right-clicking air toggles Cable Facades disguise rendering.
+- **Employee Companion:** Summons and manages Minopp employee projections.
+- **Machine Soul effects:** Adds machine speed effects triggered by the corresponding potion effects; Jade can show the multiplier and remaining time.
+- **Don't Touch Me:** A staged client-side prank item with visual effects and a final local-client crash.
+- Exposes `GTRecipeModifiers.MULTIPLERECIPE` for multi-recipe batch processing and `GTRecipeModifiers.PROPORTIONAL_INPUT` for integer-multiple input batches.
+
+## Configuration
+
+Common configuration file: `config/superflatcore-common.toml`.
+
+| Setting | Default | Description |
+| --- | ---: | --- |
+| `windGeneratorBaseProduction` | 60 EU/t | Wind Generator base output |
+| `windGeneratorActiveRotorWear` | 6 per second | Rotor durability loss while generating |
+| `windGeneratorFullRotorWear` | 2 per second | Rotor durability loss while the energy buffer is full and wind conditions are met |
 
 ## Build
 
@@ -46,25 +78,16 @@ Current version: `1.3.38-hotfix6`
 .\gradlew.bat clean build
 ```
 
-The built jar will be generated under `build/libs`.
+The jar is generated in `build/libs`.
 
-## Dependencies
+## Required dependencies
 
-- Forge `1.20.1-47.2.0`
-- Minecraft `1.20.1`
-- GTM / GregTech Modern (`gtceu`) `7.5.3+`
-- GTMThings
-- Industrial Foregoing `3.5.21+`
-- IFEU (`ifeu`)
-- Minopp
-- Time In A Bottle (`tiab`) `4.0.4+`
-- Curios `5.14.1+`
-- Jade `11.13.1+` (optional, for the TIAB tooltip overlay)
-- Botania `1.20.1-448+`
-- Ars Nouveau `4.12.7+`
-- Embers Rekindled `1.4.7+`
-- RainRot `1.0.0+`
-- Super Factory Manager
-- JEI `15.20.0.134+` (client, for the SFM Falling Anvil form display patch)
+SFC is a modpack core mod and is not intended to run without its companion mods. Required mod IDs and version ranges are declared in `src/main/resources/META-INF/mods.toml`.
 
-- **Recipe restrictions:** Iron Furnaces 4.1.8+, Mekanism and Mekanism Generators 10.4.16+, Tinkers' Construct and Mantle are required on both sides; EMI 1.1.24+ is required on the client.
+- **Platform:** Minecraft `1.20.1`, Forge `47+`
+- **GregTech:** GTCEu (`gtceu`) `7.5.3+`, GTMThings (`gtmthings`), GTNN (`gtnn`) `1.3.9+`, GTM QOL (`gtmqol`)
+- **Technology:** Create `6.0.8+`, Mekanism and Mekanism Generators `10.4.16+`, AE2 `15.4.10+`, ExtendedAE (`expatternprovider`), Industrial Foregoing `3.5.21+`, IFEU, Pipez, BetterGTAE
+- **Magic and resources:** Botania, Ars Nouveau, Occultism `1.158.0+`, Embers `1.4.7+`, Technical Flowers `1.3.1+`, MoreBurners `1.20.1-0.3.5+`, AtomicEmbersDecayed, EzUnclear, RainRot
+- **Other integrations:** Minopp, ME Requester, GTMQOL, Time in a Bottle `4.0.4+`, Curios `5.14.1+`, Jade `11.13.1+`, Beyond Dimensions `0.4.17+`, Super Factory Manager
+- **Client-side required mods:** Cable Facades `2.1.3+`, JEI, EMI `1.1.24+`, Tinkers' Construct and Mantle
+- **Recipe restrictions:** Iron Furnaces `4.1.8+`; Tinkers' Construct is also required on the server.

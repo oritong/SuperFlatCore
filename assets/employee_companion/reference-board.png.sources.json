@@ -1,0 +1,94 @@
+[
+  {
+    "source": "D:\\MCMOD\\SuperFlatCore\\src\\main\\resources\\assets\\superflatcore\\textures\\item\\employee_companion.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\LGPLv3\\GTM\\assets\\gtceu\\textures\\item\\terminal.png",
+    "image_size": [
+      16,
+      32
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": {
+      "frametime": 6
+    }
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\LGPLv3\\GTM\\assets\\gtceu\\textures\\item\\computer_monitor_cover.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\CC BY-NC-SA 3.0\\assets\\ae2\\textures\\item\\wireless_terminal.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\贴图存放\\WahtImageThatYouCanUse\\MIT\\通用机械-已包括其它小包\\assets\\mekanism\\textures\\item\\energy_tablet.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  },
+  {
+    "source": "D:\\MCMOD\\SuperFlatCore\\src\\main\\resources\\assets\\superflatcore\\textures\\item\\advanced_air_intake_cover.png",
+    "image_size": [
+      16,
+      16
+    ],
+    "displayed_box": [
+      0,
+      0,
+      16,
+      16
+    ],
+    "frame_index": 0,
+    "animation": null
+  }
+]

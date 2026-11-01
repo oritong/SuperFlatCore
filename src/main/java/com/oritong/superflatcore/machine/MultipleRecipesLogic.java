@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MultipleRecipesLogic extends RecipeLogic {
     private static final int MAX_SELECTED_RECIPES = 64;
@@ -31,26 +32,34 @@ public class MultipleRecipesLogic extends RecipeLogic {
     private static final int MIN_SYNTHETIC_DURATION = 20;
     private static final int MAX_SYNTHETIC_DURATION = 20 * 500;
     private static final ResourceLocation SYNTHETIC_RECIPE_ID = SuperFlatCore.id("multiple_recipe_batch");
-
     public MultipleRecipesLogic(IRecipeLogicMachine machine) {
         super(machine);
     }
 
     @Override
     public void findAndHandleRecipe() {
+        if (machine instanceof ManaOppressorMachine manaMachine && manaMachine.isOppressionMode()) {
+            findAndHandleSingleRecipe();
+            return;
+        }
+
         lastFailedMatches = null;
         lastRecipe = null;
         lastOriginRecipe = null;
         failureReasonMap.clear();
         chanceCaches.clear();
 
+        ManaOppressorMachine manaMachine = machine instanceof ManaOppressorMachine mana ? mana : null;
         if (!machine.hasCapabilityProxies()) {
             setIdle();
             recipeDirty = false;
             return;
         }
 
-        Iterator<GTRecipe> iterator = searchRecipe();
+        List<GTRecipe> infusionRecipes = manaMachine == null ? List.of() : manaMachine.getInfusionGTRecipes();
+        Iterator<GTRecipe> iterator = manaMachine != null
+                ? infusionRecipes.iterator()
+                : searchRecipe();
         if (iterator == null) {
             setIdle();
             recipeDirty = false;
@@ -59,19 +68,29 @@ public class MultipleRecipesLogic extends RecipeLogic {
 
         BatchAccumulator accumulator = new BatchAccumulator();
         List<Selection> selections = new ArrayList<>();
+        Map<String, Integer> rejections = new TreeMap<>();
         int scanned = 0;
 
         while (iterator.hasNext()
                 && scanned++ < MAX_SCANNED_RECIPES
                 && selections.size() < MAX_SELECTED_RECIPES) {
             GTRecipe origin = iterator.next();
-            Selection selection = createSelection(origin);
-            if (selection == null || !accumulator.canAcceptEnergy(selection)) {
+            Selection selection = createSelection(origin, rejections);
+            if (selection == null) {
+                continue;
+            }
+            if (!accumulator.canAcceptEnergy(selection)) {
+                rejections.merge("mixed-energy-modes", 1, Integer::sum);
+                continue;
+            }
+            if (!accumulator.canAcceptMana(selection)) {
+                rejections.merge("insufficient-mana", 1, Integer::sum);
                 continue;
             }
 
             ActionResult individualResult = RecipeHelper.matchRecipe(machine, selection.modified());
             if (!individualResult.isSuccess()) {
+                rejections.merge("recipe-match: " + individualResult.reason().getString(), 1, Integer::sum);
                 putFailureReason(this, origin, individualResult.reason());
                 addLastFailedMatch(origin);
                 continue;
@@ -83,6 +102,7 @@ public class MultipleRecipesLogic extends RecipeLogic {
             GTRecipe previewRecipe = preview.createOutputPreviewRecipe();
             ActionResult outputResult = RecipeHelper.matchRecipe(machine, previewRecipe);
             if (!outputResult.isSuccess()) {
+                rejections.merge("output-match: " + outputResult.reason().getString(), 1, Integer::sum);
                 putFailureReason(this, origin, outputResult.reason());
                 addLastFailedMatch(origin);
                 continue;
@@ -146,7 +166,26 @@ public class MultipleRecipesLogic extends RecipeLogic {
     // The vanilla failed-match retry path would start one normal recipe and bypass the batch.
     @Override
     public boolean checkMatchedRecipeAvailable(GTRecipe match) {
+        if (machine instanceof ManaOppressorMachine manaMachine && manaMachine.isOppressionMode()) {
+            return super.checkMatchedRecipeAvailable(match);
+        }
         return false;
+    }
+
+    private void findAndHandleSingleRecipe() {
+        lastFailedMatches = null;
+        if (!recipeDirty && lastRecipe != null && checkRecipe(lastRecipe).isSuccess()) {
+            GTRecipe recipe = lastRecipe;
+            lastRecipe = null;
+            lastOriginRecipe = null;
+            setupRecipe(recipe);
+        } else {
+            failureReasonMap.clear();
+            lastRecipe = null;
+            lastOriginRecipe = null;
+            handleSearchingRecipes(searchRecipe());
+        }
+        recipeDirty = false;
     }
 
     @Override
@@ -174,18 +213,29 @@ public class MultipleRecipesLogic extends RecipeLogic {
         findAndHandleRecipe();
     }
 
-    private Selection createSelection(GTRecipe origin) {
+    private Selection createSelection(GTRecipe origin, Map<String, Integer> rejections) {
         if (origin == null) {
             return null;
         }
 
         GTRecipe modified = machine.fullModifyRecipe(origin.copy());
-        if (modified == null || hasUnsupportedTickIO(modified)) {
+        if (modified == null) {
+            rejections.merge("recipe-modifier-returned-null", 1, Integer::sum);
+            return null;
+        }
+        if (hasUnsupportedTickIO(modified)) {
+            rejections.merge("unsupported-tick-IO", 1, Integer::sum);
+            return null;
+        }
+        if (machine instanceof ManaOppressorMachine manaMachine
+                && !manaMachine.isInfusionRecipeAllowed(origin)) {
+            rejections.merge("base-or-catalyst-mismatch", 1, Integer::sum);
             return null;
         }
 
         ActionResult conditionResult = RecipeHelper.checkConditions(modified, this);
         if (!conditionResult.isSuccess()) {
+            rejections.merge("recipe-condition: " + conditionResult.reason().getString(), 1, Integer::sum);
             putFailureReason(this, origin, conditionResult.reason());
             return null;
         }
@@ -193,6 +243,7 @@ public class MultipleRecipesLogic extends RecipeLogic {
         long inputEnergy = recipeEnergy(modified.getInputEUt(), modified.duration);
         long outputEnergy = recipeEnergy(modified.getOutputEUt(), modified.duration);
         if (inputEnergy > 0 && outputEnergy > 0) {
+            rejections.merge("simultaneous-input-and-output-EU", 1, Integer::sum);
             return null;
         }
 
@@ -344,11 +395,12 @@ public class MultipleRecipesLogic extends RecipeLogic {
         private int selectedRecipes;
         private int totalRuns;
         private int maxDuration;
+        private long mana;
         private EnergyMode energyMode;
         private GTRecipe displayRecipe;
 
         private BatchAccumulator() {
-            this(new HashMap<>(), new HashMap<>(), 0L, 0L, 0, 0, 0, EnergyMode.NONE, null);
+            this(new HashMap<>(), new HashMap<>(), 0L, 0L, 0, 0, 0, 0L, EnergyMode.NONE, null);
         }
 
         private BatchAccumulator(Map<RecipeCapability<?>, List<Content>> inputs,
@@ -358,6 +410,7 @@ public class MultipleRecipesLogic extends RecipeLogic {
                                  int selectedRecipes,
                                  int totalRuns,
                                  int maxDuration,
+                                 long mana,
                                  EnergyMode energyMode,
                                  GTRecipe displayRecipe) {
             this.inputs = inputs;
@@ -367,13 +420,14 @@ public class MultipleRecipesLogic extends RecipeLogic {
             this.selectedRecipes = selectedRecipes;
             this.totalRuns = totalRuns;
             this.maxDuration = maxDuration;
+            this.mana = mana;
             this.energyMode = energyMode;
             this.displayRecipe = displayRecipe;
         }
 
         private BatchAccumulator copy() {
             return new BatchAccumulator(copyContents(inputs), copyContents(outputs), inputEnergy, outputEnergy,
-                    selectedRecipes, totalRuns, maxDuration, energyMode, displayRecipe);
+                    selectedRecipes, totalRuns, maxDuration, mana, energyMode, displayRecipe);
         }
 
         private boolean canAcceptEnergy(Selection selection) {
@@ -381,6 +435,16 @@ public class MultipleRecipesLogic extends RecipeLogic {
             return energyMode == EnergyMode.NONE
                     || selectionMode == EnergyMode.NONE
                     || energyMode == selectionMode;
+        }
+
+        private boolean canAcceptMana(Selection selection) {
+            if (!(machine instanceof ManaOppressorMachine manaMachine)) {
+                return true;
+            }
+            long storedMana = manaMachine.getStoredMana();
+            long requiredMana = Math.max(0L,
+                    selection.modified().data.getLong(ManaOppressorMachine.MANA_DATA_KEY));
+            return mana <= storedMana && requiredMana <= storedMana - mana;
         }
 
         private void accept(Selection selection) {
@@ -391,6 +455,10 @@ public class MultipleRecipesLogic extends RecipeLogic {
             selectedRecipes++;
             totalRuns = saturatedAddInt(totalRuns, selection.totalRuns());
             maxDuration = Math.max(maxDuration, selection.modified().duration);
+            if (machine instanceof ManaOppressorMachine) {
+                mana = saturatedAdd(mana,
+                        selection.modified().data.getLong(ManaOppressorMachine.MANA_DATA_KEY));
+            }
             if (displayRecipe == null) {
                 displayRecipe = selection.modified();
             }
@@ -430,6 +498,9 @@ public class MultipleRecipesLogic extends RecipeLogic {
             recipe.parallels = Math.max(1, totalRuns);
             recipe.subtickParallels = 1;
             recipe.batchParallels = 1;
+            if (machine instanceof ManaOppressorMachine) {
+                recipe.data.putLong(ManaOppressorMachine.MANA_DATA_KEY, mana);
+            }
             return recipe;
         }
 
@@ -472,10 +543,16 @@ public class MultipleRecipesLogic extends RecipeLogic {
             recipe.parallels = Math.max(1, totalRuns);
             recipe.subtickParallels = 1;
             recipe.batchParallels = 1;
+            if (machine instanceof ManaOppressorMachine) {
+                recipe.data.putLong(ManaOppressorMachine.MANA_DATA_KEY, mana);
+            }
             return recipe;
         }
 
         private int syntheticDuration() {
+            if (machine instanceof ManaOppressorMachine manaMachine && !manaMachine.isOppressionMode()) {
+                return 40;
+            }
             long totalEnergy = energyMode == EnergyMode.OUTPUT ? outputEnergy : inputEnergy;
             if (totalEnergy <= 0) {
                 return Math.max(MIN_SYNTHETIC_DURATION, maxDuration);
