@@ -571,6 +571,10 @@ public class SFGTAddon implements IGTAddon {
 
         for (MachineDefinition machine : ELECTROLYZER) {
             if (machine != null) {
+                // GTCEu writes the original shaped machine recipe under the
+                // `shaped/` recipe folder. Keep the legacy bare ID as well so
+                // this removal remains safe across GTCEu data-pack versions.
+                consumer.accept(GTCEu.id("shaped/" + machine.getName()));
                 consumer.accept(GTCEu.id(machine.getName()));
             }
         }
