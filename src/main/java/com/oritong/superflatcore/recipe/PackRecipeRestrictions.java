@@ -95,12 +95,14 @@ public final class PackRecipeRestrictions {
             return false;
         }
         ResourceLocation outputId = BuiltInRegistries.ITEM.getKey(result.getItem());
-        if (outputId == null || !outputId.getNamespace().equals("gtceu")) {
+        if (outputId == null
+                || (!outputId.getNamespace().equals("gtceu")
+                && !outputId.getNamespace().equals("superflatcore"))) {
             return false;
         }
 
         String path = outputId.getPath();
-        return path.matches("^[a-z0-9]+_energy_(input|output)_hatch(?:_(4a|16a))?$")
-                || path.matches("^[a-z0-9]+_substation_(input|output)_hatch_64a$");
+        return path.matches("^(?:[a-z0-9]+_)?energy_(input|output)_hatch(?:_(4a|16a))?$")
+                || path.matches("^(?:[a-z0-9]+_)?substation_(input|output)_hatch_64a$");
     }
 }

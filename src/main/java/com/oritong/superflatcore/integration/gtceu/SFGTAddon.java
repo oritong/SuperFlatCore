@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.registry.SFRegistrate;
+import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.WindRotorPrefix;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +29,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.function.Consumer;
 
@@ -103,18 +105,42 @@ public class SFGTAddon implements IGTAddon {
             }
         }
 
-        addAmpHatchRecipes(provider, ENERGY_INPUT_HATCH_4A, ENERGY_INPUT_HATCH, null,
+        MachineDefinition[] energyInput4A = addMissingPackHatches(ENERGY_INPUT_HATCH_4A,
+                SFMachines.ENERGY_INPUT_HATCH_4A);
+        MachineDefinition[] energyOutput4A = addMissingPackHatches(ENERGY_OUTPUT_HATCH_4A,
+                SFMachines.ENERGY_OUTPUT_HATCH_4A);
+        MachineDefinition[] energyInput16A = addMissingPackHatches(ENERGY_INPUT_HATCH_16A,
+                SFMachines.ENERGY_INPUT_HATCH_16A);
+        MachineDefinition[] energyOutput16A = addMissingPackHatches(ENERGY_OUTPUT_HATCH_16A,
+                SFMachines.ENERGY_OUTPUT_HATCH_16A);
+        MachineDefinition[] substationEnergyInput = addMissingPackHatches(SUBSTATION_ENERGY_INPUT_HATCH,
+                SFMachines.SUBSTATION_ENERGY_INPUT_HATCH);
+        MachineDefinition[] substationEnergyOutput = addMissingPackHatches(SUBSTATION_ENERGY_OUTPUT_HATCH,
+                SFMachines.SUBSTATION_ENERGY_OUTPUT_HATCH);
+
+        addAmpHatchRecipes(provider, energyInput4A, ENERGY_INPUT_HATCH, null,
                 "energy_hatch_4a", GTCraftingComponents.WIRE_QUAD, 2, 100, false);
-        addAmpHatchRecipes(provider, ENERGY_OUTPUT_HATCH_4A, ENERGY_OUTPUT_HATCH, null,
+        addAmpHatchRecipes(provider, energyOutput4A, ENERGY_OUTPUT_HATCH, null,
                 "dynamo_hatch_4a", GTCraftingComponents.WIRE_QUAD, 2, 100, true);
-        addAmpHatchRecipes(provider, ENERGY_INPUT_HATCH_16A, ENERGY_INPUT_HATCH_4A, TRANSFORMER,
+        addAmpHatchRecipes(provider, energyInput16A, energyInput4A, TRANSFORMER,
                 "energy_hatch_16a", GTCraftingComponents.WIRE_OCT, 4, 200, false);
-        addAmpHatchRecipes(provider, ENERGY_OUTPUT_HATCH_16A, ENERGY_OUTPUT_HATCH_4A, TRANSFORMER,
+        addAmpHatchRecipes(provider, energyOutput16A, energyOutput4A, TRANSFORMER,
                 "dynamo_hatch_16a", GTCraftingComponents.WIRE_OCT, 4, 200, true);
-        addAmpHatchRecipes(provider, SUBSTATION_ENERGY_INPUT_HATCH, ENERGY_INPUT_HATCH_16A, POWER_TRANSFORMER,
+        addAmpHatchRecipes(provider, substationEnergyInput, energyInput16A, POWER_TRANSFORMER,
                 "substation_energy_hatch", GTCraftingComponents.WIRE_HEX, 6, 400, false);
-        addAmpHatchRecipes(provider, SUBSTATION_ENERGY_OUTPUT_HATCH, ENERGY_OUTPUT_HATCH_16A, POWER_TRANSFORMER,
+        addAmpHatchRecipes(provider, substationEnergyOutput, energyOutput16A, POWER_TRANSFORMER,
                 "substation_dynamo_hatch", GTCraftingComponents.WIRE_HEX, 6, 400, true);
+    }
+
+    private static MachineDefinition[] addMissingPackHatches(MachineDefinition[] gtMachines,
+                                                               MachineDefinition[] packMachines) {
+        MachineDefinition[] merged = Arrays.copyOf(gtMachines, Math.max(gtMachines.length, packMachines.length));
+        for (int tier = 0; tier < packMachines.length; tier++) {
+            if (merged[tier] == null) {
+                merged[tier] = packMachines[tier];
+            }
+        }
+        return merged;
     }
 
     private static void addEnergyHatchRecipe(Consumer<FinishedRecipe> provider, int tier,
@@ -293,8 +319,11 @@ public class SFGTAddon implements IGTAddon {
                     .outputItems(output)
                     .duration(duration)
                     .EUt(dynamo && idPrefix.contains("4a") ? VA[Math.max(0, tier - 1)] : VA[tier])
-                    .addMaterialInfo(true)
-                    .save(provider);
+                    .addMaterialInfo(true);
+            if (tier == HV) {
+                builder.cleanroom(CleanroomType.CLEANROOM);
+            }
+            builder.save(provider);
         }
     }
 

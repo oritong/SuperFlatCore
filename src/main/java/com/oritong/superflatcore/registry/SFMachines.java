@@ -123,6 +123,19 @@ public final class SFMachines {
     public static final MachineDefinition[] WIRELESS_ENERGY_INPUT_HATCH_64A = registerWirelessEnergyHatch64(IO.IN);
     public static final MachineDefinition[] WIRELESS_ENERGY_OUTPUT_HATCH_64A = registerWirelessEnergyHatch64(IO.OUT);
 
+    public static final MachineDefinition[] ENERGY_INPUT_HATCH_4A = registerPackEnergyHatch(
+            IO.IN, 4, false, LV, GTValues.MV, HV);
+    public static final MachineDefinition[] ENERGY_OUTPUT_HATCH_4A = registerPackEnergyHatch(
+            IO.OUT, 4, false, LV, GTValues.MV, HV);
+    public static final MachineDefinition[] ENERGY_INPUT_HATCH_16A = registerPackEnergyHatch(
+            IO.IN, 16, false, GTValues.MV, HV);
+    public static final MachineDefinition[] ENERGY_OUTPUT_HATCH_16A = registerPackEnergyHatch(
+            IO.OUT, 16, false, GTValues.MV, HV);
+    public static final MachineDefinition[] SUBSTATION_ENERGY_INPUT_HATCH = registerPackEnergyHatch(
+            IO.IN, ENERGY_64A, true, HV);
+    public static final MachineDefinition[] SUBSTATION_ENERGY_OUTPUT_HATCH = registerPackEnergyHatch(
+            IO.OUT, ENERGY_64A, true, HV);
+
     public static final MachineDefinition[] WIRELESS_LASER_INPUT_HATCH_262144 = registerWirelessLaserHatch(IO.IN,
             262144, PartAbility.INPUT_LASER);
     public static final MachineDefinition[] WIRELESS_LASER_OUTPUT_HATCH_262144 = registerWirelessLaserHatch(IO.OUT,
@@ -406,6 +419,12 @@ public final class SFMachines {
             addTieredMachines(event, LASER_OUTPUT_HATCH_4194304);
             addTieredMachines(event, WIRELESS_ENERGY_INPUT_HATCH_64A);
             addTieredMachines(event, WIRELESS_ENERGY_OUTPUT_HATCH_64A);
+            addTieredMachines(event, ENERGY_INPUT_HATCH_4A);
+            addTieredMachines(event, ENERGY_OUTPUT_HATCH_4A);
+            addTieredMachines(event, ENERGY_INPUT_HATCH_16A);
+            addTieredMachines(event, ENERGY_OUTPUT_HATCH_16A);
+            addTieredMachines(event, SUBSTATION_ENERGY_INPUT_HATCH);
+            addTieredMachines(event, SUBSTATION_ENERGY_OUTPUT_HATCH);
             addTieredMachines(event, WIRELESS_LASER_INPUT_HATCH_262144);
             addTieredMachines(event, WIRELESS_LASER_OUTPUT_HATCH_262144);
             addTieredMachines(event, WIRELESS_LASER_INPUT_HATCH_1048576);
@@ -422,6 +441,42 @@ public final class SFMachines {
                 (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, ENERGY_64A),
                 (tier, builder) -> buildWirelessEnergyHatch64(tier, builder, io, energyName),
                 GTValues.tiersBetween(HV, maxElectricTier()));
+    }
+
+    private static MachineDefinition[] registerPackEnergyHatch(IO io, int amperage, boolean substation,
+                                                                int... tiers) {
+        boolean input = io == IO.IN;
+        String direction = input ? "input" : "output";
+        String name = substation
+                ? "substation_" + direction + "_hatch_" + amperage + "a"
+                : "energy_" + direction + "_hatch_" + amperage + "a";
+        String overlay = "energy_" + direction + "_hatch_" + amperage + "a";
+        PartAbility ability = substation
+                ? (input ? PartAbility.SUBSTATION_INPUT_ENERGY : PartAbility.SUBSTATION_OUTPUT_ENERGY)
+                : (input ? PartAbility.INPUT_ENERGY : PartAbility.OUTPUT_ENERGY);
+
+        return GTMachineUtils.registerTieredMachines(SFRegistrate.REGISTRATE, name,
+                (holder, tier) -> new EnergyHatchPartMachine(holder, tier, io, amperage),
+                (tier, builder) -> builder
+                        .langValue(GTValues.VNF[tier] + " " + amperage + "A "
+                                + (substation ? "Substation " : "")
+                                + (input ? "Energy Hatch" : "Dynamo Hatch"))
+                        .rotationState(RotationState.ALL)
+                        .abilities(ability)
+                        .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+                        .tooltips(
+                                Component.translatable("gtceu.universal.tooltip.voltage_" + (input ? "in" : "out"),
+                                        FormattingUtil.formatNumbers(GTValues.V[tier]), GTValues.VNF[tier]),
+                                Component.translatable("gtceu.universal.tooltip.amperage_" + (input ? "in" : "out"),
+                                        amperage),
+                                Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
+                                        FormattingUtil.formatNumbers(
+                                                EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))),
+                                Component.translatable(substation
+                                        ? "gtceu.machine.substation_hatch." + direction + ".tooltip"
+                                        : "gtceu.machine.energy_hatch." + direction + "_hi_amp.tooltip"))
+                        .overlayTieredHullModel(GTCEu.id("block/machine/part/" + overlay))
+                        .register(), tiers);
     }
 
     private static MachineDefinition buildWirelessEnergyHatch64(Integer tier,
