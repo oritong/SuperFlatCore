@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -90,11 +91,11 @@ public class SFGTAddon implements IGTAddon {
 
     /**
      * Replace GTCEu's stock energy/dynamo hatch recipes with the pack variant.
-     * The extra ceramic plate is selected by the recipe tier; high tiers use
+     * Two ceramic plates are selected by the recipe tier; high tiers use
      * tungsten tetraboride ceramic until dedicated materials are introduced.
      */
     private static void addEnergyHatchRecipes(Consumer<FinishedRecipe> provider) {
-        addShapedBaseRecipes(provider);
+        addDynamoShapedRecipes(provider);
 
         int baseTiers = Math.min(VN.length, Math.min(ENERGY_INPUT_HATCH.length, ENERGY_OUTPUT_HATCH.length));
         for (int tier = 0; tier < baseTiers; tier++) {
@@ -120,7 +121,7 @@ public class SFGTAddon implements IGTAddon {
                 "substation_dynamo_hatch", GTCraftingComponents.WIRE_HEX, 6, 400, true);
     }
 
-    private static void addShapedBaseRecipes(Consumer<FinishedRecipe> provider) {
+    private static void addDynamoShapedRecipes(Consumer<FinishedRecipe> provider) {
         ItemStack ulvPlate = ceramicPlate(ULV);
         ItemStack lvPlate = ceramicPlate(LV);
         ItemStack mvPlate = ceramicPlate(MV);
@@ -148,25 +149,6 @@ public class SFGTAddon implements IGTAddon {
                 'P', mvPlate,
                 'Q', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack());
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "energy_hatch_ulv", ENERGY_INPUT_HATCH[ULV].asStack(),
-                "CVC", "CSC", "PP ",
-                'C', new MaterialEntry(cableGtSingle, RedAlloy),
-                'V', VOLTAGE_COIL_ULV.asStack(),
-                'S', HULL[ULV].asStack(),
-                'P', ulvPlate);
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "energy_hatch_lv", ENERGY_INPUT_HATCH[LV].asStack(),
-                "CVC", "CSC", "PP ",
-                'C', new MaterialEntry(cableGtSingle, Tin),
-                'V', VOLTAGE_COIL_LV.asStack(),
-                'S', HULL[LV].asStack(),
-                'P', lvPlate);
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "energy_hatch_mv", ENERGY_INPUT_HATCH[MV].asStack(),
-                "CVC", "CSC", "PPQ",
-                'C', new MaterialEntry(cableGtSingle, Copper),
-                'V', VOLTAGE_COIL_MV.asStack(),
-                'S', HULL[MV].asStack(),
-                'P', mvPlate,
-                'Q', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack());
     }
 
     private static void addEnergyHatchRecipe(Consumer<FinishedRecipe> provider, int tier,
@@ -191,7 +173,8 @@ public class SFGTAddon implements IGTAddon {
             case HV -> builder.inputItems(cableGtSingle, Gold, 4)
                     .inputItems(LOW_POWER_INTEGRATED_CIRCUIT, 2)
                     .inputItems(VOLTAGE_COIL_HV)
-                    .inputFluids(SodiumPotassium, 1000);
+                    .inputFluids(SodiumPotassium, 1000)
+                    .cleanroom(CleanroomType.CLEANROOM);
             case EV -> builder.inputItems(cableGtSingle, Aluminium, 4)
                     .inputItems(POWER_INTEGRATED_CIRCUIT, 2)
                     .inputItems(VOLTAGE_COIL_EV)
