@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '1.4.3-hotfix2'
+version = '1.4.4'
 group = 'com.oritong.superflatcore'
 archivesBaseName = 'superflatcore'
 
@@ -48,15 +48,23 @@ repositories {
 }
 
 dependencies {
-    compileOnly files('local_maven/dev/emi/emi/1.1.24/emi-1.1.24+1.20.1+forge.jar')
-    compileOnly files('local_maven/slimeknights/tconstruct/3.11.2.166/TConstruct-1.20.1-3.11.2.166.jar')
-    compileOnly files('local_maven/slimeknights/mantle/1.11.104/Mantle-1.20.1-1.11.104.jar')
-    compileOnly files('local_maven/mekanism/10.4.16.80/Mekanism-1.20.1-10.4.16.80.jar')
-    compileOnly files('local_maven/mekanismgenerators/10.4.16.80/MekanismGenerators-1.20.1-10.4.16.80.jar')
     minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     compileOnly files('local_maven/com/gregtechceu/gtceu/7.5.3/gtceu-7.5.3.jar')
+    compileOnly files('local_maven/top/ialdaiaxiariyay/bettergtae/1.2.2/bettergtae-1.2.2.jar')
+    compileOnly files('local_maven/com/glodblock/github/expatternprovider/1.4.12/ExtendedAE-1.20-1.4.12-forge.jar')
+    compileOnly files('local_maven/com/almostreliable/merequester/1.2.1/merequester-forge-1.20.1-1.2.1.jar')
+    compileOnly files('local_maven/de/maxhenkel/pipez/1.2.26/pipez-forge-1.20.1-1.2.26.jar')
+    compileOnly files('local_maven/cn/elytra/gtmqol/0.0.7.1-st/gtmqol-0.0.7.1-st.jar')
+    compileOnly files('local_maven/slimeknights/tconstruct/3.11.2.166/TConstruct-1.20.1-3.11.2.166.jar')
+    compileOnly files('local_maven/slimeknights/mantle/1.11.104/Mantle-1.20.1-1.11.104.jar')
+    compileOnly files('local_maven/dev/arbor/gtnn/1.3.9/gtnn-1.20.1-1.3.9.jar')
+    compileOnly files('local_maven/org/thedarkcolour/kotlinforforge/4.12.0/kotlinforforge-4.12.0-all.jar')
+    compileOnly files('local_maven/com/portingdeadmods/cable_facades/2.1.3/cable_facades-1.20.1-Forge-2.1.3.jar')
+    compileOnly files('local_maven/com/klikli_dev/occultism/1.158.0/occultism-1.20.1-1.158.0.jar')
+    compileOnly files('local_maven/me/kall/ezunclear/1.0.2/ezunclear-1.20.1-1.0.2.jar')
+    compileOnly files('local_maven/net/dragonegg/moreburners/0.3.5/moreburners-1.20.1-0.3.5.jar')
     compileOnly files('local_maven/com/hepdd/gtmthings/1.6.0/gtmthings-1.6.0.jar')
     compileOnly files('local_maven/snownee/jade/11.13.1/jade-1.20.1-Forge-11.13.1.jar')
     compileOnly files('local_maven/com/buuz135/industrialforegoing/3.5.21/industrialforegoing-1.20.1-3.5.21.jar')
@@ -64,13 +72,23 @@ dependencies {
     compileOnly files('local_maven/com/haoict/tiab/4.0.4/time-in-a-bottle-4.0.4-mc1.20.1.jar')
     compileOnly files('local_maven/top/theillusivec4/curios/5.14.1/curios-forge-5.14.1+1.20.1.jar')
     compileOnly files('local_maven/vazkii/botania/448/Botania-1.20.1-448-FORGE.jar')
+    compileOnly files('local_maven/vazkii/patchouli/84.1/Patchouli-1.20.1-84.1-FORGE.jar')
     compileOnly files('local_maven/com/hollingsworth/arsnouveau/4.12.7/ars_nouveau-1.20.1-4.12.7-all.jar')
     compileOnly files('local_maven/com/rekindled/embers/1.4.7/embersrekindled-1.20.1-1.4.7.jar')
     compileOnly files('local_maven/com/lowdragmc/ldlib/1.0.50/ldlib-forge-1.0.50.jar')
     compileOnly files('local_maven/com/tterrag/registrate/Registrate-MC1.20-1.3.11/Registrate-MC1.20-1.3.11.jar')
     compileOnly files('local_maven/net/enderturret/rainrot/1.0.0/RainRot-1.0.0+1.20.1.jar')
+    compileOnly files('local_maven/com/technicalflowers/1.3.1/technicalflowers-1.3.1.jar')
+    compileOnly files('local_maven/dev/emi/emi/1.1.24/emi-1.1.24+1.20.1+forge.jar')
     compileOnly files('local_maven/ca/teamdman/sfm/4.34.0/sfm-4.34.0.jar')
     compileOnly files('local_maven/mezz/jei/15.20.0.134/jei-1.20.1-forge-15.20.0.134.jar')
+    compileOnly files('local_maven/com/simibubi/create/6.0.8/create-1.20.1-6.0.8.jar')
+    compileOnly files('local_maven/com/simibubi/create/6.0.8/flywheel-forge-1.20.1-1.0.5.jar')
+    compileOnly files('local_maven/com/simibubi/create/6.0.8/Ponder-Forge-1.20.1-1.0.91.jar')
+    compileOnly files('local_maven/mekanism/10.4.16.80/Mekanism-1.20.1-10.4.16.80.jar')
+    compileOnly files('local_maven/mekanismgenerators/10.4.16.80/MekanismGenerators-1.20.1-10.4.16.80.jar')
+    compileOnly files('local_maven/atomicembers/2.0.0alpha/AtomicEmbersDecayed-2.0.0alpha.jar')
+    compileOnly files('local_maven/appeng/appliedenergistics2-forge/15.4.10/appliedenergistics2-forge-15.4.10.jar')
 }
 
 jar {
