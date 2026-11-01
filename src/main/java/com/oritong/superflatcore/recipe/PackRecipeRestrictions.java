@@ -2,7 +2,11 @@ package com.oritong.superflatcore.recipe;
 
 import java.util.Set;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
 /** Recipe and viewer category IDs are intentionally separate: JEI often uses machine IDs. */
@@ -66,5 +70,37 @@ public final class PackRecipeRestrictions {
                 || path.startsWith("dynamo_hatch_")
                 || path.startsWith("substation_energy_hatch")
                 || path.startsWith("substation_dynamo_hatch");
+    }
+
+    /**
+     * Removes every crafting recipe that produces a GTCEu energy or dynamo hatch.
+     *
+     * <p>The pack also adds crafting recipes through KubeJS, whose recipe IDs use
+     * the kubejs namespace. Filtering only the GTCEu recipe IDs therefore leaves
+     * those manual recipes available. Machine recipes are unaffected because this
+     * check is limited to the vanilla crafting recipe type.</p>
+     */
+    public static boolean removesManualEnergyHatchRecipe(
+            RecipeType<?> type, ResourceLocation id, Recipe<?> recipe) {
+        if (removesManualEnergyHatchRecipe(type, id)) {
+            return true;
+        }
+        if (type != RecipeType.CRAFTING) {
+            return false;
+        }
+
+        ItemStack result = recipe.getResultItem(
+                RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+        if (result.isEmpty()) {
+            return false;
+        }
+        ResourceLocation outputId = BuiltInRegistries.ITEM.getKey(result.getItem());
+        if (outputId == null || !outputId.getNamespace().equals("gtceu")) {
+            return false;
+        }
+
+        String path = outputId.getPath();
+        return path.matches("^[a-z0-9]+_energy_(input|output)_hatch(?:_(4a|16a))?$")
+                || path.matches("^[a-z0-9]+_substation_(input|output)_hatch_64a$");
     }
 }
