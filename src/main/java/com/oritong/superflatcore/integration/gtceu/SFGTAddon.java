@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -18,11 +19,14 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
+import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.WindRotorPrefix;
+
+import mekanism.common.registries.MekanismItems;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -90,6 +94,7 @@ public class SFGTAddon implements IGTAddon {
 
         addEnergyHatchRecipes(provider);
         addWirelessEnergyHatchRecipes(provider);
+        addElectrolyzerRecipes(provider);
     }
 
     /**
@@ -369,6 +374,45 @@ public class SFGTAddon implements IGTAddon {
         }
     }
 
+    /**
+     * Replace the stock single-block electrolyzer recipes with the pack layout:
+     * tiered glass and an electrolytic core on the top row, double wire on the
+     * middle sides, and the original circuit/cable row at the bottom.
+     */
+    private static void addElectrolyzerRecipes(Consumer<FinishedRecipe> provider) {
+        for (MachineDefinition machine : ELECTROLYZER) {
+            if (machine == null) {
+                continue;
+            }
+            int tier = machine.getTier();
+            Object glass = GTCraftingComponents.GLASS.get(tier);
+            Object circuit = GTCraftingComponents.CIRCUIT.get(tier);
+            Object cable = GTCraftingComponents.CABLE.get(tier);
+            VanillaRecipeHelper.addShapedRecipe(provider, true,
+                    SuperFlatCore.id("electrolyzer_" + VN[tier].toLowerCase(Locale.ROOT)),
+                    machine.asStack(),
+                    "GEG", "IMI", "CWC",
+                    'G', glass,
+                    'C', circuit,
+                    'W', cable,
+                    'M', HULL[tier].asStack(),
+                    'I', electrolyzerDoubleWire(tier),
+                    'E', MekanismItems.ELECTROLYTIC_CORE.getItemStack());
+        }
+    }
+
+    private static MaterialEntry electrolyzerDoubleWire(int tier) {
+        Material material = switch (tier) {
+            case ULV, LV -> Gold;
+            case MV -> Silver;
+            case HV -> Electrum;
+            case EV -> Platinum;
+            case IV, LuV, ZPM, UV, UHV -> Osmium;
+            default -> Gold;
+        };
+        return new MaterialEntry(wireGtDouble, material);
+    }
+
     private static void addWirelessHatchRecipe(Consumer<FinishedRecipe> provider, int tier,
                                                 MachineDefinition[] wiredHatches,
                                                 MachineDefinition[] wirelessHatches,
@@ -524,6 +568,12 @@ public class SFGTAddon implements IGTAddon {
         removeTieredRecipes(consumer, ENERGY_OUTPUT_HATCH_16A.length, "dynamo_hatch_16a");
         removeTieredRecipes(consumer, SUBSTATION_ENERGY_INPUT_HATCH.length, "substation_energy_hatch");
         removeTieredRecipes(consumer, SUBSTATION_ENERGY_OUTPUT_HATCH.length, "substation_dynamo_hatch");
+
+        for (MachineDefinition machine : ELECTROLYZER) {
+            if (machine != null) {
+                consumer.accept(GTCEu.id(machine.getName()));
+            }
+        }
 
         int maxTier = com.gregtechceu.gtceu.api.GTCEuAPI.isHighTier() ? OpV : UV;
         for (int tier : tiersBetween(LV, maxTier)) {
