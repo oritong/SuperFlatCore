@@ -129,19 +129,22 @@ public class SFGTAddon implements IGTAddon {
             return;
         }
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "dynamo_hatch_ulv", ENERGY_OUTPUT_HATCH[ULV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, SuperFlatCore.id("dynamo_hatch_ulv"),
+                ENERGY_OUTPUT_HATCH[ULV].asStack(),
                 " V ", "SHS", "PP ",
                 'S', new MaterialEntry(spring, Lead),
                 'V', VOLTAGE_COIL_ULV.asStack(),
                 'H', HULL[ULV].asStack(),
                 'P', ulvPlate);
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "dynamo_hatch_lv", ENERGY_OUTPUT_HATCH[LV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, SuperFlatCore.id("dynamo_hatch_lv"),
+                ENERGY_OUTPUT_HATCH[LV].asStack(),
                 " V ", "SHS", "PP ",
                 'S', new MaterialEntry(spring, Tin),
                 'V', VOLTAGE_COIL_LV.asStack(),
                 'H', HULL[LV].asStack(),
                 'P', lvPlate);
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "dynamo_hatch_mv", ENERGY_OUTPUT_HATCH[MV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, SuperFlatCore.id("dynamo_hatch_mv"),
+                ENERGY_OUTPUT_HATCH[MV].asStack(),
                 " V ", "SHS", "PQP",
                 'S', new MaterialEntry(spring, Copper),
                 'V', VOLTAGE_COIL_MV.asStack(),
@@ -158,8 +161,8 @@ public class SFGTAddon implements IGTAddon {
 
         String name = VN[tier].toLowerCase(Locale.ROOT);
         GTRecipeBuilder builder = tier >= LuV
-                ? ASSEMBLY_LINE_RECIPES.recipeBuilder("energy_hatch_" + name)
-                : ASSEMBLER_RECIPES.recipeBuilder("energy_hatch_" + name);
+                ? ASSEMBLY_LINE_RECIPES.recipeBuilder(SuperFlatCore.id("energy_hatch_" + name))
+                : ASSEMBLER_RECIPES.recipeBuilder(SuperFlatCore.id("energy_hatch_" + name));
         builder.inputItems(HULL[tier]);
 
         switch (tier) {
@@ -231,8 +234,8 @@ public class SFGTAddon implements IGTAddon {
 
         String name = VN[tier].toLowerCase(Locale.ROOT);
         GTRecipeBuilder builder = tier >= LuV
-                ? ASSEMBLY_LINE_RECIPES.recipeBuilder("dynamo_hatch_" + name)
-                : ASSEMBLER_RECIPES.recipeBuilder("dynamo_hatch_" + name);
+                ? ASSEMBLY_LINE_RECIPES.recipeBuilder(SuperFlatCore.id("dynamo_hatch_" + name))
+                : ASSEMBLER_RECIPES.recipeBuilder(SuperFlatCore.id("dynamo_hatch_" + name));
         builder.inputItems(HULL[tier]);
 
         switch (tier) {
@@ -305,7 +308,7 @@ public class SFGTAddon implements IGTAddon {
             if (ceramic.isEmpty()) continue;
 
             String name = VN[tier].toLowerCase(Locale.ROOT);
-            GTRecipeBuilder builder = ASSEMBLER_RECIPES.recipeBuilder(idPrefix + "_" + name);
+            GTRecipeBuilder builder = ASSEMBLER_RECIPES.recipeBuilder(SuperFlatCore.id(idPrefix + "_" + name));
             if (previous[tier] == null) continue;
             builder.inputItems(previous[tier]);
 
