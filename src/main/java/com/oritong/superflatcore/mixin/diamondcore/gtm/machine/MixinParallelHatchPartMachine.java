@@ -43,6 +43,9 @@ public class MixinParallelHatchPartMachine {
 
     @Inject(method = "canShared", at = @At("HEAD"), remap = false, cancellable = true)
     public void onCanShared(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(true);
+        if (((ParallelHatchPartMachine) (Object) this).getTier()
+                == com.gregtechceu.gtceu.api.GTValues.MAX) {
+            cir.setReturnValue(true);
+        }
     }
 }

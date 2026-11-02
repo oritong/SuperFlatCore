@@ -139,10 +139,10 @@ public final class SFMachines {
 
     public static final MachineDefinition EV_PARALLEL_HATCH = registerParallelHatch(
             "ev_parallel_hatch", GTValues.EV, "block/machines/parallel_hatch_mk1",
-            "§5EV§r Parallel Control Hatch", 16);
+            "§5EV§r Parallel Control Hatch", 16, false);
     public static final MachineDefinition TRANSDIMENSIONAL_PARALLEL_HATCH = registerParallelHatch(
             "transdimensional_parallel_hatch", MAX, "block/machines/parallel_hatch_mk4",
-            "§c§lMAX§r Transdimensional Parallel Control Hatch", Integer.MAX_VALUE);
+            "Transdimensional Parallel Control Hatch", Integer.MAX_VALUE, true);
 
     public static final MachineDefinition[] WIRELESS_LASER_INPUT_HATCH_262144 = registerWirelessLaserHatch(IO.IN,
             262144, PartAbility.INPUT_LASER);
@@ -454,7 +454,8 @@ public final class SFMachines {
     }
 
     private static MachineDefinition registerParallelHatch(String name, int tier, String overlay,
-                                                            String displayName, int parallelLimit) {
+                                                            String displayName, int parallelLimit,
+                                                            boolean allowStructureSharing) {
         return SFRegistrate.REGISTRATE.machine(name,
                         holder -> new ParallelHatchPartMachine(holder, tier))
                 .langValue(displayName)
@@ -465,7 +466,8 @@ public final class SFMachines {
                 .model(GTMachineModels.createWorkableTieredHullMachineModel(GTCEu.id(overlay))
                         .andThen((ctx, provider, model) -> model.addReplaceableTextures("bottom", "top", "side")))
                 .tooltips(Component.translatable("superflatcore.machine.parallel_hatch.tooltip", parallelLimit),
-                        Component.translatable("gtceu.part_sharing.disabled"))
+                        Component.translatable(allowStructureSharing
+                                ? "gtceu.part_sharing.enabled" : "gtceu.part_sharing.disabled"))
                 .tier(tier)
                 .register();
     }

@@ -108,15 +108,6 @@ public class SFGTAddon implements IGTAddon {
                 'H', HULL[EV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, Aluminium));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true,
-                SuperFlatCore.id("transdimensional_parallel_hatch"),
-                SFMachines.TRANSDIMENSIONAL_PARALLEL_HATCH.asStack(),
-                "SZE", "ZHZ", "CZC",
-                'S', SENSOR_UV.asStack(),
-                'Z', CustomTags.UHV_CIRCUITS,
-                'E', EMITTER_UV.asStack(),
-                'H', HULL[MAX].asStack(),
-                'C', new MaterialEntry(cableGtDouble, YttriumBariumCuprate));
     }
 
     /**
