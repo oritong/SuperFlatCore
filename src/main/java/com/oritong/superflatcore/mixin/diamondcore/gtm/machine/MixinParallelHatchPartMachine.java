@@ -25,7 +25,9 @@ public class MixinParallelHatchPartMachine {
 
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     public void onInit(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
-        this.maxParallel = (int) Math.pow(4, tier - 3);
+        this.maxParallel = tier == com.gregtechceu.gtceu.api.GTValues.MAX
+                ? Integer.MAX_VALUE
+                : (int) Math.pow(4, tier - 2);
         this.currentParallel = this.maxParallel;
     }
 

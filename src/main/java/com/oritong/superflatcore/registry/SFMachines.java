@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gregtechceu.gtceu.common.data.models.GTMachineModels;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.oritong.superflatcore.SuperFlatCore;
@@ -135,6 +136,13 @@ public final class SFMachines {
             IO.IN, ENERGY_64A, true, HV);
     public static final MachineDefinition[] SUBSTATION_ENERGY_OUTPUT_HATCH = registerPackEnergyHatch(
             IO.OUT, ENERGY_64A, true, HV);
+
+    public static final MachineDefinition EV_PARALLEL_HATCH = registerParallelHatch(
+            "ev_parallel_hatch", GTValues.EV, "block/machines/parallel_hatch_mk1",
+            "§5EV§r Parallel Control Hatch", 16);
+    public static final MachineDefinition TRANSDIMENSIONAL_PARALLEL_HATCH = registerParallelHatch(
+            "transdimensional_parallel_hatch", MAX, "block/machines/parallel_hatch_mk4",
+            "§c§lMAX§r Transdimensional Parallel Control Hatch", Integer.MAX_VALUE);
 
     public static final MachineDefinition[] WIRELESS_LASER_INPUT_HATCH_262144 = registerWirelessLaserHatch(IO.IN,
             262144, PartAbility.INPUT_LASER);
@@ -425,6 +433,8 @@ public final class SFMachines {
             addTieredMachines(event, ENERGY_OUTPUT_HATCH_16A);
             addTieredMachines(event, SUBSTATION_ENERGY_INPUT_HATCH);
             addTieredMachines(event, SUBSTATION_ENERGY_OUTPUT_HATCH);
+            event.accept(EV_PARALLEL_HATCH.asStack());
+            event.accept(TRANSDIMENSIONAL_PARALLEL_HATCH.asStack());
             addTieredMachines(event, WIRELESS_LASER_INPUT_HATCH_262144);
             addTieredMachines(event, WIRELESS_LASER_OUTPUT_HATCH_262144);
             addTieredMachines(event, WIRELESS_LASER_INPUT_HATCH_1048576);
@@ -441,6 +451,23 @@ public final class SFMachines {
                 (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, ENERGY_64A),
                 (tier, builder) -> buildWirelessEnergyHatch64(tier, builder, io, energyName),
                 GTValues.tiersBetween(HV, maxElectricTier()));
+    }
+
+    private static MachineDefinition registerParallelHatch(String name, int tier, String overlay,
+                                                            String displayName, int parallelLimit) {
+        return SFRegistrate.REGISTRATE.machine(name,
+                        holder -> new ParallelHatchPartMachine(holder, tier))
+                .langValue(displayName)
+                .rotationState(RotationState.ALL)
+                .abilities(PartAbility.PARALLEL_HATCH)
+                .modelProperty(GTMachineModelProperties.IS_FORMED, false)
+                .modelProperty(GTMachineModelProperties.RECIPE_LOGIC_STATUS, RecipeLogic.Status.IDLE)
+                .model(GTMachineModels.createWorkableTieredHullMachineModel(GTCEu.id(overlay))
+                        .andThen((ctx, provider, model) -> model.addReplaceableTextures("bottom", "top", "side")))
+                .tooltips(Component.translatable("superflatcore.machine.parallel_hatch.tooltip", parallelLimit),
+                        Component.translatable("gtceu.part_sharing.disabled"))
+                .tier(tier)
+                .register();
     }
 
     private static MachineDefinition[] registerPackEnergyHatch(IO io, int amperage, boolean substation,

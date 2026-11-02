@@ -8,5 +8,9 @@
   "block.gtceu.ev_dual_input_hatch": "§5EV§r Dual Input Hatch",
   "block.gtceu.ev_dual_output_hatch": "§5EV§r Dual Output Hatch",
   "block.gtceu.iv_dual_input_hatch": "§9IV§r Dual Input Hatch",
-  "block.gtceu.iv_dual_output_hatch": "§9IV§r Dual Output Hatch"
+  "block.gtceu.iv_dual_output_hatch": "§9IV§r Dual Output Hatch",
+  "gtceu.machine.parallel_hatch_mk5.tooltip": "Allows up to 64 recipes to run in parallel.",
+  "gtceu.machine.parallel_hatch_mk6.tooltip": "Allows up to 256 recipes to run in parallel.",
+  "gtceu.machine.parallel_hatch_mk7.tooltip": "Allows up to 1024 recipes to run in parallel.",
+  "gtceu.machine.parallel_hatch_mk8.tooltip": "Allows up to 4096 recipes to run in parallel."
 }

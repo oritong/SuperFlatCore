@@ -8,5 +8,9 @@
   "block.gtceu.ev_dual_input_hatch": "§5EV§r输入总成",
   "block.gtceu.ev_dual_output_hatch": "§5EV§r输出总成",
   "block.gtceu.iv_dual_input_hatch": "§9IV§r输入总成",
-  "block.gtceu.iv_dual_output_hatch": "§9IV§r输出总成"
+  "block.gtceu.iv_dual_output_hatch": "§9IV§r输出总成",
+  "gtceu.machine.parallel_hatch_mk5.tooltip": "允许最多同时并行 64 个配方。",
+  "gtceu.machine.parallel_hatch_mk6.tooltip": "允许最多同时并行 256 个配方。",
+  "gtceu.machine.parallel_hatch_mk7.tooltip": "允许最多同时并行 1024 个配方。",
+  "gtceu.machine.parallel_hatch_mk8.tooltip": "允许最多同时并行 4096 个配方。"
 }
