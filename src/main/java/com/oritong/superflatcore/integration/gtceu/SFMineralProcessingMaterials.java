@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.DustProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -54,6 +55,10 @@ public final class SFMineralProcessingMaterials {
             NaquadahEnriched.setProperty(PropertyKey.ORE, new OreProperty());
         }
         NaquadahEnriched.getProperty(PropertyKey.ORE).setOreByProducts(Naquadah, Sulfur);
+        ensureDustProperties(Aluminium, Manganese, Yttrium, Ytterbium, Copper, Iron, Cadmium, Indium,
+                Calcium, Tungsten, Thallium, Erbium, Neodymium, Thorium, Lanthanum, Lutetium, Europium,
+                Nickel, Cobalt, Rhodium, Platinum, Iridium, Osmium, Palladium, Magnesium, Boron, Silicon,
+                Strontium, Zinc, Gallium, Bismuth, Ruthenium, NaquadahEnriched, Naquadah, Naquadria, Trinium);
 
         new Material.Builder(GTCEu.id("sodium_ethylxanthate"))
                 .dust()
@@ -98,6 +103,14 @@ public final class SFMineralProcessingMaterials {
                 .iconSet(MaterialIconSet.FLUID)
                 .formula("HCl?", false)
                 .buildAndRegister();
+    }
+
+    private static void ensureDustProperties(Material... materials) {
+        for (Material material : materials) {
+            if (!material.hasProperty(PropertyKey.DUST)) {
+                material.setProperty(PropertyKey.DUST, new DustProperty());
+            }
+        }
     }
 
     private static Material registerFront(String name, Material oreMaterial, int color) {
