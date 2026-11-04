@@ -66,10 +66,12 @@ public class SFGTAddon implements IGTAddon {
     @SuppressWarnings("removal")
     public void registerTagPrefixes() {
         WindRotorPrefix.register();
+        SFMineralProcessingMaterials.registerMilledPrefix();
     }
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
+        SFMineralProcessingRecipes.addRecipes(provider);
         ItemStack steelRod = ChemicalHelper.get(TagPrefix.rodLong, GTMaterials.Steel);
         if (steelRod.isEmpty()) {
             return;

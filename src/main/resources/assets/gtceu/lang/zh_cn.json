@@ -12,5 +12,22 @@
   "gtceu.machine.parallel_hatch_mk5.tooltip": "允许最多同时并行 64 个配方。",
   "gtceu.machine.parallel_hatch_mk6.tooltip": "允许最多同时并行 256 个配方。",
   "gtceu.machine.parallel_hatch_mk7.tooltip": "允许最多同时并行 1024 个配方。",
-  "gtceu.machine.parallel_hatch_mk8.tooltip": "允许最多同时并行 4096 个配方。"
+  "gtceu.machine.parallel_hatch_mk8.tooltip": "允许最多同时并行 4096 个配方。",
+  "tagprefix.milled": "碾磨%s",
+  "material.gtceu.sodium_ethylxanthate": "乙基黄原酸钠",
+  "material.gtceu.potassium_ethylxanthate": "乙基黄原酸钾",
+  "material.gtceu.turpentine": "松油",
+  "material.gtceu.almandine_front": "铁铝榴石矿石泡沫",
+  "material.gtceu.chalcopyrite_front": "黄铜矿矿石泡沫",
+  "material.gtceu.grossular_front": "钙铝榴石矿石泡沫",
+  "material.gtceu.monazite_front": "独居石矿石泡沫",
+  "material.gtceu.nickel_front": "镍矿石泡沫",
+  "material.gtceu.platinum_front": "铂矿石泡沫",
+  "material.gtceu.pyrope_front": "镁铝榴石矿石泡沫",
+  "material.gtceu.redstone_front": "红石矿石泡沫",
+  "material.gtceu.spessartine_front": "锰铝榴石矿石泡沫",
+  "material.gtceu.sphalerite_front": "闪锌矿矿石泡沫",
+  "material.gtceu.pentlandite_front": "镍黄铁矿矿石泡沫",
+  "material.gtceu.enriched_naquadah_front": "富集硅岩矿石泡沫",
+  "material.gtceu.red_mud": "赤泥"
 }

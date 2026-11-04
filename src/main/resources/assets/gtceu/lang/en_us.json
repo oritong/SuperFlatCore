@@ -12,5 +12,22 @@
   "gtceu.machine.parallel_hatch_mk5.tooltip": "Allows up to 64 recipes to run in parallel.",
   "gtceu.machine.parallel_hatch_mk6.tooltip": "Allows up to 256 recipes to run in parallel.",
   "gtceu.machine.parallel_hatch_mk7.tooltip": "Allows up to 1024 recipes to run in parallel.",
-  "gtceu.machine.parallel_hatch_mk8.tooltip": "Allows up to 4096 recipes to run in parallel."
+  "gtceu.machine.parallel_hatch_mk8.tooltip": "Allows up to 4096 recipes to run in parallel.",
+  "tagprefix.milled": "Milled %s",
+  "material.gtceu.sodium_ethylxanthate": "Sodium Ethylxanthate",
+  "material.gtceu.potassium_ethylxanthate": "Potassium Ethylxanthate",
+  "material.gtceu.turpentine": "Turpentine",
+  "material.gtceu.almandine_front": "Almandine Ore Froth",
+  "material.gtceu.chalcopyrite_front": "Chalcopyrite Ore Froth",
+  "material.gtceu.grossular_front": "Grossular Ore Froth",
+  "material.gtceu.monazite_front": "Monazite Ore Froth",
+  "material.gtceu.nickel_front": "Nickel Ore Froth",
+  "material.gtceu.platinum_front": "Platinum Ore Froth",
+  "material.gtceu.pyrope_front": "Pyrope Ore Froth",
+  "material.gtceu.redstone_front": "Redstone Ore Froth",
+  "material.gtceu.spessartine_front": "Spessartine Ore Froth",
+  "material.gtceu.sphalerite_front": "Sphalerite Ore Froth",
+  "material.gtceu.pentlandite_front": "Pentlandite Ore Froth",
+  "material.gtceu.enriched_naquadah_front": "Enriched Naquadah Ore Froth",
+  "material.gtceu.red_mud": "Red Mud"
 }

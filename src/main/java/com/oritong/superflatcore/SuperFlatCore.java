@@ -22,6 +22,7 @@ import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegrat
 import com.oritong.superflatcore.integration.botania.ManaSparkHatchIntegration;
 import com.oritong.superflatcore.integration.create.CorundumSpoutingIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
+import com.oritong.superflatcore.integration.gtceu.SFMineralProcessingMaterials;
 import com.oritong.superflatcore.integration.rainrot.RainrotDrinkIntegration;
 import com.oritong.superflatcore.network.SFNetwork;
 
@@ -30,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -45,6 +47,7 @@ public class SuperFlatCore {
         SFConfig.register();
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         SFRegistrate.REGISTRATE.registerEventListeners(modBus);
+        modBus.addListener(SFMineralProcessingMaterials::registerMaterials);
         SFBlocks.init();
         SFBlockEntities.init();
         SFFluids.register(modBus);
