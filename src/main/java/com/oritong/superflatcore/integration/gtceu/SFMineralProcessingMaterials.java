@@ -8,6 +8,8 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -48,6 +50,10 @@ public final class SFMineralProcessingMaterials {
         Monazite.addFlags(GENERATE_MILLED);
         Redstone.addFlags(GENERATE_MILLED);
         NaquadahEnriched.addFlags(GENERATE_MILLED);
+        if (!NaquadahEnriched.hasProperty(PropertyKey.ORE)) {
+            NaquadahEnriched.setProperty(PropertyKey.ORE, new OreProperty());
+        }
+        NaquadahEnriched.getProperty(PropertyKey.ORE).setOreByProducts(Naquadah, Sulfur);
 
         new Material.Builder(GTCEu.id("sodium_ethylxanthate"))
                 .dust()
