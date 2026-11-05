@@ -22,6 +22,9 @@ public final class BlackHoleClient {
     static long worldDraws;
     static String failure = "";
     private static ClientLevel owner;
+    private static long lastScanGameTime = Long.MIN_VALUE;
+    private static int lastScanChunkX = Integer.MIN_VALUE;
+    private static int lastScanChunkZ = Integer.MIN_VALUE;
 
     private BlackHoleClient() {}
 
@@ -34,8 +37,24 @@ public final class BlackHoleClient {
             owner = level;
             center = null;
             failure = "";
+            lastScanGameTime = Long.MIN_VALUE;
+            lastScanChunkX = Integer.MIN_VALUE;
+            lastScanChunkZ = Integer.MIN_VALUE;
         }
         ChunkPos cameraChunk = new ChunkPos(BlockPos.containing(camera.getPosition()));
+        long gameTime = level.getGameTime();
+        // Rendering has several stages per frame. Scanning nine by nine chunks
+        // at every stage was the main source of client-side CPU spikes near a
+        // black hole. A scan is sufficient once per game tick, or when the
+        // camera enters another chunk.
+        if (lastScanGameTime == gameTime
+                && lastScanChunkX == cameraChunk.x
+                && lastScanChunkZ == cameraChunk.z) {
+            return;
+        }
+        lastScanGameTime = gameTime;
+        lastScanChunkX = cameraChunk.x;
+        lastScanChunkZ = cameraChunk.z;
         int chunkRadius = 4;
         BlockPos nearest = null;
         double nearestDistance = Double.MAX_VALUE;
@@ -45,10 +64,11 @@ public final class BlackHoleClient {
                 if (chunk == null) {
                     continue;
                 }
-                for (BlockPos pos : chunk.getBlockEntities().keySet()) {
-                    if (!(chunk.getBlockEntity(pos) instanceof BlackHoleBlockEntity)) {
+                for (var entry : chunk.getBlockEntities().entrySet()) {
+                    if (!(entry.getValue() instanceof BlackHoleBlockEntity)) {
                         continue;
                     }
+                    BlockPos pos = entry.getKey();
                     double distance = pos.getCenter().distanceToSqr(camera.getPosition());
                     if (distance < nearestDistance) {
                         nearestDistance = distance;
@@ -81,6 +101,9 @@ public final class BlackHoleClient {
     public static void stop() {
         center = null;
         owner = null;
+        lastScanGameTime = Long.MIN_VALUE;
+        lastScanChunkX = Integer.MIN_VALUE;
+        lastScanChunkZ = Integer.MIN_VALUE;
         BlackHoleWorld.release();
     }
 }

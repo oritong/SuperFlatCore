@@ -178,7 +178,7 @@ public final class SFMineralProcessingRecipes {
     }
 
     private static void addTurpentineRecipes(Consumer<FinishedRecipe> provider) {
-        GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(SuperFlatCore.id("chemical_bath/leached_turpentine"))
+        GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(SuperFlatCore.id("leached_turpentine"))
                 .inputItems(stack("embers:ember_grit", 2))
                 .inputFluids(fluidStack("gtceu:naphtha", 1_000))
                 .outputFluids(fluidStack("gtceu:leached_turpentine", 1_000))

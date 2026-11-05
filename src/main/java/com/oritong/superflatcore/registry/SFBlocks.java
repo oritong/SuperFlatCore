@@ -43,13 +43,13 @@ public final class SFBlocks {
             .properties(properties -> properties.noOcclusion().noLootTable().lightLevel(state -> 12)
                     .forceSolidOn())
             .blockstate((context, provider) -> provider.simpleBlock(context.getEntry(),
-                    provider.models().cubeAll(context.getName(), new ResourceLocation("minecraft", "block/obsidian"))))
+                    provider.models().getExistingFile(SuperFlatCore.id("block/black_hole_block"))))
             .tag(BLACK_HOLE_BLACKLIST)
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .defaultLoot()
             .item(BlockItem::new)
             .model((context, provider) -> provider.withExistingParent(context.getName(),
-                    new ResourceLocation("minecraft", "item/ender_eye")))
+                    SuperFlatCore.id("block/black_hole_block")))
             .build()
             .register();
 

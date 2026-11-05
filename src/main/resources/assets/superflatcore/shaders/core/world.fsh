@@ -30,6 +30,7 @@ bool onScreen(vec2 uv){return all(greaterThan(uv,vec2(.001)))&&all(lessThan(uv,v
 // horizon, then composites unrelated background into the resulting holes.
 vec3 sceneRay;
 float sceneLimit;
+bool sceneMassOccluded;
 bool sceneBlocked(vec3 local){
     vec3 p=CenterRelative+local*WorldScale;
     return dot(p-CameraOriginRelative,sceneRay)>sceneLimit+.02;
@@ -1261,7 +1262,7 @@ vec2 lensSourceUv;
 float lensAvailability;
 void resolveLensSource(vec3 rd,bool foreground){
     lensSourceUv=texCoord;lensAvailability=0.0;
-    if(foreground||LensStrength<=.00001||uBend<=.00001)return;
+    if(foreground||sceneMassOccluded||LensStrength<=.00001||uBend<=.00001)return;
     vec3 massRelative=CenterRelative-CameraOriginRelative;
     float distance=length(massRelative);
     if(distance<=uCore*WorldScale*1.01)return;
@@ -1298,6 +1299,17 @@ void main(){
     // field can then reconstruct its screen footprint without undefined reads.
     float outflowPixelAngle=max(length(dFdx(rd)),length(dFdy(rd)));
     float depth=texelFetch(Sampler1,pixel,0).r;
+    // The depth buffer is the authoritative visibility test for the mass.
+    // Reconstruct the visible surface in world space and stop the field at
+    // that distance. This prevents both the disk and the lens pass from
+    // showing through terrain or other opaque blocks.
+    float visibleSurfaceDistance=1e8;
+    if(depth<.999999){
+        vec3 visibleSurface=scenePosition(texCoord,depth);
+        visibleSurfaceDistance=dot(visibleSurface-CameraOriginRelative,rd);
+    }
+    float massDistance=dot(CenterRelative-CameraOriginRelative,rd);
+    sceneMassOccluded=depth<.999999&&massDistance>visibleSurfaceDistance+.02;
     bool foreground=foregroundEntity(texCoord,depth);
     resolveLensSource(rd,foreground);
     // Calculate the resolved map's footprint before any per-pixel return.
@@ -1308,11 +1320,8 @@ void main(){
     vec2 support=bhSphere(ro,rd,max(BH_TRACE_BOUND,LensRadius));
     BHResult hit;hit.light=vec3(0);hit.transmission=1.0;
     bhCoreRadiance=vec3(0.0);
-    if(!foreground&&support.y>0.0){
-        // Environment geometry has been remapped by the lens. Its ORIGINAL
-        // depth cannot clip the mass/disk into a horizontal half-silhouette.
-        // Actual foreground entities were already separated above.
-        sceneRay=rd;sceneLimit=1e8;
+    if(!foreground&&!sceneMassOccluded&&support.y>0.0){
+        sceneRay=rd;sceneLimit=visibleSurfaceDistance;
         hit=bhTrace(ro,rd);
     }
     if(LensProbeMode>3.5){

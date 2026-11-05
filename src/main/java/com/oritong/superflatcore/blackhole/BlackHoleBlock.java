@@ -62,7 +62,7 @@ public final class BlackHoleBlock extends Block implements EntityBlock {
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         // The skill renderer owns the visible effect. Keep a small vanilla fallback particle for
         // resource reloads and shader compilation frames.
-        if (level.isClientSide) {
+        if (level.isClientSide && random.nextInt(4) == 0) {
             level.addParticle(net.minecraft.core.particles.ParticleTypes.SMOKE,
                     pos.getX() + random.nextDouble(), pos.getY() + .8,
                     pos.getZ() + random.nextDouble(), 0, 0, 0);

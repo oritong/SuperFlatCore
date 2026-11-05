@@ -35,6 +35,7 @@
     "MekanismFissionStructureMixin",
     "MekanismFissionFormationMixin",
     "MekanismNutritionalLiquifierMixin",
+    "MekanismCardboardBoxMixin",
     "IndustrialForegoingGeneratedRecipesMixin",
     "IndustrialForegoingAugmentMixin",
     "InfinityNukeEntityMixin",

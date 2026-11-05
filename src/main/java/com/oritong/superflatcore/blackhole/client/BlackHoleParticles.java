@@ -12,8 +12,8 @@ import org.lwjgl.opengl.GL11;
 final class BlackHoleParticles {
     static ShaderInstance shader;
     static boolean enabled=true;
-    static int count=640,debug=0;
-    static float speed=1f,size=.022f,outer=5.4f,brightness=1.25f;
+    static int count=192,debug=0;
+    static float speed=.55f,size=.018f,outer=2.6f,brightness=.65f;
     static long draws;
     private static VertexBuffer buffer;
     private static int allocated;

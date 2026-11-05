@@ -22,8 +22,8 @@ import java.lang.reflect.Field;
 
 /** One client-local artistic field, using independent current-frame color/depth copies. */
 final class BlackHoleWorld {
-    static float scale=1.6f,distance=14f,lens=.7f,lensRadius=2.4f,rotation=.8f,infall=.22f,exposure=.30f,tilt=0f;
-    static float halo=1f,haloRing=1f,haloDisk=1f,haloAura=1f;
+    static float scale=.38f,distance=14f,lens=.35f,lensRadius=1.2f,rotation=.4f,infall=.10f,exposure=.18f,tilt=0f;
+    static float halo=.28f,haloRing=.30f,haloDisk=.18f,haloAura=.12f;
     static String probe;
     static net.minecraft.world.entity.Entity probeEntity;
     static int lastGlError;
@@ -176,6 +176,17 @@ final class BlackHoleWorld {
             s.safeGetUniform("HaloStrength").set(halo);s.safeGetUniform("HaloRing").set(haloRing);s.safeGetUniform("HaloDisk").set(haloDisk);s.safeGetUniform("HaloAura").set(haloAura);
             s.safeGetUniform("uSpeed").set(rotation);s.safeGetUniform("uInfall").set(infall);
             s.safeGetUniform("uExposure").set(exposure);s.safeGetUniform("uTilt").set(tilt);
+            // The ray marcher is most expensive when the camera is close to
+            // the field, where the effect already covers many screen pixels.
+            // Cap integration quality in that range to avoid the close-range
+            // frame-time spike while retaining the configured quality farther
+            // away.
+            int configuredSteps = BlackHoleRecipe.state().getInt("steps");
+            double cameraDistance = relative.distanceTo(origin);
+            int renderSteps = cameraDistance < 6.0 ? Math.min(configuredSteps, 56)
+                    : cameraDistance < 12.0 ? Math.min(configuredSteps, 72)
+                    : Math.min(configuredSteps, 96);
+            s.safeGetUniform("uSteps").set(renderSteps);
 
             RenderSystem.setShader(()->s);RenderSystem.setShaderTexture(0,snapshot.getColorTextureId());RenderSystem.setShaderTexture(1,snapshot.getDepthTextureId());
             RenderSystem.setShaderTexture(2,foregroundTexture);
