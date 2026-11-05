@@ -60,6 +60,35 @@ public final class SFMineralProcessingMaterials {
                 Nickel, Cobalt, Rhodium, Platinum, Iridium, Osmium, Palladium, Magnesium, Boron, Silicon,
                 Strontium, Zinc, Gallium, Bismuth, Ruthenium, NaquadahEnriched, Naquadah, Naquadria, Trinium);
 
+        new Material.Builder(GTCEu.id("sodium_ethylate"))
+                .dust()
+                .color(0x9bcd9b)
+                .components(Carbon, 2, Hydrogen, 5, Oxygen, 1, Sodium, 1)
+                .iconSet(MaterialIconSet.DULL)
+                .buildAndRegister();
+
+        new Material.Builder(GTCEu.id("potassium_ethylate"))
+                .dust()
+                .color(0xcd661d)
+                .components(Carbon, 2, Hydrogen, 5, Oxygen, 1, Potassium, 1)
+                .iconSet(MaterialIconSet.DULL)
+                .buildAndRegister();
+
+        new Material.Builder(GTCEu.id("high_purity_calcium_carbonate"))
+                .dust()
+                .color(0xeeeee0)
+                .components(Calcium, 1, Carbon, 1, Oxygen, 3)
+                .iconSet(MaterialIconSet.DULL)
+                .buildAndRegister();
+
+        new Material.Builder(GTCEu.id("carbon_disulfide"))
+                .fluid()
+                .components(Carbon, 1, Sulfur, 2)
+                .color(0x104e8b)
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+                .iconSet(MaterialIconSet.FLUID)
+                .buildAndRegister();
+
         new Material.Builder(GTCEu.id("sodium_ethylxanthate"))
                 .dust()
                 .color(0xcdad00)
@@ -81,6 +110,20 @@ public final class SFMineralProcessingMaterials {
                 .components(Carbon, 10, Hydrogen, 16)
                 .color(0x9acd32)
                 .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+                .iconSet(MaterialIconSet.FLUID)
+                .buildAndRegister();
+
+        new Material.Builder(GTCEu.id("leached_turpentine"))
+                .fluid()
+                .components(Carbon, 10, Hydrogen, 16, Concrete, 1)
+                .color(0xcd9b1d)
+                .flags(MaterialFlags.DISABLE_DECOMPOSITION)
+                .iconSet(MaterialIconSet.FLUID)
+                .buildAndRegister();
+
+        new Material.Builder(GTCEu.id("steam_cracked_turpentine"))
+                .fluid()
+                .color(0x8b6914)
                 .iconSet(MaterialIconSet.FLUID)
                 .buildAndRegister();
 

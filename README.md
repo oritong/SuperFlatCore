@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.7-hotfix2`
+Current version: `1.4.9`
 
 ## Features
 
@@ -19,6 +19,7 @@ Current version: `1.4.7-hotfix2`
 - **Wind Generator:** A GregTech-style Mekanism wind generator that outputs EU. It requires open sky and Y >= 0. Height efficiency rises from 35% at Y=0 to 100% at Y=128, then remains at 100%. Output is `base output × height efficiency × rotor wind output`. The rotor slot accepts SFC wind rotors. Defaults are 60 EU/t base output, 6 durability lost per second while generating, and 2 per second when wind is available but the buffer is full; all three values are configurable.
 - **Mana Oppressor:** A GT multiblock with Botania mana infusion and mana oppression modes. It consumes `technicalflowers:mana` at 1 mB per mana. Its mana input hatch has a single spark slot in the left GUI sidebar. Installing a spark enables input from mana bursts and nearby mana pools with sparks in the selected color network (white by default), using Botania's 12-block scan range and up to 1,000 mana per pool per tick. Isolated sparks are excluded. The hatch creates no spark entity and never sends mana back; removing the spark or filling the hatch stops network intake. Infusion uses recipe pedestals without consuming them, runs for 40 ticks, supports item-count and mixed-recipe parallel processing, and cannot use a parallel hatch. Oppression mode uses its own recipe type and parallel hatches. The machine has no EU input or output. Both modes display mana requirements in the machine GUI and JEI.
 - **Heat Exchanger:** Adds a GT multiblock recipe type for heat exchange recipes.
+- **Mineral processing:** Adds Isa Mill recipes for raw and mined ores using soapstone or aluminium grinding balls, with no circuit requirement and a 2% or 1% chance to consume the matching ball. Adds flotation, single-fluid-output dehydration with red mud, sodium and potassium ethylxanthate synthesis, and the full turpentine production chain.
 - **IV Supercritical Steam Turbine:** Includes a turbine casing and a built-in recipe that consumes 1,280 mB of supercritical steam per 30 ticks, generates 128 EU/t, and returns 8 mB of distilled water.
 - **Radioactive fluid handling:** Adds Create-connected radioactive tanks (16,000 mB per block) and GT radioactive fluid input/output hatches (256,000 mB). Radiation is released when stored radioactive fluid is spilled or relevant storage is dismantled; AE2 storage and AtomicEmbersDecayed reactor integrations are also supported.
 - **GT parts:** Adds configurable automatic maintenance hatches, LV-and-up dual input/output hatches, high-amperage and wireless energy/laser hatches, mana and radioactive fluid hatches, and GT cover attachments for infinite water and air intake.

@@ -1,0 +1,6 @@
+﻿{
+  "vertex":"superflatcore:core_blur","fragment":"superflatcore:core_blur",
+  "attributes":["Position","UV0"],"samplers":[{"name":"Sampler0"}],
+  "uniforms":[{"name":"Direction","type":"float","count":2,"values":[0,0]}]
+}
+

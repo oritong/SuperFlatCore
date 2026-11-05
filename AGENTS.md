@@ -6,6 +6,7 @@
 - SuperFlatCore 面向 Minecraft 1.20.1 / Forge，模组 ID 和产物名前缀均为 `superflatcore`。
 - 保留项目中已有的未提交修改，不覆盖或回退用户的工作。
 - 常用前置模组的本地 JAR 和源码位于 `D:\MCMOD\参考模组\1.20.1`（源码通常在其 `源码` 子目录）；需要联动时优先查阅，缺失的源码可查对应模组仓库。
+- 除非用户明确指定其他路径，否则涉及 GTLCore 时默认以 `D:\MCMOD\参考模组\1.20.1\源码\GTLCore-gtl-1431-skyblock` 作为 GTLCore 的参考源码。
 - SuperFlatCore 是整合包核心模组，玩家只在配套模组齐全的整合包中使用。实现功能用到新的前置模组时，直接在 `src/main/resources/META-INF/mods.toml` 声明必需依赖，不必为该模组缺失设计降级或可选兼容逻辑。
 
 ## 版本规则

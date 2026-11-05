@@ -4,6 +4,7 @@ import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.block.RadioactiveFluidTankBlock;
 import com.oritong.superflatcore.block.CorundumClusterBlock;
 import com.oritong.superflatcore.block.WindGeneratorCollisionBlock;
+import com.oritong.superflatcore.blackhole.BlackHoleBlock;
 import com.simibubi.create.content.fluids.tank.FluidTankGenerator;
 import com.oritong.superflatcore.item.RadioactiveFluidTankItem;
 import com.simibubi.create.foundation.data.AssetLookup;
@@ -33,6 +34,24 @@ import java.util.List;
 public final class SFBlocks {
     private static final TagKey<Block> MINEABLE_WITH_WRENCH = TagKey.create(Registries.BLOCK,
             new ResourceLocation("forge", "mineable/wrench"));
+    public static final TagKey<Block> BLACK_HOLE_BLACKLIST = TagKey.create(Registries.BLOCK,
+            SuperFlatCore.id("blackhole_blacklist"));
+
+    public static final BlockEntry<BlackHoleBlock> BLACK_HOLE = SFRegistrate.REGISTRATE
+            .block("black_hole", BlackHoleBlock::new)
+            .initialProperties(() -> Blocks.END_PORTAL)
+            .properties(properties -> properties.noOcclusion().noLootTable().lightLevel(state -> 12)
+                    .forceSolidOn())
+            .blockstate((context, provider) -> provider.simpleBlock(context.getEntry(),
+                    provider.models().cubeAll(context.getName(), new ResourceLocation("minecraft", "block/obsidian"))))
+            .tag(BLACK_HOLE_BLACKLIST)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .defaultLoot()
+            .item(BlockItem::new)
+            .model((context, provider) -> provider.withExistingParent(context.getName(),
+                    new ResourceLocation("minecraft", "item/ender_eye")))
+            .build()
+            .register();
 
     public static final BlockEntry<WindGeneratorCollisionBlock> WIND_GENERATOR_COLLISION = SFRegistrate.REGISTRATE
             .block("wind_generator_collision", WindGeneratorCollisionBlock::new)

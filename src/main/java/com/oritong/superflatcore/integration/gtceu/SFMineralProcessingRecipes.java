@@ -3,7 +3,8 @@ package com.oritong.superflatcore.integration.gtceu;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.gregtechceu.gtceu.common.data.GCYMRecipeTypes;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.oritong.superflatcore.SuperFlatCore;
 
 import net.minecraft.core.registries.Registries;
@@ -94,6 +95,8 @@ public final class SFMineralProcessingRecipes {
     private SFMineralProcessingRecipes() {}
 
     public static void addRecipes(Consumer<FinishedRecipe> provider) {
+        addXanthateRecipes(provider);
+        addTurpentineRecipes(provider);
         addIsaMillRecipes(provider, requireRecipeType("isa_mill"));
         addFlotationRecipes(provider, requireRecipeType("flotation_cell_regulator"));
         addDehydratorRecipes(provider, requireRecipeType("dehydrator"));
@@ -101,26 +104,101 @@ public final class SFMineralProcessingRecipes {
 
     private static void addIsaMillRecipes(Consumer<FinishedRecipe> provider, GTRecipeType recipeType) {
         for (IsaMillOre ore : ISA_MILL_ORES) {
-            addIsaMillRecipe(provider, recipeType, ore, "rgs", 1, Ingredient.of(item("gtceu:" + ore.rawItem)),
-                    50, 48, 2_400, 1);
-            addIsaMillRecipe(provider, recipeType, ore, "ral", 10, Ingredient.of(item("gtceu:" + ore.rawItem)),
-                    50, 36, 1_200, 2);
-            addIsaMillRecipe(provider, recipeType, ore, "bgs", 1, oreTag(ore.name), 100, 96, 4_800, 1);
-            addIsaMillRecipe(provider, recipeType, ore, "bal", 10, oreTag(ore.name), 100, 72, 2_400, 2);
+            addIsaMillRecipe(provider, recipeType, ore, "raw_soapstone", Ingredient.of(item("gtceu:" + ore.rawItem)),
+                    50, 48, 2_400, 1, "kubejs:soapstone_grinding_ball", 200);
+            addIsaMillRecipe(provider, recipeType, ore, "raw_aluminium", Ingredient.of(item("gtceu:" + ore.rawItem)),
+                    50, 36, 1_200, 2, "kubejs:aluminium_grinding_ball", 100);
+            addIsaMillRecipe(provider, recipeType, ore, "ore_soapstone", oreTag(ore.name),
+                    100, 96, 4_800, 1, "kubejs:soapstone_grinding_ball", 200);
+            addIsaMillRecipe(provider, recipeType, ore, "ore_aluminium", oreTag(ore.name),
+                    100, 72, 2_400, 2, "kubejs:aluminium_grinding_ball", 100);
         }
     }
 
     private static void addIsaMillRecipe(Consumer<FinishedRecipe> provider, GTRecipeType recipeType,
-                                         IsaMillOre ore, String variant, int circuit, Ingredient input,
-                                         int distilledWater, int outputAmount, int duration, int grindball) {
+                                         IsaMillOre ore, String variant, Ingredient input,
+                                         int distilledWater, int outputAmount, int duration, int grindball,
+                                         String grindballItem, int grindballChance) {
         recipeType.recipeBuilder(SuperFlatCore.id("isa_mill/milled_" + ore.name + "_" + variant))
-                .circuitMeta(circuit)
+                .chancedInput(Ingredient.of(item(grindballItem)), grindballChance, 0)
                 .inputItems(input, 16)
                 .inputFluids(fluidStack("gtceu:distilled_water", distilledWater))
                 .outputItems(stack("gtceu:milled_" + ore.name, outputAmount))
                 .EUt(GTValues.VA[GTValues.EV])
                 .duration(duration)
                 .addData("grindball", grindball)
+                .save(provider);
+    }
+
+    private static void addXanthateRecipes(Consumer<FinishedRecipe> provider) {
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(SuperFlatCore.id("mixer/sodium_ethylate"))
+                .inputItems(stack("gtceu:sodium_dust", 1))
+                .inputFluids(fluidStack("gtceu:ethanol", 1_000))
+                .outputItems(stack("gtceu:sodium_ethylate_dust", 9))
+                .outputFluids(fluidStack("gtceu:hydrogen", 1_000))
+                .EUt(GTValues.VA[GTValues.MV])
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder(SuperFlatCore.id("large_chemical_reactor/potassium_ethylate"))
+                .circuitMeta(2)
+                .inputItems(stack("gtceu:potash_dust", 3), stack("gtceu:quicklime_dust", 5))
+                .inputFluids(fluidStack("gtceu:carbon_dioxide", 1_000), fluidStack("minecraft:water", 5_000))
+                .outputItems(stack("gtceu:potassium_ethylate_dust", 6),
+                        stack("gtceu:high_purity_calcium_carbonate_dust", 5))
+                .EUt(GTValues.VA[GTValues.MV])
+                .duration(100)
+                .save(provider);
+
+        GCYMRecipeTypes.ALLOY_BLAST_RECIPES.recipeBuilder(SuperFlatCore.id("alloy_blast_smelter/carbon_disulfide"))
+                .circuitMeta(8)
+                .inputItems(stack("gtceu:carbon_dust", 1), stack("gtceu:sulfur_dust", 2))
+                .outputFluids(fluidStack("gtceu:carbon_disulfide", 1_000))
+                .EUt(GTValues.VA[GTValues.MV])
+                .duration(350)
+                .blastFurnaceTemp(1_200)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(SuperFlatCore.id("chemical_reactor/sodium_ethylxanthate"))
+                .inputItems(stack("gtceu:sodium_ethylate_dust", 9))
+                .inputFluids(fluidStack("gtceu:ethanol", 1_000), fluidStack("gtceu:carbon_disulfide", 1_000))
+                .outputItems(stack("gtceu:sodium_ethylxanthate_dust", 12))
+                .outputFluids(fluidStack("minecraft:water", 1_000))
+                .EUt(GTValues.VA[GTValues.HV])
+                .duration(40)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(SuperFlatCore.id("chemical_reactor/potassium_ethylxanthate"))
+                .inputItems(stack("gtceu:potassium_ethylate_dust", 3))
+                .inputFluids(fluidStack("gtceu:carbon_disulfide", 1_000))
+                .outputItems(stack("gtceu:potassium_ethylxanthate_dust", 12))
+                .EUt(GTValues.VA[GTValues.HV])
+                .duration(40)
+                .save(provider);
+    }
+
+    private static void addTurpentineRecipes(Consumer<FinishedRecipe> provider) {
+        GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(SuperFlatCore.id("chemical_bath/leached_turpentine"))
+                .inputItems(stack("embers:ember_grit", 2))
+                .inputFluids(fluidStack("gtceu:naphtha", 1_000))
+                .outputFluids(fluidStack("gtceu:leached_turpentine", 1_000))
+                .EUt(GTValues.VA[GTValues.HV])
+                .duration(80)
+                .save(provider);
+
+        GTRecipeTypes.CRACKING_RECIPES.recipeBuilder(SuperFlatCore.id("cracker/steam_cracked_turpentine"))
+                .circuitMeta(1)
+                .inputFluids(fluidStack("gtceu:leached_turpentine", 1_000), fluidStack("gtceu:steam", 1_000))
+                .outputFluids(fluidStack("gtceu:steam_cracked_turpentine", 1_000))
+                .EUt(GTValues.VA[GTValues.HV])
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.DISTILLATION_RECIPES.recipeBuilder(SuperFlatCore.id("distillation/turpentine"))
+                .inputFluids(fluidStack("gtceu:steam_cracked_turpentine", 1_000))
+                .outputFluids(fluidStack("gtceu:turpentine", 1_000), fluidStack("gtceu:naphtha", 900))
+                .EUt(GTValues.VA[GTValues.EV])
+                .duration(400)
                 .save(provider);
     }
 
