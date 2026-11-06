@@ -47,7 +47,13 @@ public final class BlackHoleClient {
         // at every stage was the main source of client-side CPU spikes near a
         // black hole. A scan is sufficient once per game tick, or when the
         // camera enters another chunk.
-        if (lastScanGameTime == gameTime
+        // A client block entity can arrive after the first render stage of a
+        // tick.  Do not cache an empty result for that tick: retrying while
+        // no center is known lets a newly placed/synchronised black hole
+        // become visible immediately without adding extra scans once one is
+        // found.
+        if (center != null
+                && lastScanGameTime == gameTime
                 && lastScanChunkX == cameraChunk.x
                 && lastScanChunkZ == cameraChunk.z) {
             return;

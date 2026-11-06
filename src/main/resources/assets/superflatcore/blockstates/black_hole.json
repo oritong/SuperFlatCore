@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "superflatcore:block/black_hole_block"
+    }
+  }
+}

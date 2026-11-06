@@ -332,6 +332,6 @@
     "block.superflatcore.hv_energy_output_hatch_16a": "16安§6HV§r动力仓",
     "block.superflatcore.hv_substation_input_hatch_64a": "64安§6HV§r变电能源仓",
     "block.superflatcore.hv_substation_output_hatch_64a": "64安§6HV§r变电动力仓",
-    "block.superflatcore.black_hole": "??",
-    "tooltip.superflatcore.black_hole": "????????????????????"
+    "block.superflatcore.black_hole": "黑洞",
+    "tooltip.superflatcore.black_hole": "除非你知道自己在做什么，否则不要放置。"
 }
