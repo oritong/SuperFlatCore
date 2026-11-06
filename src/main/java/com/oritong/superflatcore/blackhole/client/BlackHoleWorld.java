@@ -19,9 +19,12 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import java.nio.file.*;
 import java.lang.reflect.Field;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** One client-local artistic field, using independent current-frame color/depth copies. */
 final class BlackHoleWorld {
+    private static final Logger LOGGER = LogManager.getLogger("SuperFlatCore/BlackHole");
     static float scale=.38f,distance=14f,lens=.35f,lensRadius=1.2f,rotation=.4f,infall=.10f,exposure=.18f,tilt=0f;
     static float halo=.28f,haloRing=.30f,haloDisk=.18f,haloAura=.12f;
     static String probe;
@@ -51,7 +54,11 @@ final class BlackHoleWorld {
     static void captureEnvironment(RenderLevelStageEvent e){
         var mc=Minecraft.getInstance();var main=mc.getMainRenderTarget();environmentReady=false;
         if(BlackHoleClient.center==null||BlackHoleRender.world==null||!BlackHoleClient.failure.isEmpty())return;
-        if(GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING)!=main.frameBufferId)return;
+        if(GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING)!=main.frameBufferId){
+            LOGGER.debug("[BLACK-HOLE] Environment capture skipped: drawFbo={} mainFbo={}",
+                    GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING), main.frameBufferId);
+            return;
+        }
         try(State state=new State()){
             GlStateManager._activeTexture(GL13.GL_TEXTURE0);
             if(environment==null||environment.width!=main.width||environment.height!=main.height||environment.isStencilEnabled()!=main.isStencilEnabled()){
@@ -137,7 +144,11 @@ final class BlackHoleWorld {
         Vec3 cameraPosition=frameCameraPosition;float partialTick=framePartialTick;
         frameView=null;frameProjection=null;frameCameraPosition=null;
         // This backend requires the main target; alternate shader pipelines need their own adapter.
-        if(GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING)!=main.frameBufferId||main.getDepthTextureId()<0)return;
+        if(GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING)!=main.frameBufferId||main.getDepthTextureId()<0){
+            LOGGER.debug("[BLACK-HOLE] World render skipped: drawFbo={} mainFbo={} depth={}",
+                    GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING), main.frameBufferId, main.getDepthTextureId());
+            return;
+        }
         long start=System.nanoTime();
         try(State state=new State()){
             GlStateManager._activeTexture(GL13.GL_TEXTURE0);
@@ -227,7 +238,7 @@ final class BlackHoleWorld {
             lastGlError=GL11.glGetError();
             if(lastGlError!=GL11.GL_NO_ERROR)throw new IllegalStateException("World GL error "+lastGlError);
             if(probe!=null){String name=probe;probe=null;capture(name,main,vp,inverse,relative,origin,cameraPosition,partialTick,fieldColor,noLensColor,sourceCoverage);}
-        }catch(Exception ex){BlackHoleClient.failure=ex.toString();System.err.println("[BLACK-HOLE] World disabled: "+ex);}
+        }catch(Exception ex){BlackHoleClient.failure=ex.toString();LOGGER.error("[BLACK-HOLE] World compositor disabled",ex);}
         cpuMillis=(System.nanoTime()-start)/1e6;
     }
     private static void drawField(){

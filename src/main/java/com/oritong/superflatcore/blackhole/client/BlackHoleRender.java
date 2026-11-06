@@ -9,13 +9,13 @@ import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterShadersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import java.io.IOException;
 import java.util.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod.EventBusSubscriber(modid=BlackHoleLab.ID,value=Dist.CLIENT,bus=Mod.EventBusSubscriber.Bus.MOD)
 public final class BlackHoleRender extends RenderType {
+    private static final Logger LOGGER = LogManager.getLogger("SuperFlatCore/BlackHole");
     private BlackHoleRender(){super("unused",DefaultVertexFormat.NEW_ENTITY,VertexFormat.Mode.QUADS,256,false,false,()->{},()->{});}
     private static final String[] MATERIAL_FIELDS_0={"thickness","tilt","bend","density","speed","seed"};
     private static final String[] MATERIAL_FIELDS_1={"beaming","diskGradientPosition","coreGradientStrength","bandDetail","dustScale","dustFill","filament","spiral","haloRadius","haloWidth","haloSharpness","haloGradientMix","haloDiskGradientMix","haloAuraGradientMix","jetStrength","jetLength","jetWidth"};
@@ -37,13 +37,14 @@ public final class BlackHoleRender extends RenderType {
         @Override protected boolean removeEldestEntry(Map.Entry<Key,RenderType> e){return size()>256;}
     };
     static void clearTypes(){TYPES.clear();}
-    @SubscribeEvent public static void register(RegisterShadersEvent event)throws IOException{
-        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"item"),DefaultVertexFormat.NEW_ENTITY),s->{shader=s;generation++;TYPES.clear();System.out.println("[BLACK-HOLE] Item shader generation="+generation);});
-        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"scene"),DefaultVertexFormat.POSITION_TEX),s->{scene=s;System.out.println("[BLACK-HOLE] Scene shader ready");});
-        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"world"),DefaultVertexFormat.POSITION_TEX),s->{world=s;BlackHoleWorld.release();System.out.println("[BLACK-HOLE] World lens shader ready");});
-        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"particles"),DefaultVertexFormat.POSITION_TEX),s->{BlackHoleParticles.shader=s;BlackHoleParticles.release();System.out.println("[BLACK-HOLE] Infall particle shader ready");});
-        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"core_blur"),DefaultVertexFormat.POSITION_TEX),s->{BlackHoleCoreBloom.blur=s;BlackHoleCoreBloom.release();});
-        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"core_composite"),DefaultVertexFormat.POSITION_TEX),s->{BlackHoleCoreBloom.composite=s;BlackHoleCoreBloom.release();});
+    public static void register(RegisterShadersEvent event)throws IOException{
+        LOGGER.info("[BLACK-HOLE] Registering skill shaders");
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"item"),DefaultVertexFormat.NEW_ENTITY),s->{shader=s;generation++;TYPES.clear();LOGGER.info("[BLACK-HOLE] Item shader ready, generation={}",generation);});
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"scene"),DefaultVertexFormat.POSITION_TEX),s->{scene=s;LOGGER.info("[BLACK-HOLE] Scene shader ready");});
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"world"),DefaultVertexFormat.POSITION_TEX),s->{world=s;BlackHoleWorld.release();LOGGER.info("[BLACK-HOLE] World lens shader ready");});
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"particles"),DefaultVertexFormat.POSITION_TEX),s->{BlackHoleParticles.shader=s;BlackHoleParticles.release();LOGGER.info("[BLACK-HOLE] Infall particle shader ready");});
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"core_blur"),DefaultVertexFormat.POSITION_TEX),s->{BlackHoleCoreBloom.blur=s;BlackHoleCoreBloom.release();LOGGER.info("[BLACK-HOLE] Core blur shader ready");});
+        event.registerShader(new ShaderInstance(event.getResourceProvider(),new ResourceLocation(BlackHoleLab.ID,"core_composite"),DefaultVertexFormat.POSITION_TEX),s->{BlackHoleCoreBloom.composite=s;BlackHoleCoreBloom.release();LOGGER.info("[BLACK-HOLE] Core composite shader ready");});
     }
     private static final float[] LINEAR_COLOR=linearTable();
     private static float[] linearTable(){float[] values=new float[256];for(int b=0;b<256;b++){float c=b/255f;values[b]=c<=.04045f?c/12.92f:(float)Math.pow((c+.055f)/1.055f,2.4);}return values;}

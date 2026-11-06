@@ -11,12 +11,12 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** Connects real black-hole block entities to the skill's world compositor. */
-@Mod.EventBusSubscriber(modid = SuperFlatCore.MODID, value = Dist.CLIENT)
 public final class BlackHoleClient {
+    private static final Logger LOGGER = LogManager.getLogger("SuperFlatCore/BlackHole");
     static Vec3 center;
     static int coreColor = 0;
     static long worldDraws;
@@ -84,9 +84,11 @@ public final class BlackHoleClient {
             }
         }
         center = nearest == null ? null : nearest.getCenter();
+        if (center != null) {
+            LOGGER.debug("[BLACK-HOLE] Center found at {} (camera chunk {}, {})", center, cameraChunk.x, cameraChunk.z);
+        }
     }
 
-    @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel level = minecraft.level;

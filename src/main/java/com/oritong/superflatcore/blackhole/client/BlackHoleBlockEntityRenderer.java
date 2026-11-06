@@ -18,6 +18,18 @@ public final class BlackHoleBlockEntityRenderer implements BlockEntityRenderer<B
     @Override
     public void render(BlackHoleBlockEntity entity, float partialTick, PoseStack poseStack,
                        MultiBufferSource buffers, int packedLight, int packedOverlay) {
+        // The skill compositor is the preferred world effect.  Keep a small
+        // model fallback in the block-entity pass so the block remains visible
+        // when Oculus/Embeddium declines the post-process FBO.  This is also
+        // useful during shader reloads; it never changes the suction logic.
+        poseStack.pushPose();
+        poseStack.translate(.5, .5, .5);
+        poseStack.scale(.5F, .5F, .5F);
+        poseStack.translate(-.5, -.5, -.5);
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(
+                entity.getBlockState(), poseStack, buffers, packedLight, packedOverlay);
+        poseStack.popPose();
+
         BlockState pulled = entity.currentlyPulling;
         if (pulled == null || entity.currentlyPullingFrom == null || entity.getLevel() == null) {
             return;
