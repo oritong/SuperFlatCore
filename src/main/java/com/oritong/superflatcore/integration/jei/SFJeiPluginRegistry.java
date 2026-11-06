@@ -90,7 +90,8 @@ public final class SFJeiPluginRegistry {
             "net.creeperhost.polylib.compat.jei.PolyJEIPlugin",
             "ca.teamdman.sfmgui.client.jei.SfmGuiJeiPlugin",
             "mezz.itemzoom.client.compat.JeiModPlugin",
-            "com.pureneko.vjrm.client.VjrmJeiPlugin"
+            "com.pureneko.vjrm.client.VjrmJeiPlugin",
+            "com.oritong.superflatcore.integration.jei.SFBlackHoleJeiPlugin"
     );
 
     private SFJeiPluginRegistry() {

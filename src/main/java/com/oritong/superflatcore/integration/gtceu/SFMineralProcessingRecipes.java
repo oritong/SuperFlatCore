@@ -247,7 +247,7 @@ public final class SFMineralProcessingRecipes {
         return Ingredient.of(TagKey.create(Registries.ITEM, new ResourceLocation("forge", "ores/" + ore)));
     }
 
-    private static Item item(String id) {
+    static Item item(String id) {
         Item item = ForgeRegistries.ITEMS.getValue(parseId(id));
         if (item == null || item == Items.AIR) {
             throw new IllegalStateException("Missing item " + id);
