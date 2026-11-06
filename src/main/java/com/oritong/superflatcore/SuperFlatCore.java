@@ -22,6 +22,7 @@ import com.oritong.superflatcore.integration.botania.DominionWandBotaniaIntegrat
 import com.oritong.superflatcore.integration.botania.ManaSparkHatchIntegration;
 import com.oritong.superflatcore.integration.create.CorundumSpoutingIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
+import com.oritong.superflatcore.integration.gtceu.SFCeramicMaterials;
 import com.oritong.superflatcore.integration.gtceu.SFMineralProcessingMaterials;
 import com.oritong.superflatcore.integration.rainrot.RainrotDrinkIntegration;
 import com.oritong.superflatcore.network.SFNetwork;
@@ -48,6 +49,7 @@ public class SuperFlatCore {
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         SFRegistrate.REGISTRATE.registerEventListeners(modBus);
         modBus.addListener(SFMineralProcessingMaterials::registerMaterials);
+        modBus.addListener(SFCeramicMaterials::registerMaterials);
         SFBlocks.init();
         SFBlockEntities.init();
         SFFluids.register(modBus);

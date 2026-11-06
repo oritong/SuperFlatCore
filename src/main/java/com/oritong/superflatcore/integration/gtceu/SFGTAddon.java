@@ -71,6 +71,7 @@ public class SFGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
+        SFCeramicRecipes.addRecipes(provider);
         SFMineralProcessingRecipes.addRecipes(provider);
         SFBlackHoleRecipes.addRecipes(provider);
         ItemStack steelRod = ChemicalHelper.get(TagPrefix.rodLong, GTMaterials.Steel);
@@ -115,8 +116,8 @@ public class SFGTAddon implements IGTAddon {
 
     /**
      * Replace GTCEu's stock energy/dynamo hatch recipes with the pack variant.
-     * Two ceramic plates are selected by the recipe tier; high tiers use
-     * tungsten tetraboride ceramic until dedicated materials are introduced.
+     * Two ceramic plates are selected by the recipe tier. LuV uses naquadah
+     * oxide ceramic; higher tiers retain the tungsten tetraboride fallback.
      */
     private static void addEnergyHatchRecipes(Consumer<FinishedRecipe> provider) {
         int baseTiers = Math.min(VN.length, Math.min(ENERGY_INPUT_HATCH.length, ENERGY_OUTPUT_HATCH.length));
@@ -555,6 +556,9 @@ public class SFGTAddon implements IGTAddon {
     }
 
     private static ItemStack ceramicPlate(int tier) {
+        if (tier == LuV) {
+            return ChemicalHelper.get(plate, SFCeramicMaterials.NAQUADAH_OXIDE_CERAMIC, 2);
+        }
         String name;
         if (tier <= LV) {
             name = "glass_plate";
