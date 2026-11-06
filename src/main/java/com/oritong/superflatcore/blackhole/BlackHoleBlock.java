@@ -1,10 +1,16 @@
 package com.oritong.superflatcore.blackhole;
 
+import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.registry.SFBlockEntities;
 import com.oritong.superflatcore.registry.SFBlocks;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -21,6 +27,8 @@ import org.jetbrains.annotations.Nullable;
 /** Oritech-compatible black-hole block; its visible body is supplied by the skill renderer. */
 public final class BlackHoleBlock extends Block implements EntityBlock {
     private static final VoxelShape SHAPE = Block.box(3, 3, 3, 13, 13, 13);
+    private static final ResourceKey<DamageType> BLACK_HOLE_DAMAGE = ResourceKey.create(
+            Registries.DAMAGE_TYPE, SuperFlatCore.id("black_hole"));
 
     public BlackHoleBlock(Properties properties) {
         super(properties);
@@ -55,6 +63,16 @@ public final class BlackHoleBlock extends Block implements EntityBlock {
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        if (level.isClientSide) {
+            return;
+        }
+        if (entity instanceof Player player) {
+            DamageSource damageSource = new DamageSource(level.registryAccess()
+                    .registryOrThrow(Registries.DAMAGE_TYPE)
+                    .getHolderOrThrow(BLACK_HOLE_DAMAGE));
+            player.hurt(damageSource, Float.MAX_VALUE);
+            return;
+        }
         entity.kill();
     }
 

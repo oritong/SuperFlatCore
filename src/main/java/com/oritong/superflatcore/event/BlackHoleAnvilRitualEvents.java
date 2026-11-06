@@ -90,11 +90,19 @@ public final class BlackHoleAnvilRitualEvents {
         double x = pos.getX() + 0.5;
         double y = pos.getY() + 0.5;
         double z = pos.getZ() + 0.5;
+        // A short, layered reality-collapse burst: a white core flash, a dimensional
+        // shockwave, then purple/teal energy and bright motes expanding around it.
+        level.sendParticles(ParticleTypes.FLASH, x, y, z, 1, 0, 0, 0, 0);
         level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y, z, 1, 0, 0, 0, 0);
-        level.sendParticles(ParticleTypes.FLAME, x, y, z, 80, 1.0, 0.7, 1.0, 0.08);
-        level.sendParticles(ParticleTypes.END_ROD, x, y, z, 48, 0.9, 0.9, 0.9, 0.12);
-        level.sendParticles(ParticleTypes.PORTAL, x, y, z, 96, 1.2, 1.0, 1.2, 0.7);
-        level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 2.0F, 0.65F);
+        level.sendParticles(ParticleTypes.SONIC_BOOM, x, y, z, 1, 0, 0, 0, 0);
+        level.sendParticles(ParticleTypes.REVERSE_PORTAL, x, y, z, 160, 1.35, 1.0, 1.35, 0.8);
+        level.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, x, y, z, 72, 0.9, 0.8, 0.9, 0.16);
+        level.sendParticles(ParticleTypes.ELECTRIC_SPARK, x, y, z, 112, 1.1, 0.9, 1.1, 0.28);
+        level.sendParticles(ParticleTypes.END_ROD, x, y + 0.15, z, 72, 1.15, 0.65, 1.15, 0.12);
+        level.sendParticles(ParticleTypes.GLOW, x, y, z, 48, 0.7, 0.7, 0.7, 0.04);
+        level.sendParticles(ParticleTypes.WITCH, x, y, z, 64, 1.2, 1.0, 1.2, 0.18);
+        level.playSound(null, pos, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 2.0F, 0.62F);
+        level.playSound(null, pos, SoundEvents.RESPAWN_ANCHOR_DEPLETE.value(), SoundSource.BLOCKS, 1.5F, 0.72F);
     }
 
     private static boolean isAnvil(BlockState state) {
