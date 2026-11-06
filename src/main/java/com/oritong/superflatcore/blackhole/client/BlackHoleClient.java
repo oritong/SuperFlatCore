@@ -11,6 +11,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +26,8 @@ public final class BlackHoleClient {
     private static long lastScanGameTime = Long.MIN_VALUE;
     private static int lastScanChunkX = Integer.MIN_VALUE;
     private static int lastScanChunkZ = Integer.MIN_VALUE;
+    private static boolean eventDiagnosticLogged;
+    private static boolean emptyScanDiagnosticLogged;
 
     private BlackHoleClient() {}
 
@@ -40,6 +43,8 @@ public final class BlackHoleClient {
             lastScanGameTime = Long.MIN_VALUE;
             lastScanChunkX = Integer.MIN_VALUE;
             lastScanChunkZ = Integer.MIN_VALUE;
+            eventDiagnosticLogged = false;
+            emptyScanDiagnosticLogged = false;
         }
         ChunkPos cameraChunk = new ChunkPos(BlockPos.containing(camera.getPosition()));
         long gameTime = level.getGameTime();
@@ -86,10 +91,19 @@ public final class BlackHoleClient {
         center = nearest == null ? null : nearest.getCenter();
         if (center != null) {
             LOGGER.debug("[BLACK-HOLE] Center found at {} (camera chunk {}, {})", center, cameraChunk.x, cameraChunk.z);
+        } else if (!emptyScanDiagnosticLogged) {
+            emptyScanDiagnosticLogged = true;
+            LOGGER.info("[BLACK-HOLE] No black-hole block entity found near camera chunk ({}, {}); scanned {} loaded chunks",
+                    cameraChunk.x, cameraChunk.z, (chunkRadius * 2 + 1) * (chunkRadius * 2 + 1));
         }
     }
 
+    @SubscribeEvent
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
+        if (!eventDiagnosticLogged) {
+            eventDiagnosticLogged = true;
+            LOGGER.info("[BLACK-HOLE] RenderLevelStageEvent is active (stage={})", event.getStage());
+        }
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel level = minecraft.level;
         if (level == null) {
@@ -112,6 +126,8 @@ public final class BlackHoleClient {
         lastScanGameTime = Long.MIN_VALUE;
         lastScanChunkX = Integer.MIN_VALUE;
         lastScanChunkZ = Integer.MIN_VALUE;
+        eventDiagnosticLogged = false;
+        emptyScanDiagnosticLogged = false;
         BlackHoleWorld.release();
     }
 }
