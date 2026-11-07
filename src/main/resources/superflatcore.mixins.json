@@ -25,6 +25,7 @@
     "GTCeramicTagPrefixMixin",
     "GTMachinesMixin",
     "GTRecipeTypesMixin",
+    "WorkableTieredMachineMixin",
     "GTMachineUtilsMixin",
     "GTToolRecipeHandlerMixin",
     "GTCustomToolRecipesMixin",
