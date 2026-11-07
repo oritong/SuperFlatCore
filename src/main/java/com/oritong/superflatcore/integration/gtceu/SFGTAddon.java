@@ -71,7 +71,6 @@ public class SFGTAddon implements IGTAddon {
 
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
-        SFCeramicRecipes.addRecipes(provider);
         SFMineralProcessingRecipes.addRecipes(provider);
         SFBlackHoleRecipes.addRecipes(provider);
         ItemStack steelRod = ChemicalHelper.get(TagPrefix.rodLong, GTMaterials.Steel);

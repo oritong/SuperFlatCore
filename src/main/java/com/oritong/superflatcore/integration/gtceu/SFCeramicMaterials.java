@@ -26,7 +26,8 @@ public final class SFCeramicMaterials {
                 .ingot()
                 .color(0x26382B)
                 .iconSet(MaterialIconSet.BRIGHT)
-                .components(Naquadah, 1, Oxygen, 2)
+                .components(Naquadah, 1, Oxygen, 1)
+                .formula("NqO", false)
                 .flags(GENERATE_PLATE, GENERATE_RAW_CERAMIC_BLOCK, DISABLE_DECOMPOSITION,
                         NO_SMELTING, NO_WORKING, EXCLUDE_BLOCK_CRAFTING_RECIPES)
                 .buildAndRegister();
