@@ -53,6 +53,7 @@
     "WorkableMultiblockMachineMixin",
     "ForgeFluidTankMixin",
     "GCYMMachinesMixin",
+    "GTLCoreLargeExtruderMixin",
     "GTQuantumTankFluidCacheMixin",
     "AE2BasicCellInventoryMixin",
     "AE2CreativeCellInventoryMixin",

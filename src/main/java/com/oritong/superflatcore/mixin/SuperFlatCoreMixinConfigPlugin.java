@@ -14,6 +14,8 @@ public final class SuperFlatCoreMixinConfigPlugin implements IMixinConfigPlugin 
     private static final String QUICK_MATH_MOD_ID = "pattern_encoding_terminal_quick_math";
     private static final String PROCESSING_PATTERN_AMOUNT_MIXIN =
             "com.oritong.superflatcore.mixin.diamondcore.ae2.MixinSetProcessingPatternAmountScreen";
+    private static final String GTLCORE_LARGE_EXTRUDER_MIXIN =
+            "com.oritong.superflatcore.mixin.GTLCoreLargeExtruderMixin";
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -26,6 +28,10 @@ public final class SuperFlatCoreMixinConfigPlugin implements IMixinConfigPlugin 
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (GTLCORE_LARGE_EXTRUDER_MIXIN.equals(mixinClassName)) {
+            LoadingModList loadingModList = FMLLoader.getLoadingModList();
+            return loadingModList == null || loadingModList.getModFileById("gtlcore") != null;
+        }
         if (!PROCESSING_PATTERN_AMOUNT_MIXIN.equals(mixinClassName)) {
             return true;
         }
