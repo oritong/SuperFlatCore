@@ -69,7 +69,7 @@ public final class SFRecipeTypes {
 
     public static final GTRecipeType ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES = register(
                     "electric_implosion_compressor", GTRecipeTypes.MULTIBLOCK)
-            .setMaxIOSize(3, 2, 1, 1)
+            .setMaxIOSize(3, 2, 0, 0)
             .setEUIO(IO.IN)
             .setSlotOverlay(false, false, true, GuiTextures.IMPLOSION_OVERLAY_1)
             .setSlotOverlay(false, false, false, GuiTextures.IMPLOSION_OVERLAY_2)
