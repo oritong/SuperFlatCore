@@ -26,7 +26,6 @@
     "GTMachinesMixin",
     "GTRecipeTypesMixin",
     "WorkableTieredMachineMixin",
-    "FluidRecipeCapabilityMixin",
     "GTMachineUtilsMixin",
     "GTToolRecipeHandlerMixin",
     "GTCustomToolRecipesMixin",
