@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.gregtechceu.gtceu.api.sound.ExistingSoundEntry;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import vazkii.botania.common.crafting.BotaniaRecipeTypes;
@@ -23,6 +24,8 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import vazkii.botania.common.block.BotaniaBlocks;
@@ -63,6 +66,15 @@ public final class SFRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
             .addDataInfo(data -> net.minecraft.network.chat.Component.translatable(
                     "recipe.superflatcore.mana_required", data.getLong("superflatcore:mana")).getString());
+
+    public static final GTRecipeType ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES = register(
+                    "electric_implosion_compressor", GTRecipeTypes.MULTIBLOCK)
+            .setMaxIOSize(3, 2, 0, 0)
+            .setEUIO(IO.IN)
+            .setSlotOverlay(false, false, true, GuiTextures.IMPLOSION_OVERLAY_1)
+            .setSlotOverlay(false, false, false, GuiTextures.IMPLOSION_OVERLAY_2)
+            .setSlotOverlay(true, false, true, GuiTextures.DUST_OVERLAY)
+            .setSound(new ExistingSoundEntry(SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS));
 
     private SFRecipeTypes() {}
 

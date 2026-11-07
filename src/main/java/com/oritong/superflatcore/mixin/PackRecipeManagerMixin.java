@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.lookup.MapIngredientPool;
 import com.gregtechceu.gtceu.api.recipe.lookup.RecipeManagerHandler;
 import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
+import com.oritong.superflatcore.recipe.ElectricImplosionRecipes;
 import com.oritong.superflatcore.recipe.PackRecipeRestrictions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -41,6 +42,7 @@ public abstract class PackRecipeManagerMixin {
             entries.forEach((id, recipe) -> {
                 if (removeType
                         || PackRecipeRestrictions.removesManualEnergyHatchRecipe(type, id, recipe)
+                        || PackRecipeRestrictions.removesGTNNHeavyAlloyPlateRecipe(id)
                         || recipe instanceof IDisplayModifierRecipe
                         || recipe instanceof ToolBuildingRecipe) {
                     keptByName.remove(id);
@@ -51,6 +53,7 @@ public abstract class PackRecipeManagerMixin {
             keptTypes.put(type, Collections.unmodifiableMap(kept));
         });
         ComponentAssemblyRecipes.populate(keptTypes, keptByName);
+        ElectricImplosionRecipes.populate(keptTypes, keptByName);
         superflatcore$rebuildGregTechLookups(keptTypes);
         recipes = Collections.unmodifiableMap(keptTypes);
         byName = Collections.unmodifiableMap(keptByName);

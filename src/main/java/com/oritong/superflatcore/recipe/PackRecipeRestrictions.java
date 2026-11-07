@@ -105,4 +105,10 @@ public final class PackRecipeRestrictions {
         return path.matches("^(?:[a-z0-9]+_)?energy_(input|output)_hatch(?:_(4a|16a))?$")
                 || path.matches("^(?:[a-z0-9]+_)?substation_(input|output)_hatch_64a$");
     }
+
+    /** GTNN registers four tiers of heavy alloy plates with five explosive variants each. */
+    public static boolean removesGTNNHeavyAlloyPlateRecipe(ResourceLocation id) {
+        return "gtnn".equals(id.getNamespace())
+                && id.getPath().matches("implode_heavy_plate_t[1-4]_(tnt|powderbarrel|dynamite|itnt|bomb)");
+    }
 }
