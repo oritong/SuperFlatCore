@@ -22,6 +22,7 @@
     "DominionWandMixin",
     "GTRecipeModifiersMixin",
     "GTMaterialBlocksOreVariantsMixin",
+    "GTCeramicTagPrefixMixin",
     "GTMachinesMixin",
     "GTMachineUtilsMixin",
     "GTToolRecipeHandlerMixin",

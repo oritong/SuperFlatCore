@@ -40,20 +40,40 @@ final class BlackHoleWorld {
     private static final java.util.List<net.minecraft.world.phys.AABB> foregroundBounds=new java.util.ArrayList<>();
     private static final java.util.List<net.minecraft.world.entity.Entity> foregroundEntities=new java.util.ArrayList<>();
     private static final java.nio.FloatBuffer foregroundData=BufferUtils.createFloatBuffer(MAX_FOREGROUND*8);
-    private static Matrix4f frameView,frameProjection;
+    private static BlackHoleMatrices.Frame frameMatrices;
     private static Vec3 frameCameraPosition;
     private static float framePartialTick;
     private static boolean localPlayerWhollyBehind,localPlayerProtected;
+    private static long retryAfterNanos;
+    private static boolean invalidCameraLogged;
+    static void beginFrame(){
+        frameMatrices=null;frameCameraPosition=null;environmentReady=false;
+    }
+    private static boolean suspended(){return System.nanoTime()<retryAfterNanos;}
     static void captureCamera(RenderLevelStageEvent e){
-        if(BlackHoleClient.center==null||BlackHoleRender.world==null||!BlackHoleClient.failure.isEmpty())return;
-        frameView=new Matrix4f(e.getPoseStack().last().pose());
-        frameProjection=new Matrix4f(e.getProjectionMatrix());
+        if(BlackHoleClient.center==null||BlackHoleRender.world==null||suspended()||frameMatrices!=null)return;
+        frameMatrices=BlackHoleMatrices.capture(e.getPoseStack().last().pose(),e.getProjectionMatrix());
+        if(frameMatrices==null){
+            // Use RenderSystem's saved world camera rotation if an event pose
+            // has already been altered by a particle/shader pass. This retains
+            // Forge camera roll and uses the actual projection for scene depth.
+            Matrix4f worldView=new Matrix4f().set(RenderSystem.getInverseViewRotationMatrix()).invert();
+            frameMatrices=BlackHoleMatrices.capture(worldView,e.getProjectionMatrix());
+            if(frameMatrices==null)frameMatrices=BlackHoleMatrices.capture(worldView,RenderSystem.getProjectionMatrix());
+        }
+        if(frameMatrices==null){
+            if(!invalidCameraLogged){
+                invalidCameraLogged=true;
+                LOGGER.warn("[BLACK-HOLE] Invalid camera matrices at {}; skipping this frame and retrying",e.getStage());
+            }
+            return;
+        }
         frameCameraPosition=e.getCamera().getPosition();
         framePartialTick=e.getPartialTick();
     }
     static void captureEnvironment(RenderLevelStageEvent e){
         var mc=Minecraft.getInstance();var main=mc.getMainRenderTarget();environmentReady=false;
-        if(BlackHoleClient.center==null||BlackHoleRender.world==null||!BlackHoleClient.failure.isEmpty())return;
+        if(BlackHoleClient.center==null||BlackHoleRender.world==null||suspended())return;
         if(GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING)!=main.frameBufferId){
             LOGGER.debug("[BLACK-HOLE] Environment capture skipped: drawFbo={} mainFbo={}",
                     GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING), main.frameBufferId);
@@ -78,7 +98,7 @@ final class BlackHoleWorld {
         if(snapshot!=null){snapshot.destroyBuffers();snapshot=null;}
         if(environment!=null){environment.destroyBuffers();environment=null;}environmentReady=false;
         if(foregroundTexture!=0){GlStateManager._deleteTexture(foregroundTexture);foregroundTexture=0;}foregroundBounds.clear();
-        frameView=null;frameProjection=null;frameCameraPosition=null;
+        beginFrame();retryAfterNanos=0;invalidCameraLogged=false;BlackHoleClient.failure="";
         BlackHoleParticles.release();
         BlackHoleCoreBloom.release();
     }
@@ -138,11 +158,11 @@ final class BlackHoleWorld {
     }
     static void render(RenderLevelStageEvent e){
         var mc=Minecraft.getInstance();var main=mc.getMainRenderTarget();
-        if(BlackHoleClient.center==null||BlackHoleRender.world==null||!BlackHoleClient.failure.isEmpty())return;
-        if(frameView==null||frameProjection==null||frameCameraPosition==null)return;
-        Matrix4f view=frameView,projection=frameProjection;
+        if(BlackHoleClient.center==null||BlackHoleRender.world==null||suspended())return;
+        if(frameMatrices==null||frameCameraPosition==null)return;
+        Matrix4f view=frameMatrices.view(),vp=frameMatrices.viewProjection(),inverse=frameMatrices.inverseViewProjection();
         Vec3 cameraPosition=frameCameraPosition;float partialTick=framePartialTick;
-        frameView=null;frameProjection=null;frameCameraPosition=null;
+        frameMatrices=null;frameCameraPosition=null;
         // This backend requires the main target; alternate shader pipelines need their own adapter.
         if(GL11.glGetInteger(GL30.GL_DRAW_FRAMEBUFFER_BINDING)!=main.frameBufferId||main.getDepthTextureId()<0){
             LOGGER.debug("[BLACK-HOLE] World render skipped: drawFbo={} mainFbo={} depth={}",
@@ -166,9 +186,6 @@ final class BlackHoleWorld {
             main.bindWrite(true);
             // Camera-relative WORLD axes: the disk and particle orbits must not
             // rotate with the camera. The captured view includes Forge camera roll.
-            Matrix4f vp=new Matrix4f(projection).mul(view);
-            Matrix4f inverse=new Matrix4f(vp).invert();
-            if(!inverse.isFinite())throw new IllegalStateException("Non-invertible world view projection");
             Vec3 origin=BlackHoleCamera.origin(inverse);
             Vec3 worldRelative=BlackHoleClient.center.subtract(cameraPosition);
             Vec3 relative=worldRelative;
@@ -238,7 +255,16 @@ final class BlackHoleWorld {
             lastGlError=GL11.glGetError();
             if(lastGlError!=GL11.GL_NO_ERROR)throw new IllegalStateException("World GL error "+lastGlError);
             if(probe!=null){String name=probe;probe=null;capture(name,main,vp,inverse,relative,origin,cameraPosition,partialTick,fieldColor,noLensColor,sourceCoverage);}
-        }catch(Exception ex){BlackHoleClient.failure=ex.toString();LOGGER.error("[BLACK-HOLE] World compositor disabled",ex);}
+            if(!BlackHoleClient.failure.isEmpty()){
+                LOGGER.info("[BLACK-HOLE] World compositor recovered");
+                BlackHoleClient.failure="";
+            }
+        }catch(Exception ex){
+            String failure=ex.toString();
+            if(!failure.equals(BlackHoleClient.failure))LOGGER.error("[BLACK-HOLE] World compositor frame failed; retrying in 5 seconds",ex);
+            BlackHoleClient.failure=failure;
+            retryAfterNanos=System.nanoTime()+5_000_000_000L;
+        }
         cpuMillis=(System.nanoTime()-start)/1e6;
     }
     private static void drawField(){

@@ -334,5 +334,6 @@
     "block.superflatcore.hv_substation_output_hatch_64a": "64安§6HV§r变电动力仓",
     "block.superflatcore.black_hole": "黑洞",
     "tooltip.superflatcore.black_hole": "除非你知道自己在做什么，否则不要放置。",
-    "death.attack.black_hole": "%1$s被黑洞吞噬了"
+    "death.attack.black_hole": "%1$s被黑洞吞噬了",
+    "tagprefix.superflatcore.raw_ceramic_block": "%s粗坯"
 }

@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '1.4.13-hotfix1'
+version = '1.4.13-hotfix2'
 group = 'com.oritong.superflatcore'
 archivesBaseName = 'superflatcore'
 
@@ -123,6 +123,14 @@ tasks.register('verifyComponentAssemblyRecipes', JavaExec) {
 }
 
 tasks.named('check') { dependsOn tasks.named('verifyComponentAssemblyRecipes') }
+
+tasks.register('verifyBlackHoleMatrices', JavaExec) {
+    dependsOn tasks.named('testClasses')
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.oritong.superflatcore.blackhole.client.BlackHoleMatricesTest'
+}
+
+tasks.named('check') { dependsOn tasks.named('verifyBlackHoleMatrices') }
 
 publishing {
     publications {

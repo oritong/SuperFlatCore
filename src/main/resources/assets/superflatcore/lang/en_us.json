@@ -334,5 +334,6 @@
     "block.superflatcore.hv_substation_output_hatch_64a": "64§eA§r §6HV§r Substation Dynamo Hatch",
     "block.superflatcore.black_hole": "Black Hole",
     "tooltip.superflatcore.black_hole": "DON'T PLACE THIS unless you know what you are doing.",
-    "death.attack.black_hole": "%1$s was consumed by a black hole"
+    "death.attack.black_hole": "%1$s was consumed by a black hole",
+    "tagprefix.superflatcore.raw_ceramic_block": "Raw %s Block"
 }

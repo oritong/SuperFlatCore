@@ -11,6 +11,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -98,7 +99,7 @@ public final class BlackHoleClient {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onRenderLevelStage(RenderLevelStageEvent event) {
         if (!eventDiagnosticLogged) {
             eventDiagnosticLogged = true;
@@ -110,8 +111,13 @@ public final class BlackHoleClient {
             stop();
             return;
         }
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
+            BlackHoleWorld.beginFrame();
             refreshCenter(level, event.getCamera());
+            BlackHoleWorld.captureCamera(event);
+        } else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
+            refreshCenter(level, event.getCamera());
+            BlackHoleWorld.captureCamera(event);
             BlackHoleWorld.captureEnvironment(event);
         } else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_PARTICLES) {
             BlackHoleWorld.captureCamera(event);
