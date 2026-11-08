@@ -409,8 +409,6 @@ public final class SFMachines {
                         GTRecipeModifiers.OC_PERFECT_SUBTICK)
                 .beforeWorking((machine, recipe) -> machine instanceof CoilWorkableElectricMultiblockMachine coilMachine
                         && recipe.data.getInt("ebf_temp") <= coilMachine.getCoilType().getCoilTemperature())
-                .tooltips(Component.translatable("superflatcore.machine.twist_space_technology.tooltip.0"))
-                .tooltips(Component.translatable("superflatcore.machine.twist_space_technology.tooltip.1"))
                 .appearanceBlock(GTBlocks.CASING_PTFE_INERT)
                 .pattern(definition -> FactoryBlockPattern.start()
                                 .aisle("   AAAAA   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "   AAAAA   ")

@@ -338,8 +338,8 @@
     "tooltip.superflatcore.black_hole": "除非你知道自己在做什么，否则不要放置。",
     "death.attack.black_hole": "%1$s被黑洞吞噬了",
     "tagprefix.superflatcore.raw_ceramic_block": "%s粗坯",
+    "block.superflatcore.large_void_miner": "大型虚空采矿机",
+    "gtceu.large_void_miner": "大型虚空采矿机",
     "block.superflatcore.twist_space_technology": "深度化学扭曲仪",
-    "gtceu.twist_space_technology": "深度化学扭曲仪",
-    "superflatcore.machine.twist_space_technology.tooltip.0": "线圈温度每高出配方温度100K，并行增加4",
-    "superflatcore.machine.twist_space_technology.tooltip.1": "仅使用输入激光仓，不允许能源仓"
+    "gtceu.twist_space_technology": "深度化学扭曲仪"
 }

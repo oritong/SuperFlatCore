@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=east": { "model": "superflatcore:block/machine/large_void_miner", "y": 90 },
+    "facing=north": { "model": "superflatcore:block/machine/large_void_miner" },
+    "facing=south": { "model": "superflatcore:block/machine/large_void_miner", "y": 180 },
+    "facing=west": { "model": "superflatcore:block/machine/large_void_miner", "y": 270 }
+  }
+}

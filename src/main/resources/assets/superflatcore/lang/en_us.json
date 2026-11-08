@@ -338,8 +338,8 @@
     "tooltip.superflatcore.black_hole": "DON'T PLACE THIS unless you know what you are doing.",
     "death.attack.black_hole": "%1$s was consumed by a black hole",
     "tagprefix.superflatcore.raw_ceramic_block": "Raw %s Block",
+    "block.superflatcore.large_void_miner": "Large Void Miner",
+    "gtceu.large_void_miner": "Large Void Miner",
     "block.superflatcore.twist_space_technology": "Deep Chemical Distorter",
-    "gtceu.twist_space_technology": "Deep Chemical Distorter",
-    "superflatcore.machine.twist_space_technology.tooltip.0": "Every 100K of coil temperature above the recipe temperature adds 4 parallel",
-    "superflatcore.machine.twist_space_technology.tooltip.1": "Uses input laser hatches and does not allow energy hatches"
+    "gtceu.twist_space_technology": "Deep Chemical Distorter"
 }
