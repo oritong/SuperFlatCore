@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "superflatcore:block/machine/giant_fusion_reactor_control_computer" },
+    "facing=east": { "model": "superflatcore:block/machine/giant_fusion_reactor_control_computer", "y": 90 },
+    "facing=south": { "model": "superflatcore:block/machine/giant_fusion_reactor_control_computer", "y": 180 },
+    "facing=west": { "model": "superflatcore:block/machine/giant_fusion_reactor_control_computer", "y": 270 },
+    "facing=up": { "model": "superflatcore:block/machine/giant_fusion_reactor_control_computer", "x": 270 },
+    "facing=down": { "model": "superflatcore:block/machine/giant_fusion_reactor_control_computer", "x": 90 }
+  }
+}

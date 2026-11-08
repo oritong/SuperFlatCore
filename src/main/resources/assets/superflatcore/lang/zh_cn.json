@@ -1,5 +1,8 @@
 {
     "block.superflatcore.automatic_precision_assembler": "自动精密组装机",
+    "block.superflatcore.giant_fusion_reactor_control_computer": "巨型核聚变反应堆控制电脑",
+    "block.superflatcore.advanced_compressed_fusion_coil": "进阶压缩聚变线圈方块",
+    "block.gtceu.naquadria_frame": "超能硅岩框架",
     "block.superflatcore.steel_component_assembly_line": "钢制部件装配线",
     "superflatcore.component_assembly_line": "原始部件装配线",
     "superflatcore.multiblock.muffler_full": "消声仓已满",
