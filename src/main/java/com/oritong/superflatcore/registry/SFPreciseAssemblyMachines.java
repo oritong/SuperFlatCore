@@ -31,10 +31,10 @@ public final class SFPreciseAssemblyMachines {
             .pattern(definition -> {
                 Block casing = iridiumCasing();
                 return FactoryBlockPattern.start()
-                        .aisle("CCCCCCCCC", "F       F", "F       F", "F       F", "CCCC~CCCC")
-                        .aisle("CCCCCCCCC", "CGGGGGGGC", "CGGGGGGGC", "CGGGGGGGC", "CMMMMMMMC")
-                        .aisle("CCCCCCCCC", "C-------C", "C-------C", "C-------C", "CMMMMMMMC")
-                        .aisle("CCCCCCCCC", "CGGGGGGGC", "CGGGGGGGC", "CGGGGGGGC", "CMMMMMMMC")
+                        .aisle("CCCC~CCCC", "F       F", "F       F", "F       F", "CCCCCCCCC")
+                        .aisle("CMMMMMMMC", "CGGGGGGGC", "CGGGGGGGC", "CGGGGGGGC", "CCCCCCCCC")
+                        .aisle("CMMMMMMMC", "C-------C", "C-------C", "C-------C", "CCCCCCCCC")
+                        .aisle("CMMMMMMMC", "CGGGGGGGC", "CGGGGGGGC", "CGGGGGGGC", "CCCCCCCCC")
                         .aisle("CCCCCCCCC", "F       F", "F       F", "F       F", "CCCCCCCCC")
                         .where('C', blocks(casing).setMinGlobalLimited(42)
                                 .or(autoAbilities(definition.getRecipeTypes()))
