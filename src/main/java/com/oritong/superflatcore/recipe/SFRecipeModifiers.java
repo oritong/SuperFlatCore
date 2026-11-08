@@ -2,6 +2,7 @@ package com.oritong.superflatcore.recipe;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -11,6 +12,11 @@ import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 public final class SFRecipeModifiers {
     public static final RecipeModifier MULTIPLERECIPE = new MultipleRecipeMarkerModifier();
     public static final RecipeModifier PROPORTIONAL_INPUT = new ProportionalInputModifier();
+    /**
+     * Gives the deep chemical distortion machine four parallel recipes for every
+     * complete 100 K its coil is above the recipe temperature.
+     */
+    public static final RecipeModifier COIL_TEMPERATURE_PARALLEL = new CoilTemperatureParallelModifier();
 
     private SFRecipeModifiers() {}
 
@@ -80,6 +86,26 @@ public final class SFRecipeModifiers {
         @Override
         public String toString() {
             return "GTRecipeModifiers.PROPORTIONAL_INPUT";
+        }
+    }
+
+    private static final class CoilTemperatureParallelModifier implements RecipeModifier {
+        @Override
+        public ModifierFunction getModifier(MetaMachine machine, GTRecipe recipe) {
+            if (!(machine instanceof CoilWorkableElectricMultiblockMachine coilMachine)
+                    || !recipe.data.contains("ebf_temp")) {
+                return ModifierFunction.IDENTITY;
+            }
+
+            int temperatureDifference = coilMachine.getCoilType().getCoilTemperature()
+                    - recipe.data.getInt("ebf_temp");
+            int parallels = Math.max(1, (temperatureDifference / 100) * 4);
+            return ModifierFunction.builder().parallels(parallels).build();
+        }
+
+        @Override
+        public String toString() {
+            return "SFRecipeModifiers.COIL_TEMPERATURE_PARALLEL";
         }
     }
 }

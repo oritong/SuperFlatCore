@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.CoilWorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -19,7 +20,10 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.machine.multiblock.generator.LargeTurbineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
@@ -67,6 +71,9 @@ public final class SFMachines {
     // Force the void miner definition to initialize with the other machine definitions,
     // before creative-tab contents are built and Registrate's mod event bus is closed.
     public static final MachineDefinition LARGE_VOID_MINER = SFVoidMachines.LARGE_VOID_MINER;
+
+    /** Registered after KubeJS has made the shared recipe type available. */
+    public static MachineDefinition TWIST_SPACE_TECHNOLOGY;
 
     public static final MachineDefinition CONFIGURABLE_AUTO_MAINTENANCE_HATCH = SFRegistrate.REGISTRATE
             .machine("configurable_auto_maintenance_hatch", ConfigurableAutoMaintenanceHatchPartMachine::new)
@@ -392,11 +399,60 @@ public final class SFMachines {
                 .register();
     }
 
+    private static MachineDefinition registerTwistSpaceTechnology(GTRecipeType recipeType) {
+        return SFRegistrate.REGISTRATE.multiblock("twist_space_technology",
+                        CoilWorkableElectricMultiblockMachine::new)
+                .langValue("深度化学扭曲仪")
+                .rotationState(RotationState.NON_Y_AXIS)
+                .recipeType(recipeType)
+                .recipeModifiers(SFRecipeModifiers.COIL_TEMPERATURE_PARALLEL,
+                        GTRecipeModifiers.OC_PERFECT_SUBTICK)
+                .beforeWorking((machine, recipe) -> machine instanceof CoilWorkableElectricMultiblockMachine coilMachine
+                        && recipe.data.getInt("ebf_temp") <= coilMachine.getCoilType().getCoilTemperature())
+                .tooltips(Component.translatable("superflatcore.machine.twist_space_technology.tooltip.0"))
+                .tooltips(Component.translatable("superflatcore.machine.twist_space_technology.tooltip.1"))
+                .appearanceBlock(GTBlocks.CASING_PTFE_INERT)
+                .pattern(definition -> FactoryBlockPattern.start()
+                                .aisle("   AAAAA   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "   AAAAA   ")
+                                .aisle("  ACCCCCA  ", "     C     ", "    C      ", "           ", "           ", "      C    ", "     C     ", "    C      ", "           ", "           ", "      C    ", "     C     ", "    C      ", "           ", "           ", "      C    ", "     C     ", "    C      ", "           ", "           ", "      C    ", "     C     ", "    C      ", "           ", "           ", "      C    ", "     C     ", "  ACCCCCA  ")
+                                .aisle(" ACCCCCCCA ", "     D     ", "           ", "   C       ", "       C   ", "           ", "           ", "           ", "   C       ", "       C   ", "           ", "           ", "           ", "   C       ", "       C   ", "           ", "           ", "           ", "   C       ", "       C   ", "           ", "           ", "           ", "   C       ", "       C   ", "           ", "     D     ", " ACCCCCCCA ")
+                                .aisle("ACCCCCCCCCA", "     D     ", "           ", "        C  ", "  C        ", "           ", "           ", "           ", "        C  ", "  C        ", "           ", "           ", "           ", "        C  ", "  C        ", "           ", "           ", "           ", "        C  ", "  C        ", "           ", "           ", "           ", "        C  ", "  C        ", "           ", "     D     ", "ACCCCCCCCCA")
+                                .aisle("ACCCCCCCCCA", "     D     ", "     D   C ", "     D     ", "     D     ", " C   D     ", "     D     ", "     D   C ", "     D     ", "     D     ", " C   D     ", "     D     ", "     D   C ", "     D     ", "     D     ", " C   D     ", "     D     ", "     D   C ", "     D     ", "     D     ", " C   D     ", "     D     ", "     D   C ", "     D     ", "     D     ", " C   D     ", "     D     ", "ACCCCCCCCCA")
+                                .aisle("ACCCCECCCCA", " CDDDFDDDC ", "    DFD    ", "    DFD    ", "    DFD    ", "    DFD    ", " C  DFD  C ", "    DFD    ", "    DFD    ", "    DFD    ", "    DFD    ", " C  DFD  C ", "    DFD    ", "    DFD    ", "    DFD    ", "    DFD    ", " C  DFD  C ", "    DFD    ", "    DFD    ", "    DFD    ", "    DFD    ", " C  DFD  C ", "    DFD    ", "    DFD    ", "    DFD    ", "    DFD    ", " CDDDFDDDC ", "ACCCCECCCCA")
+                                .aisle("ACCCCCCCCCA", "     D     ", " C   D     ", "     D     ", "     D     ", "     D   C ", "     D     ", " C   D     ", "     D     ", "     D     ", "     D   C ", "     D     ", " C   D     ", "     D     ", "     D     ", "     D   C ", "     D     ", " C   D     ", "     D     ", "     D     ", "     D   C ", "     D     ", " C   D     ", "     D     ", "     D     ", "     D   C ", "     D     ", "ACCCCCCCCCA")
+                                .aisle("ACCCCCCCCCA", "     D     ", "           ", "  C        ", "        C  ", "           ", "           ", "           ", "  C        ", "        C  ", "           ", "           ", "           ", "  C        ", "        C  ", "           ", "           ", "           ", "  C        ", "        C  ", "           ", "           ", "           ", "  C        ", "        C  ", "           ", "     D     ", "ACCCCCCCCCA")
+                                .aisle(" ACCCCCCCA ", "     D     ", "           ", "       C   ", "   C       ", "           ", "           ", "           ", "       C   ", "   C       ", "           ", "           ", "           ", "       C   ", "   C       ", "           ", "           ", "           ", "       C   ", "   C       ", "           ", "           ", "           ", "       C   ", "   C       ", "           ", "     D     ", " ACCCCCCCA ")
+                                .aisle("  ACCCCCA  ", "     C     ", "      C    ", "           ", "           ", "    C      ", "     C     ", "      C    ", "           ", "           ", "    C      ", "     C     ", "      C    ", "           ", "           ", "    C      ", "     C     ", "      C    ", "           ", "           ", "    C      ", "     C     ", "      C    ", "           ", "           ", "    C      ", "     C     ", "  ACCCCCA  ")
+                                .aisle("   AABAA   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "   AAAAA   ")
+                        .where("B", controller(blocks(definition.get())))
+                        .where("A", blocks(GTBlocks.CASING_PTFE_INERT.get())
+                                .or(autoAbilities(definition.getRecipeTypes(), false, false, true, true, true, true))
+                                .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1)))
+                        .where("C", blocks(GTBlocks.CASING_PTFE_INERT.get()))
+                        .where("D", blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                        .where("E", blocks(GTBlocks.CASING_PTFE_INERT.get())
+                                .or(abilities(PartAbility.INPUT_LASER).setMaxGlobalLimited(2)))
+                        .where("F", Predicates.heatingCoils())
+                        .where(" ", Predicates.any())
+                        .build())
+                .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"),
+                        GTCEu.id("block/multiblock/large_chemical_reactor"))
+                .register();
+    }
+
     private SFMachines() {}
 
     public static void init() {}
 
     public static void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
+        GTRecipeType twistSpaceTechnology = GTRegistries.RECIPE_TYPES
+                .get(new ResourceLocation("gtceu", "twist_space_technology"));
+        if (twistSpaceTechnology == null) {
+            throw new IllegalStateException("The KubeJS recipe type gtceu:twist_space_technology was not registered");
+        }
+        if (TWIST_SPACE_TECHNOLOGY == null) {
+            TWIST_SPACE_TECHNOLOGY = registerTwistSpaceTechnology(twistSpaceTechnology);
+        }
         init();
     }
 
@@ -415,6 +471,9 @@ public final class SFMachines {
             event.accept(HEAT_EXCHANGER.asStack());
             event.accept(MANA_OPPRESSOR.asStack());
             event.accept(SUPERCRITICAL_STEAM_TURBINE.asStack());
+            if (TWIST_SPACE_TECHNOLOGY != null) {
+                event.accept(TWIST_SPACE_TECHNOLOGY.asStack());
+            }
             event.accept(WIND_GENERATOR.asStack());
             event.accept(SFBlocks.SUPERCRITICAL_TURBINE_CASING.asStack());
             event.accept(SFBlocks.RADIOACTIVE_FLUID_TANK.asStack());
