@@ -11,5 +11,6 @@ public abstract class GTRecipeTypesMixin {
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void superflatcore$addCompressorFluidSlots(CallbackInfo ci) {
         GTRecipeTypes.COMPRESSOR_RECIPES.setMaxIOSize(1, 1, 1, 1);
+        GTRecipeTypes.PACKER_RECIPES.setMaxIOSize(3, 2, 0, 0);
     }
 }
