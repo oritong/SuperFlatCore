@@ -1,4 +1,5 @@
 {
+    "block.superflatcore.automatic_precision_assembler": "Automatic Precision Assembler",
     "block.superflatcore.steel_component_assembly_line": "Steel Component Assembly Line",
     "superflatcore.component_assembly_line": "Primitive Component Assembly Line",
     "superflatcore.multiblock.muffler_full": "Muffler hatch is full",

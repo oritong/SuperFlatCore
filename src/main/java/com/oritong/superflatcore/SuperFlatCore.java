@@ -10,6 +10,7 @@ import com.oritong.superflatcore.registry.SFFluids;
 import com.oritong.superflatcore.registry.SFItems;
 import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.SFMobEffects;
+import com.oritong.superflatcore.registry.SFPreciseAssemblyMachines;
 import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.registry.SFToolMachines;
 import com.oritong.superflatcore.recipe.SFToolRecipeTypes;
@@ -67,6 +68,8 @@ public class SuperFlatCore {
         modBus.addGenericListener(GTRecipeType.class, SFComponentRecipeTypes::registerRecipeTypes);
         modBus.addGenericListener(MachineDefinition.class, SFComponentMachines::registerMachines);
         modBus.addListener(SFComponentMachines::addCreativeTabItems);
+        modBus.addGenericListener(MachineDefinition.class, SFPreciseAssemblyMachines::registerMachines);
+        modBus.addListener(SFPreciseAssemblyMachines::addCreativeTabItems);
         modBus.addGenericListener(GTRecipeType.class, SFRecipeTypes::registerRecipeTypes);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);

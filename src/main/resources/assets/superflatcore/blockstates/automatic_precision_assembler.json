@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=north": { "model": "superflatcore:block/machine/automatic_precision_assembler" },
+    "facing=east": { "model": "superflatcore:block/machine/automatic_precision_assembler", "y": 90 },
+    "facing=south": { "model": "superflatcore:block/machine/automatic_precision_assembler", "y": 180 },
+    "facing=west": { "model": "superflatcore:block/machine/automatic_precision_assembler", "y": 270 },
+    "facing=up": { "model": "superflatcore:block/machine/automatic_precision_assembler", "x": 270 },
+    "facing=down": { "model": "superflatcore:block/machine/automatic_precision_assembler", "x": 90 }
+  }
+}
