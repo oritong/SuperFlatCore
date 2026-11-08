@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
@@ -72,7 +73,10 @@ public final class SFGiantFusionReactorMachines {
         if (GTCEu.id("item").equals(event.getTabKey().location())) {
             event.accept(GIANT_FUSION_REACTOR_CONTROL_COMPUTER.asStack());
             event.accept(SFBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asStack());
-            event.accept(ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Naquadria));
+            Block frame = ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria);
+            if (frame != null) {
+                event.accept(new ItemStack(frame));
+            }
         }
     }
 }
