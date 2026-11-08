@@ -13,6 +13,7 @@ import com.oritong.superflatcore.registry.SFMobEffects;
 import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.registry.SFToolMachines;
 import com.oritong.superflatcore.recipe.SFToolRecipeTypes;
+import com.oritong.superflatcore.recipe.PackRecipeRestrictions;
 import com.oritong.superflatcore.registry.SFComponentMachines;
 import com.oritong.superflatcore.recipe.SFComponentRecipeTypes;
 import com.oritong.superflatcore.config.SFConfig;
@@ -48,6 +49,7 @@ public class SuperFlatCore {
     public SuperFlatCore() {
         SFConfig.register();
         IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modBus.addListener(PackRecipeRestrictions::removeGTNNHeavyAlloyPlateRecipes);
         SFRegistrate.REGISTRATE.registerEventListeners(modBus);
         modBus.addListener(SFMineralProcessingMaterials::registerMaterials);
         modBus.addListener(SFCeramicMaterials::registerMaterials);

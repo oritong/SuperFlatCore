@@ -1,5 +1,7 @@
 package com.oritong.superflatcore.recipe;
 
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import dev.arbor.gtnn.api.registry.GTRecipeEvent;
 import java.util.Set;
 
 import net.minecraft.core.RegistryAccess;
@@ -108,7 +110,18 @@ public final class PackRecipeRestrictions {
 
     /** GTNN registers four tiers of heavy alloy plates with five explosive variants each. */
     public static boolean removesGTNNHeavyAlloyPlateRecipe(ResourceLocation id) {
-        return "gtnn".equals(id.getNamespace())
+        return "gtceu".equals(id.getNamespace())
                 && id.getPath().matches("implode_heavy_plate_t[1-4]_(tnt|powderbarrel|dynamite|itnt|bomb)");
+    }
+
+    /** Remove GTNN's generated implosion recipes by their actual output items. */
+    public static void removeGTNNHeavyAlloyPlateRecipes(GTRecipeEvent.RemoveRecipe event) {
+        for (int tier = 1; tier <= 4; tier++) {
+            ResourceLocation plateId = new ResourceLocation("gtnn", "heavy_plate_t" + tier);
+            ItemStack plate = new ItemStack(BuiltInRegistries.ITEM.get(plateId));
+            if (!plate.isEmpty()) {
+                event.removeRecipesByOutputs(GTRecipeTypes.IMPLOSION_RECIPES, plate);
+            }
+        }
     }
 }
