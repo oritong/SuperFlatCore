@@ -7,7 +7,6 @@ import com.oritong.superflatcore.block.WindGeneratorCollisionBlock;
 import com.oritong.superflatcore.blackhole.BlackHoleBlock;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
-import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.simibubi.create.content.fluids.tank.FluidTankGenerator;
 import com.oritong.superflatcore.item.RadioactiveFluidTankItem;
 import com.simibubi.create.foundation.data.AssetLookup;
@@ -83,7 +82,7 @@ public final class SFBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .addLayer(() -> RenderType::cutoutMipped)
             .blockstate(GTModels.createActiveModel(SuperFlatCore.id("block/advanced_compressed_fusion_coil")))
-            .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
             .item(BlockItem::new)
             .model((context, provider) -> provider.withExistingParent(context.getName(),
                     SuperFlatCore.id("block/advanced_compressed_fusion_coil")))
