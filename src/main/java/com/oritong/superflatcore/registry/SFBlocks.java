@@ -80,6 +80,22 @@ public final class SFBlocks {
             .build()
             .register();
 
+    public static final BlockEntry<Block> NAQUADAH_ALLOY_CASING = SFRegistrate.REGISTRATE
+            .block("naquadah_alloy_casing", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(properties -> properties.isValidSpawn((state, level, pos, entityType) -> false))
+            .addLayer(() -> RenderType::cutoutMipped)
+            .blockstate((context, provider) -> provider.simpleBlock(context.getEntry(),
+                    provider.models().cubeAll(context.getName(),
+                            SuperFlatCore.id("block/naquadah_alloy_casing"))))
+            .tag(MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+            .defaultLoot()
+            .item(BlockItem::new)
+            .model((context, provider) -> provider.withExistingParent(context.getName(),
+                    SuperFlatCore.id("block/naquadah_alloy_casing")))
+            .build()
+            .register();
+
     /** Coil block used by the GTNH compressed fusion reactor structure. */
     public static final BlockEntry<ActiveBlock> ADVANCED_COMPRESSED_FUSION_COIL = SFRegistrate.REGISTRATE
             .block("advanced_compressed_fusion_coil", ActiveBlock::new)
@@ -125,6 +141,7 @@ public final class SFBlocks {
 
     public static void addCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
         if (GTCEu.id("item").equals(event.getTabKey().location())) {
+            event.accept(NAQUADAH_ALLOY_CASING.asStack());
             event.accept(ACCELERATION_RAIL_1.asStack());
             event.accept(ACCELERATION_RAIL_2.asStack());
             event.accept(ACCELERATION_RAIL_3.asStack());
