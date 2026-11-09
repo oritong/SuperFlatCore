@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -12,10 +11,10 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
@@ -24,6 +23,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.air;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.any;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.controller;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.frames;
 
 /** The UV compressed fusion reactor controller ported from GTNH/GTLCore. */
 public final class SFGiantFusionReactorMachines {
@@ -50,7 +50,7 @@ public final class SFGiantFusionReactorMachines {
                                         .setMaxGlobalLimited(1).setPreviewCount(1)))
                                 .where('I', casing.or(abilities(PartAbility.IMPORT_FLUIDS))
                                         .or(abilities(PartAbility.EXPORT_FLUIDS).setPreviewCount(16)))
-                                .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
+                                .where('F', frames(GTMaterials.Naquadria))
                                 .where('H', blocks(SFBlocks.ADVANCED_COMPRESSED_FUSION_COIL.get()))
                                 .where('E', casing.or(blocks(PartAbility.INPUT_ENERGY
                                                 .getBlockRange(GTValues.UV, 14).toArray(Block[]::new)))
@@ -73,10 +73,7 @@ public final class SFGiantFusionReactorMachines {
         if (GTCEu.id("item").equals(event.getTabKey().location())) {
             event.accept(GIANT_FUSION_REACTOR_CONTROL_COMPUTER.asStack());
             event.accept(SFBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asStack());
-            Block frame = ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria);
-            if (frame != null) {
-                event.accept(new ItemStack(frame));
-            }
+            event.accept(GTMaterialBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.Naquadria).asStack());
         }
     }
 }

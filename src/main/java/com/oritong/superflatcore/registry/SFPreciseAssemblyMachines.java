@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.oritong.superflatcore.SuperFlatCore;
 import dev.arbor.gtnn.data.GTNNRecipeTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -30,12 +29,13 @@ public final class SFPreciseAssemblyMachines {
             .appearanceBlock(SFPreciseAssemblyMachines::iridiumCasing)
             .pattern(definition -> {
                 Block casing = iridiumCasing();
+                // Aisles advance toward FRONT, so the controller belongs on the last aisle.
                 return FactoryBlockPattern.start()
-                        .aisle("CCCC~CCCC", "F       F", "F       F", "F       F", "CCCCCCCCC")
+                        .aisle("CCCCCCCCC", "F       F", "F       F", "F       F", "CCCCCCCCC")
                         .aisle("CMMMMMMMC", "CGGGGGGGC", "CGGGGGGGC", "CGGGGGGGC", "CCCCCCCCC")
                         .aisle("CMMMMMMMC", "C-------C", "C-------C", "C-------C", "CCCCCCCCC")
                         .aisle("CMMMMMMMC", "CGGGGGGGC", "CGGGGGGGC", "CGGGGGGGC", "CCCCCCCCC")
-                        .aisle("CCCCCCCCC", "F       F", "F       F", "F       F", "CCCCCCCCC")
+                        .aisle("CCCC~CCCC", "F       F", "F       F", "F       F", "CCCCCCCCC")
                         .where('C', blocks(casing).setMinGlobalLimited(42)
                                 .or(autoAbilities(definition.getRecipeTypes()))
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
