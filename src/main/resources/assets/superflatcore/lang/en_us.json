@@ -1,4 +1,7 @@
 {
+    "block.superflatcore.acceleration_rail_1": "Acceleration Rail MK I",
+    "block.superflatcore.acceleration_rail_2": "Acceleration Rail MK II",
+    "block.superflatcore.acceleration_rail_3": "Acceleration Rail MK III",
     "block.superflatcore.automatic_precision_assembler": "Automatic Precision Assembler",
     "block.superflatcore.giant_fusion_reactor_control_computer": "Giant Fusion Reactor Control Computer",
     "block.superflatcore.advanced_compressed_fusion_coil": "Advanced Compressed Fusion Coil Block",

@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
+    "superflatcore:acceleration_rail_1",
+    "superflatcore:acceleration_rail_2",
+    "superflatcore:acceleration_rail_3",
     "superflatcore:supercritical_turbine_casing"
   ]
 }

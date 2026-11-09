@@ -1,0 +1,14 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "superflatcore:block/acceleration_rail/a2",
+    "bot_up": "superflatcore:block/acceleration_rail/module",
+    "bot_down": "superflatcore:block/acceleration_rail/module",
+    "top_up": "gtceu:block/casings/fusion/fusion_casing_bloom",
+    "top_down": "gtceu:block/casings/fusion/fusion_casing_bloom",
+    "top_north": "superflatcore:block/acceleration_rail/glow",
+    "top_east": "superflatcore:block/acceleration_rail/glow",
+    "top_south": "superflatcore:block/acceleration_rail/glow",
+    "top_west": "superflatcore:block/acceleration_rail/glow"
+  }
+}

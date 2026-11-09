@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "superflatcore:block/acceleration_rail_2"
+    },
+    "active=true": {
+      "model": "superflatcore:block/acceleration_rail_2_active"
+    }
+  }
+}

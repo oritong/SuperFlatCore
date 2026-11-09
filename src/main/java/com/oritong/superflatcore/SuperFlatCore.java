@@ -57,6 +57,7 @@ public class SuperFlatCore {
         modBus.addListener(SFCeramicMaterials::registerMaterials);
         modBus.addListener(SFMaterialProperties::registerProperties);
         SFBlocks.init();
+        modBus.addListener(SFBlocks::addCreativeTabItems);
         SFBlockEntities.init();
         SFFluids.register(modBus);
         SFItems.register(modBus);

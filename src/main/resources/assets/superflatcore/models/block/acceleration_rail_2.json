@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "superflatcore:block/acceleration_rail/2",
+    "up": "superflatcore:block/acceleration_rail/module",
+    "down": "superflatcore:block/acceleration_rail/module"
+  }
+}

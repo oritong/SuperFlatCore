@@ -1,4 +1,7 @@
 {
+    "block.superflatcore.acceleration_rail_1": "加速轨道 MK I",
+    "block.superflatcore.acceleration_rail_2": "加速轨道 MK II",
+    "block.superflatcore.acceleration_rail_3": "加速轨道 MK III",
     "block.superflatcore.automatic_precision_assembler": "自动精密组装机",
     "block.superflatcore.giant_fusion_reactor_control_computer": "巨型核聚变反应堆控制电脑",
     "block.superflatcore.advanced_compressed_fusion_coil": "进阶压缩聚变线圈方块",

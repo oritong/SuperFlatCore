@@ -1,11 +1,14 @@
 package com.oritong.superflatcore.registry;
 
 import com.oritong.superflatcore.SuperFlatCore;
+import com.oritong.superflatcore.block.AccelerationRailBlock;
 import com.oritong.superflatcore.block.RadioactiveFluidTankBlock;
 import com.oritong.superflatcore.block.CorundumClusterBlock;
 import com.oritong.superflatcore.block.WindGeneratorCollisionBlock;
 import com.oritong.superflatcore.blackhole.BlackHoleBlock;
 import com.gregtechceu.gtceu.api.block.ActiveBlock;
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.simibubi.create.content.fluids.tank.FluidTankGenerator;
 import com.oritong.superflatcore.item.RadioactiveFluidTankItem;
@@ -26,6 +29,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 
@@ -88,6 +92,44 @@ public final class SFBlocks {
                     SuperFlatCore.id("block/advanced_compressed_fusion_coil")))
             .build()
             .register();
+
+    // GTOCore power module appearances 1, 3, 5 become acceleration rail tiers 1, 2, 3.
+    public static final BlockEntry<AccelerationRailBlock> ACCELERATION_RAIL_1 = registerAccelerationRail(1);
+    public static final BlockEntry<AccelerationRailBlock> ACCELERATION_RAIL_2 = registerAccelerationRail(2);
+    public static final BlockEntry<AccelerationRailBlock> ACCELERATION_RAIL_3 = registerAccelerationRail(3);
+
+    private static BlockEntry<AccelerationRailBlock> registerAccelerationRail(int tier) {
+        String name = "acceleration_rail_" + tier;
+        ResourceLocation model = SuperFlatCore.id("block/" + name);
+        return SFRegistrate.REGISTRATE
+                .block(name, properties -> new AccelerationRailBlock(properties, tier))
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .addLayer(() -> RenderType::cutoutMipped)
+                .blockstate((context, provider) -> {
+                    ActiveBlock block = context.getEntry();
+                    var inactive = provider.models().getExistingFile(model);
+                    var active = provider.models().getExistingFile(model.withSuffix("_active"));
+                    provider.getVariantBuilder(block)
+                            .partialState().with(GTBlockStateProperties.ACTIVE, false).modelForState()
+                            .modelFile(inactive).addModel()
+                            .partialState().with(GTBlockStateProperties.ACTIVE, true).modelForState()
+                            .modelFile(active).addModel();
+                })
+                .tag(MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+                .defaultLoot()
+                .item(BlockItem::new)
+                .model((context, provider) -> provider.withExistingParent(context.getName(), model))
+                .build()
+                .register();
+    }
+
+    public static void addCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
+        if (GTCEu.id("item").equals(event.getTabKey().location())) {
+            event.accept(ACCELERATION_RAIL_1.asStack());
+            event.accept(ACCELERATION_RAIL_2.asStack());
+            event.accept(ACCELERATION_RAIL_3.asStack());
+        }
+    }
 
     public static final BlockEntry<RadioactiveFluidTankBlock> RADIOACTIVE_FLUID_TANK = SFRegistrate.REGISTRATE
             .block("radioactive_fluid_tank", RadioactiveFluidTankBlock::new)
