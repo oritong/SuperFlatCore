@@ -41,7 +41,7 @@ public final class SFPreciseAssemblyMachines {
                                 .or(abilities(PartAbility.MAINTENANCE).setExactLimit(1))
                                 .or(abilities(PartAbility.MUFFLER).setExactLimit(1))
                                 .or(abilities(PartAbility.PARALLEL_HATCH).setMaxGlobalLimited(1)))
-                        .where('F', frames(GTMaterials.TungstenSteel))
+                        .where('F', frames(GTMaterials.HastelloyC276))
                         .where('G', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                         .where('M', blocks(casing))
                         .where('-', any())
