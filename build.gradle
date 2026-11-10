@@ -6,7 +6,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-version = '1.4.22-hotfix1'
+version = '1.4.23'
 group = 'com.oritong.superflatcore'
 archivesBaseName = 'superflatcore'
 
