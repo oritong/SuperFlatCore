@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.4.22"
+version="1.4.22-hotfix1"
 displayName="SuperFlatCore"
 logoFile="superflatcore.png"
 authors="oritong(use ChatGPT)"
