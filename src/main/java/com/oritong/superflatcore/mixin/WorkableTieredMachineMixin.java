@@ -14,12 +14,10 @@ public abstract class WorkableTieredMachineMixin {
                     target = "Lcom/gregtechceu/gtceu/api/machine/trait/NotifiableFluidTank;<init>(Lcom/gregtechceu/gtceu/api/machine/MetaMachine;IILcom/gregtechceu/gtceu/api/capability/recipe/IO;)V"),
             index = 1,
             remap = false)
-    private int superflatcore$disableCompressorInputTank(int slots) {
-        // GTM's compressor recipe UI still creates a TankWidget for its fluid
-        // capabilities. Keep one harmless placeholder tank so that the UI can
-        // bind to index 0 without throwing, while the capacity hook below makes
-        // the tank unusable in the actual machine.
-        return superflatcore$isSmallCompressor() ? 1 : slots;
+    private int superflatcore$keepFluidInputSlotAvailable(int slots) {
+        // These recipe UIs bind a TankWidget even though the small machines
+        // must not accept or store fluids.
+        return superflatcore$hasZeroFluidCapacity() ? 1 : slots;
     }
 
     @ModifyArg(
@@ -29,8 +27,8 @@ public abstract class WorkableTieredMachineMixin {
                     target = "Lcom/gregtechceu/gtceu/api/machine/trait/NotifiableFluidTank;<init>(Lcom/gregtechceu/gtceu/api/machine/MetaMachine;IILcom/gregtechceu/gtceu/api/capability/recipe/IO;)V"),
             index = 2,
             remap = false)
-    private int superflatcore$disableCompressorInputTankCapacity(int capacity) {
-        return superflatcore$isSmallCompressor() ? 0 : capacity;
+    private int superflatcore$disableSmallMachineInputTankCapacity(int capacity) {
+        return superflatcore$hasZeroFluidCapacity() ? 0 : capacity;
     }
 
     @ModifyArg(
@@ -40,8 +38,8 @@ public abstract class WorkableTieredMachineMixin {
                     target = "Lcom/gregtechceu/gtceu/api/machine/trait/NotifiableFluidTank;<init>(Lcom/gregtechceu/gtceu/api/machine/MetaMachine;IILcom/gregtechceu/gtceu/api/capability/recipe/IO;)V"),
             index = 1,
             remap = false)
-    private int superflatcore$disableCompressorOutputTank(int slots) {
-        return superflatcore$isSmallCompressor() ? 1 : slots;
+    private int superflatcore$keepFluidOutputSlotAvailable(int slots) {
+        return superflatcore$hasZeroFluidCapacity() && slots > 0 ? 1 : slots;
     }
 
     @ModifyArg(
@@ -51,11 +49,12 @@ public abstract class WorkableTieredMachineMixin {
                     target = "Lcom/gregtechceu/gtceu/api/machine/trait/NotifiableFluidTank;<init>(Lcom/gregtechceu/gtceu/api/machine/MetaMachine;IILcom/gregtechceu/gtceu/api/capability/recipe/IO;)V"),
             index = 2,
             remap = false)
-    private int superflatcore$disableCompressorOutputTankCapacity(int capacity) {
-        return superflatcore$isSmallCompressor() ? 0 : capacity;
+    private int superflatcore$disableSmallMachineOutputTankCapacity(int capacity) {
+        return superflatcore$hasZeroFluidCapacity() ? 0 : capacity;
     }
 
-    private boolean superflatcore$isSmallCompressor() {
-        return ((WorkableTieredMachine) (Object) this).getDefinition().getId().getPath().endsWith("_compressor");
+    private boolean superflatcore$hasZeroFluidCapacity() {
+        String machineId = ((WorkableTieredMachine) (Object) this).getDefinition().getId().getPath();
+        return machineId.endsWith("_compressor") || machineId.endsWith("_laser_engraver");
     }
 }

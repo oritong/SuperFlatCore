@@ -37,6 +37,13 @@ import java.util.List;
 import com.oritong.superflatcore.SuperFlatCore;
 
 public final class SFRecipeTypes {
+    public static final GTRecipeType RARE_EARTH_CENTRIFUGAL_RECIPES = register(
+                    "rare_earth_centrifugal", GTRecipeTypes.MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(1, 17, 1, 1)
+            .setProgressBar(GuiTextures.CENTRIFUGE_OVERLAY, ProgressTexture.FillDirection.LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CENTRIFUGE);
+
     public static final GTRecipeType HEAT_EXCHANGER_RECIPES = register(
                     "heat_exchanger", GTRecipeTypes.MULTIBLOCK)
             .setMaxIOSize(0, 0, 2, 2)

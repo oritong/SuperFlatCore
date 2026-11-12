@@ -11,6 +11,7 @@ import com.oritong.superflatcore.registry.SFItems;
 import com.oritong.superflatcore.registry.SFMachines;
 import com.oritong.superflatcore.registry.SFMobEffects;
 import com.oritong.superflatcore.registry.SFPreciseAssemblyMachines;
+import com.oritong.superflatcore.registry.SFRareEarthMachines;
 import com.oritong.superflatcore.registry.SFGiantFusionReactorMachines;
 import com.oritong.superflatcore.registry.SFRegistrate;
 import com.oritong.superflatcore.registry.SFToolMachines;
@@ -75,6 +76,8 @@ public class SuperFlatCore {
         modBus.addGenericListener(MachineDefinition.class, SFGiantFusionReactorMachines::registerMachines);
         modBus.addListener(SFGiantFusionReactorMachines::addCreativeTabItems);
         modBus.addGenericListener(GTRecipeType.class, SFRecipeTypes::registerRecipeTypes);
+        modBus.addGenericListener(MachineDefinition.class, SFRareEarthMachines::registerMachines);
+        modBus.addListener(SFRareEarthMachines::addCreativeTabItems);
         modBus.addGenericListener(MachineDefinition.class, SFMachines::registerMachines);
         modBus.addListener(SFMachines::addCreativeTabItems);
         modBus.addListener(DominionWandBotaniaIntegration::commonSetup);
