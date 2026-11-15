@@ -48,7 +48,9 @@ public final class BlackHoleBlockEntity extends BlockEntity {
             entity.setChanged();
             level.sendBlockUpdated(pos, state, state, 3);
             if (absorbedReinforcedDeepslate && level instanceof ServerLevel serverLevel) {
+                level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                 triggerEchoShardReaction(serverLevel, pos);
+                return;
             }
         }
         if (entity.currentlyPullingFrom != null) {
