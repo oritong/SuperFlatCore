@@ -12,7 +12,7 @@ public final class GmcSmelteryRulesTest {
                  "result":{"fluid":"gtceu:rose_gold","amount":144},"temperature":550,"time":52}
                 """);
         adjust(roseGold);
-        require(roseGold.get("temperature").getAsInt() == 998, "Rose gold must melt at 998 C");
+        require(roseGold.get("temperature").getAsInt() == 500, "Rose gold must melt at 500 C");
         require(roseGold.getAsJsonObject("result").get("amount").getAsInt() == 144, "Melting amount changed");
         require(roseGold.get("time").getAsInt() == 52, "Existing melting time changed");
         String normalized = roseGold.toString();
@@ -23,18 +23,18 @@ public final class GmcSmelteryRulesTest {
                 {"type":"tconstruct:damagable_melting","result":{"fluid":"gtceu:steel","amount":432},"temperature":1200}
                 """);
         adjust(steel);
-        require(steel.get("temperature").getAsInt() == 1500, "Blast-furnace material must melt at 1500 C");
+        require(steel.get("temperature").getAsInt() == 950, "Steel must melt at 950 C");
 
         JsonObject parts = json("""
                 {"type":"tconstruct:material_melting","result":{"fluid":"gtceu:rose_gold","amount":144},"temperature":550}
                 """);
         adjust(parts);
-        require(parts.get("temperature").getAsInt() == 998, "Tool-part melting was missed");
+        require(parts.get("temperature").getAsInt() == 500, "Rose gold tool-part override was missed");
         JsonObject material = json("""
                 {"type":"tconstruct:material_fluid","fluid":{"tag":"forge:steel","amount":144},"temperature":1200}
                 """);
         adjust(material);
-        require(material.get("temperature").getAsInt() == 1500, "Tagged material-fluid recipe was missed");
+        require(material.get("temperature").getAsInt() == 950, "Tagged steel material-fluid recipe was missed");
 
         JsonObject conditional = json("""
                 {"type":"forge:conditional","recipes":[{"conditions":[],"recipe":
@@ -42,7 +42,18 @@ public final class GmcSmelteryRulesTest {
                 """);
         adjust(conditional);
         require(conditional.getAsJsonArray("recipes").get(0).getAsJsonObject().getAsJsonObject("recipe")
-                .get("temperature").getAsInt() == 998, "Conditional melting was missed");
+                .get("temperature").getAsInt() == 500, "Conditional melting was missed");
+
+        // The final recipe-object pass uses this same policy, without relying on a JSON loading hook.
+        require(GmcSmelteryRules.temperature("rose_gold", false) == 500, "Direct rose gold part policy is incorrect");
+        require(GmcSmelteryRules.temperature("steel", true) == 950, "Direct steel part policy is incorrect");
+        require(GmcSmelteryRules.temperature("bronze", false) == 998, "Normal non-blast policy changed");
+        require(GmcSmelteryRules.temperature("aluminium", true) == 1500, "Normal blast policy changed");
+        JsonObject steelPart = json("""
+                {"type":"tconstruct:material_melting","result":{"fluid":"gtceu:steel","amount":144},"temperature":1200}
+                """);
+        adjust(steelPart);
+        require(steelPart.get("temperature").getAsInt() == 950, "Steel tool-part override was missed");
 
         for (String source : new String[]{
                 "{\"type\":\"gtceu:electric_blast_furnace\",\"temperature\":2700,\"result\":{\"fluid\":\"gtceu:steel\"}}",
@@ -81,16 +92,16 @@ public final class GmcSmelteryRulesTest {
                 "GregTech's own blast furnace recipe was blocked");
         require(!blocked(json("{\"type\":\"tconstruct:casting_table\",\"fluid\":{\"fluid\":\"gtceu:tungsten_steel\"}}")),
                 "A casting recipe was incorrectly blocked");
-        System.out.println("Passed GMC 998/1500 C, static/tool/conditional recipes, missing rod detection and HV/EV/IV melting gate checks.");
+        System.out.println("Passed GMC rose gold 500 C / steel 950 C overrides, 998/1500 C defaults, tool-part policies and HV/EV/IV melting gate checks.");
     }
 
     private static void adjust(JsonObject recipe) {
         GmcSmelteryRules.adjustTemperature(recipe, fluid -> {
             if (!fluid.isJsonObject()) return -1;
             JsonObject object = fluid.getAsJsonObject();
-            if (GmcSmelteryRules.string(object, "fluid").equals("gtceu:rose_gold")) return GmcSmelteryRules.temperature(false);
+            if (GmcSmelteryRules.string(object, "fluid").equals("gtceu:rose_gold")) return GmcSmelteryRules.temperature("rose_gold", false);
             if (GmcSmelteryRules.string(object, "fluid").equals("gtceu:steel")
-                    || GmcSmelteryRules.string(object, "tag").equals("forge:steel")) return GmcSmelteryRules.temperature(true);
+                    || GmcSmelteryRules.string(object, "tag").equals("forge:steel")) return GmcSmelteryRules.temperature("steel", true);
             return -1;
         });
     }

@@ -36,6 +36,8 @@
     "MekanismSmeltingRecipeGenerationMixin",
     "PackRecipeManagerMixin",
     "GmcMaterialMeltingRecipeAccessor",
+    "GmcMeltingRecipeAccessor",
+    "GmcMaterialFluidRecipeAccessor",
     "GmcMeltingRecipeLookupMixin",
     "MekanismFissionStructureMixin",
     "MekanismFissionFormationMixin",

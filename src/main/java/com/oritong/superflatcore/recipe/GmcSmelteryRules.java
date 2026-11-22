@@ -17,6 +17,14 @@ public final class GmcSmelteryRules {
         return needsBlastFurnace ? BLAST_TEMPERATURE : NON_BLAST_TEMPERATURE;
     }
 
+    public static int temperature(String materialName, boolean needsBlastFurnace) {
+        return switch (materialName) {
+            case "rose_gold" -> 500;
+            case "steel" -> 950;
+            default -> temperature(needsBlastFurnace);
+        };
+    }
+
     public static boolean canMelt(boolean needsBlastFurnace, long blastEUt) {
         // GT defaults an unspecified blast EU/t to MV (120); HV can supply at most 512 EU/t.
         return !needsBlastFurnace || blastEUt <= 512;
