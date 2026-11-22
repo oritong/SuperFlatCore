@@ -21,6 +21,7 @@ public final class GmcSmelteryRules {
         return switch (materialName) {
             case "rose_gold" -> 500;
             case "steel" -> 950;
+            case "wrought_iron" -> 800;
             default -> temperature(needsBlastFurnace);
         };
     }
@@ -28,6 +29,29 @@ public final class GmcSmelteryRules {
     public static boolean canMelt(boolean needsBlastFurnace, long blastEUt) {
         // GT defaults an unspecified blast EU/t to MV (120); HV can supply at most 512 EU/t.
         return !needsBlastFurnace || blastEUt <= 512;
+    }
+
+    /** Replaces only the fuel ingredient, preserving amount and any other fluid alternatives. */
+    public static JsonElement replaceBlazingBloodFuel(JsonElement input) {
+        if (input.isJsonArray()) {
+            com.google.gson.JsonArray replacement = new com.google.gson.JsonArray();
+            boolean changed = false;
+            for (JsonElement child : input.getAsJsonArray()) {
+                JsonElement updated = replaceBlazingBloodFuel(child);
+                replacement.add(updated);
+                changed |= updated != child;
+            }
+            return changed ? replacement : input;
+        }
+        if (!input.isJsonObject()) return input;
+        JsonObject object = input.getAsJsonObject();
+        String fluid = string(object, "fluid");
+        if (!fluid.equals("tconstruct:blazing_blood") && !fluid.equals("tconstruct:flowing_blazing_blood")
+                && !string(object, "tag").equals("tconstruct:blazing_blood")) return input;
+        JsonObject replacement = object.deepCopy();
+        replacement.remove("tag");
+        replacement.addProperty("fluid", "gtceu:blaze");
+        return replacement;
     }
 
     public static boolean isMelting(JsonObject recipe) {

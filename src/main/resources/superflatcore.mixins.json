@@ -39,6 +39,7 @@
     "GmcMeltingRecipeAccessor",
     "GmcMaterialFluidRecipeAccessor",
     "GmcMeltingRecipeLookupMixin",
+    "TinkersMeltingFuelMixin",
     "MekanismFissionStructureMixin",
     "MekanismFissionFormationMixin",
     "MekanismNutritionalLiquifierMixin",

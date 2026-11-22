@@ -54,6 +54,32 @@ public final class GmcSmelteryRulesTest {
                 """);
         adjust(steelPart);
         require(steelPart.get("temperature").getAsInt() == 950, "Steel tool-part override was missed");
+        JsonObject wroughtIronPart = json("""
+                {"type":"tconstruct:material_melting","result":{"fluid":"gtceu:wrought_iron","amount":144},"temperature":998}
+                """);
+        adjust(wroughtIronPart);
+        require(wroughtIronPart.get("temperature").getAsInt() == 800, "Wrought iron tool-part override was missed");
+
+        JsonObject blazeFuel = json("""
+                {"type":"tconstruct:melting_fuel","duration":150,"fluid":{"amount":50,"fluid":"tconstruct:blazing_blood"},
+                 "rate":15,"temperature":1500}
+                """);
+        blazeFuel.add("fluid", GmcSmelteryRules.replaceBlazingBloodFuel(blazeFuel.get("fluid")));
+        require(blazeFuel.getAsJsonObject("fluid").get("fluid").getAsString().equals("gtceu:blaze"), "Blazing blood remains a fuel");
+        require(blazeFuel.getAsJsonObject("fluid").get("amount").getAsInt() == 50, "Fuel consumption changed");
+        require(blazeFuel.get("duration").getAsInt() == 150 && blazeFuel.get("rate").getAsInt() == 15
+                && blazeFuel.get("temperature").getAsInt() == 1500, "Fuel properties changed");
+        JsonElement lava = JsonParser.parseString("{\"fluid\":\"minecraft:lava\",\"amount\":50}");
+        require(GmcSmelteryRules.replaceBlazingBloodFuel(lava) == lava, "Lava fuel changed");
+        JsonObject taggedFuel = GmcSmelteryRules.replaceBlazingBloodFuel(
+                JsonParser.parseString("{\"tag\":\"tconstruct:blazing_blood\",\"amount\":25}")).getAsJsonObject();
+        require(!taggedFuel.has("tag") && taggedFuel.get("fluid").getAsString().equals("gtceu:blaze")
+                && taggedFuel.get("amount").getAsInt() == 25, "Tagged blazing blood fuel was not replaced");
+        JsonElement alternatives = JsonParser.parseString("[{\"fluid\":\"tconstruct:blazing_blood\",\"amount\":50},"
+                + "{\"fluid\":\"minecraft:lava\",\"amount\":50}]");
+        String rewritten = GmcSmelteryRules.replaceBlazingBloodFuel(alternatives).toString();
+        require(rewritten.contains("gtceu:blaze") && rewritten.contains("minecraft:lava")
+                && !rewritten.contains("tconstruct:blazing_blood"), "Fuel alternatives were not preserved");
 
         for (String source : new String[]{
                 "{\"type\":\"gtceu:electric_blast_furnace\",\"temperature\":2700,\"result\":{\"fluid\":\"gtceu:steel\"}}",
@@ -92,7 +118,7 @@ public final class GmcSmelteryRulesTest {
                 "GregTech's own blast furnace recipe was blocked");
         require(!blocked(json("{\"type\":\"tconstruct:casting_table\",\"fluid\":{\"fluid\":\"gtceu:tungsten_steel\"}}")),
                 "A casting recipe was incorrectly blocked");
-        System.out.println("Passed GMC rose gold 500 C / steel 950 C overrides, 998/1500 C defaults, tool-part policies and HV/EV/IV melting gate checks.");
+        System.out.println("Passed GMC material temperatures, wrought iron 800 C, tool-part policies, HV/EV/IV melting gates and GT blaze fuel replacement checks.");
     }
 
     private static void adjust(JsonObject recipe) {
@@ -100,6 +126,7 @@ public final class GmcSmelteryRulesTest {
             if (!fluid.isJsonObject()) return -1;
             JsonObject object = fluid.getAsJsonObject();
             if (GmcSmelteryRules.string(object, "fluid").equals("gtceu:rose_gold")) return GmcSmelteryRules.temperature("rose_gold", false);
+            if (GmcSmelteryRules.string(object, "fluid").equals("gtceu:wrought_iron")) return GmcSmelteryRules.temperature("wrought_iron", false);
             if (GmcSmelteryRules.string(object, "fluid").equals("gtceu:steel")
                     || GmcSmelteryRules.string(object, "tag").equals("forge:steel")) return GmcSmelteryRules.temperature("steel", true);
             return -1;
