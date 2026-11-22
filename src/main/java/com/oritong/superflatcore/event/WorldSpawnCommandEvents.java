@@ -4,18 +4,16 @@ import com.oritong.superflatcore.SuperFlatCore;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.PlayerRespawnLogic;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.ItemStack;
 
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import vazkii.botania.common.item.BotaniaItems;
+import vazkii.botania.common.item.WorldSeedItem;
 
 @Mod.EventBusSubscriber(modid = SuperFlatCore.MODID)
 public final class WorldSpawnCommandEvents {
@@ -30,30 +28,18 @@ public final class WorldSpawnCommandEvents {
 
     private static int teleportToWorldSpawn(CommandSourceStack source) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         ServerPlayer player = source.getPlayerOrException();
-        ServerLevel overworld = source.getServer().getLevel(Level.OVERWORLD);
-        if (overworld == null) {
-            source.sendFailure(net.minecraft.network.chat.Component.translatable(
-                    "commands.superflatcore.spawn.unavailable"));
-            return 0;
+        ItemStack original = player.getMainHandItem();
+        InteractionResultHolder<ItemStack> result;
+        // WorldSeedItem reads and consumes the held stack. Supply a temporary seed so the command
+        // runs Botania's actual teleport, collision handling, particles and sound without consuming gear.
+        player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(BotaniaItems.worldSeed));
+        try {
+            result = ((WorldSeedItem) BotaniaItems.worldSeed).m_7203_(
+                    player.level(), player, InteractionHand.MAIN_HAND);
+        } finally {
+            player.setItemInHand(InteractionHand.MAIN_HAND, original);
         }
-
-        BlockPos spawnPos = PlayerRespawnLogic.getSpawnPosInChunk(
-                overworld, new ChunkPos(overworld.getSharedSpawnPos()));
-        if (spawnPos == null) {
-            source.sendFailure(net.minecraft.network.chat.Component.translatable(
-                    "commands.superflatcore.spawn.no_position"));
-            return 0;
-        }
-
-        Vec3 target = Vec3.atBottomCenterOf(spawnPos);
-        if (!overworld.noCollision(player, player.getDimensions(Pose.STANDING).makeBoundingBox(target))) {
-            source.sendFailure(net.minecraft.network.chat.Component.translatable(
-                    "commands.superflatcore.spawn.no_position"));
-            return 0;
-        }
-
-        player.teleportTo(overworld, target.x, target.y, target.z,
-                overworld.getSharedSpawnAngle(), 0.0F);
+        if (!result.getResult().consumesAction()) return 0;
 
         source.sendSuccess(() -> net.minecraft.network.chat.Component.translatable(
                 "commands.superflatcore.spawn.success"), false);
