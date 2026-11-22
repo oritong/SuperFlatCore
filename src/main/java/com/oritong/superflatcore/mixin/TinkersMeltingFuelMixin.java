@@ -1,6 +1,5 @@
 package com.oritong.superflatcore.mixin;
 
-import com.google.gson.JsonElement;
 import com.oritong.superflatcore.recipe.GmcSmelteryRules;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,8 +12,7 @@ import slimeknights.tconstruct.library.recipe.fuel.MeltingFuel;
 public abstract class TinkersMeltingFuelMixin {
     @ModifyVariable(method = "<init>", at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private static FluidIngredient superflatcore$replaceBlazingBlood(FluidIngredient input) {
-        JsonElement original = input.serialize();
-        JsonElement replacement = GmcSmelteryRules.replaceBlazingBloodFuel(original);
-        return replacement == original ? input : FluidIngredient.LOADABLE.convert(replacement, "fluid");
+        return GmcSmelteryRules.replaceFuelInput(input, FluidIngredient.EMPTY, FluidIngredient::serialize,
+                replacement -> FluidIngredient.LOADABLE.convert(replacement, "fluid"));
     }
 }

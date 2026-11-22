@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 
 import java.util.function.ToIntFunction;
 import java.util.function.Predicate;
+import java.util.function.Function;
 
 /** JSON rules shared by static GMC recipes, dynamic GT recipes and reloads. */
 public final class GmcSmelteryRules {
@@ -29,6 +30,15 @@ public final class GmcSmelteryRules {
     public static boolean canMelt(boolean needsBlastFurnace, long blastEUt) {
         // GT defaults an unspecified blast EU/t to MV (120); HV can supply at most 512 EU/t.
         return !needsBlastFurnace || blastEUt <= 512;
+    }
+
+    public static <T> T replaceFuelInput(T input, T empty, Function<T, JsonElement> serialize,
+                                         Function<JsonElement, T> deserialize) {
+        // Mantle's EMPTY has amount 0 and cannot be serialized. Also preserve identity for solid fuel.
+        if (input == empty) return input;
+        JsonElement original = serialize.apply(input);
+        JsonElement replacement = replaceBlazingBloodFuel(original);
+        return replacement == original ? input : deserialize.apply(replacement);
     }
 
     /** Replaces only the fuel ingredient, preserving amount and any other fluid alternatives. */

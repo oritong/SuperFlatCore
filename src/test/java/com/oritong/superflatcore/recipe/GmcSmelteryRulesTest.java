@@ -81,6 +81,22 @@ public final class GmcSmelteryRulesTest {
         require(rewritten.contains("gtceu:blaze") && rewritten.contains("minecraft:lava")
                 && !rewritten.contains("tconstruct:blazing_blood"), "Fuel alternatives were not preserved");
 
+        // The real Mantle EMPTY fails serialization because amount=0. This path also initializes the fuel lookup.
+        Object emptyFuel = new Object();
+        require(GmcSmelteryRules.replaceFuelInput(emptyFuel, emptyFuel,
+                input -> { throw new AssertionError("Serialized the zero-sized empty fuel sentinel"); },
+                input -> { throw new AssertionError("Deserialized the empty fuel sentinel"); }) == emptyFuel,
+                "Empty fuel identity was lost");
+        JsonElement emptyMarker = JsonParser.parseString("{\"fluid\":\"minecraft:empty\",\"amount\":0}");
+        require(GmcSmelteryRules.replaceFuelInput(lava, emptyMarker, input -> input,
+                input -> { throw new AssertionError("Recreated an unchanged fuel ingredient"); }) == lava,
+                "Unrelated fuel ingredient identity changed");
+        JsonElement bloodInput = JsonParser.parseString("{\"fluid\":\"tconstruct:blazing_blood\",\"amount\":50}");
+        JsonElement blazeInput = GmcSmelteryRules.replaceFuelInput(bloodInput, emptyMarker, input -> input, input -> input);
+        require(blazeInput.getAsJsonObject().get("fluid").getAsString().equals("gtceu:blaze")
+                && blazeInput.getAsJsonObject().get("amount").getAsInt() == 50,
+                "Guarded fuel path failed to replace blazing blood");
+
         for (String source : new String[]{
                 "{\"type\":\"gtceu:electric_blast_furnace\",\"temperature\":2700,\"result\":{\"fluid\":\"gtceu:steel\"}}",
                 "{\"type\":\"tconstruct:melting\",\"temperature\":750,\"result\":{\"fluid\":\"tconstruct:molten_glass\"}}",
@@ -118,7 +134,7 @@ public final class GmcSmelteryRulesTest {
                 "GregTech's own blast furnace recipe was blocked");
         require(!blocked(json("{\"type\":\"tconstruct:casting_table\",\"fluid\":{\"fluid\":\"gtceu:tungsten_steel\"}}")),
                 "A casting recipe was incorrectly blocked");
-        System.out.println("Passed GMC material temperatures, wrought iron 800 C, tool-part policies, HV/EV/IV melting gates and GT blaze fuel replacement checks.");
+        System.out.println("Passed GMC material temperatures, melting gates, GT blaze fuel replacement and non-serializable empty fuel regression checks.");
     }
 
     private static void adjust(JsonObject recipe) {
