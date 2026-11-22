@@ -7,6 +7,7 @@ import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
 import com.oritong.superflatcore.recipe.ElectricImplosionRecipes;
 import com.oritong.superflatcore.recipe.PackRecipeRestrictions;
 import com.oritong.superflatcore.recipe.GmcSmelteryRecipes;
+import com.oritong.superflatcore.recipe.TinkersFuelCache;
 import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -72,6 +73,7 @@ public abstract class PackRecipeManagerMixin {
         ComponentAssemblyRecipes.populate(keptTypes, keptByName);
         ElectricImplosionRecipes.populate(keptTypes, keptByName);
         GmcSmelteryRecipes.populate(keptTypes, keptByName);
+        TinkersFuelCache.refresh(keptTypes);
         superflatcore$rebuildGregTechLookups(keptTypes);
         recipes = Collections.unmodifiableMap(keptTypes);
         byName = Collections.unmodifiableMap(keptByName);
