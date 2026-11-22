@@ -6,17 +6,21 @@ import com.gregtechceu.gtceu.api.recipe.lookup.RecipeManagerHandler;
 import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
 import com.oritong.superflatcore.recipe.ElectricImplosionRecipes;
 import com.oritong.superflatcore.recipe.PackRecipeRestrictions;
+import com.oritong.superflatcore.recipe.GmcSmelteryRecipes;
+import com.google.gson.JsonObject;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.common.crafting.conditions.ICondition;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import slimeknights.tconstruct.library.recipe.modifiers.adding.IDisplayModifierRecipe;
 import slimeknights.tconstruct.library.recipe.tinkerstation.building.ToolBuildingRecipe;
 
@@ -28,6 +32,19 @@ import java.util.Map;
 public abstract class PackRecipeManagerMixin {
     @Shadow private Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes;
     @Shadow private Map<ResourceLocation, Recipe<?>> byName;
+
+    // Forge's context overload is not obfuscated; the deprecated vanilla overload delegates here.
+    @Inject(method = "fromJson(Lnet/minecraft/resources/ResourceLocation;Lcom/google/gson/JsonObject;Lnet/minecraftforge/common/crafting/conditions/ICondition$IContext;)Lnet/minecraft/world/item/crafting/Recipe;",
+            at = @At("HEAD"), cancellable = true, remap = false)
+    private static void superflatcore$normalizeGmcMeltingTemperature(ResourceLocation id, JsonObject json,
+                                                                     ICondition.IContext context,
+                                                                     CallbackInfoReturnable<Recipe<?>> cir) {
+        if (GmcSmelteryRecipes.isBlockedMelting(json)) {
+            cir.setReturnValue(null);
+        } else {
+            GmcSmelteryRecipes.adjustTemperature(json);
+        }
+    }
 
     // Cover both datapack reloads and recipes received from a server or replaced by scripts.
     @Inject(method = {"apply", "replaceRecipes"}, at = @At("TAIL"))
@@ -54,6 +71,7 @@ public abstract class PackRecipeManagerMixin {
         });
         ComponentAssemblyRecipes.populate(keptTypes, keptByName);
         ElectricImplosionRecipes.populate(keptTypes, keptByName);
+        GmcSmelteryRecipes.populate(keptTypes, keptByName);
         superflatcore$rebuildGregTechLookups(keptTypes);
         recipes = Collections.unmodifiableMap(keptTypes);
         byName = Collections.unmodifiableMap(keptByName);

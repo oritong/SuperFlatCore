@@ -35,6 +35,8 @@
     "WindGeneratorCollisionMixin",
     "MekanismSmeltingRecipeGenerationMixin",
     "PackRecipeManagerMixin",
+    "GmcMaterialMeltingRecipeAccessor",
+    "GmcMeltingRecipeLookupMixin",
     "MekanismFissionStructureMixin",
     "MekanismFissionFormationMixin",
     "MekanismNutritionalLiquifierMixin",

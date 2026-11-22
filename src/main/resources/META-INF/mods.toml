@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.4.29"
+version="1.4.30"
 displayName="SuperFlatCore"
 logoFile="superflatcore.png"
 authors="oritong(use ChatGPT)"
@@ -276,5 +276,12 @@ Core mod for the pack **Diamond Continent Jiahao Version**
     modId="ironfurnaces"
     mandatory=true
     versionRange="[4.1.8,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="gm_construct"
+    mandatory=true
+    versionRange="[1.0.10,)"
     ordering="AFTER"
     side="BOTH"
