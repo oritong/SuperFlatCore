@@ -94,6 +94,7 @@
   ],
   "client": [
     "client.ContainerEventHandlerMouseClickedMixin",
+    "client.CreateWorldScreenMixin",
     "client.JemiRecipeSlotIngredientListMixin",
     "client.JeiForgePluginFinderMixin",
     "client.EmiSearchCacheMixin",

@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.4.32"
+version="1.4.33"
 displayName="SuperFlatCore"
 logoFile="superflatcore.png"
 authors="oritong(use ChatGPT)"
@@ -283,5 +283,19 @@ Core mod for the pack **Diamond Continent Jiahao Version**
     modId="gm_construct"
     mandatory=true
     versionRange="[1.0.10,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="create_connected"
+    mandatory=true
+    versionRange="[1.2.3-mc1.20.1,)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.superflatcore]]
+    modId="ftbquests"
+    mandatory=true
+    versionRange="[2001.4.22,)"
     ordering="AFTER"
     side="BOTH"

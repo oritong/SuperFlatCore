@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.13-hotfix2`
+Current version: `1.4.33`
 
 ## Features
 
@@ -28,6 +28,7 @@ Current version: `1.4.13-hotfix2`
 
 ### World resources
 
+- New singleplayer worlds use the built-in Diamond Continent template. The diamond ore terrain continues beyond the starter house and pit. The template includes the house's containers, machines and hanging item frame. Normal difficulty and cheats on are the defaults, and the World tab is hidden.
 - Adds small, medium, large, and full clusters for earth, wood, water, fire, and metal corundum. Breaking a full cluster always drops 2-3 matching GT gems, independent of tool and Fortune.
 - Create spouts can grow clusters by pouring at least 325 mB of mana. The first growth requires the matching Botania metamorphic stone above its corresponding base block; later stages can also grow on blackstone. Stage growth chances are 75%, 65%, and 55%. Each successful pour has a 22% chance to turn the metamorphic stone into blackstone.
 
@@ -94,3 +95,4 @@ SFC is a modpack core mod and is not intended to run without its companion mods.
 - **Other integrations:** Minopp, ME Requester, GTMQOL, Time in a Bottle `4.0.4+`, Curios `5.14.1+`, Jade `11.13.1+`, Beyond Dimensions `0.4.17+`, Super Factory Manager
 - **Client-side required mods:** Cable Facades `2.1.3+`, JEI, EMI `1.1.24+`, Tinkers' Construct and Mantle
 - **Recipe restrictions:** Iron Furnaces `4.1.8+`; Tinkers' Construct is also required on the server.
+- **Diamond Continent template:** Create: Connected and FTB Quests supply blocks and items in the starter house.
