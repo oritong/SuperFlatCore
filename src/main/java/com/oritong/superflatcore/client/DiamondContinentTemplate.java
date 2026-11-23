@@ -1,8 +1,8 @@
 package com.oritong.superflatcore.client;
 
 import com.oritong.superflatcore.SuperFlatCore;
+import com.oritong.superflatcore.world.DiamondContinentWorld;
 import net.minecraft.client.gui.screens.worldselection.WorldCreationUiState;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -27,7 +27,6 @@ public final class DiamondContinentTemplate {
     private static final ResourceKey<WorldPreset> PRESET = ResourceKey.create(
             Registries.WORLD_PRESET, new ResourceLocation(SuperFlatCore.MODID, "diamond_continent"));
     private static final String SEED = "-4879535413869980491";
-    private static final BlockPos SPAWN = new BlockPos(2, -5, -2);
     private static final long DAY_TIME = 6625;
 
     // Ten modified terrain chunks around the spawn, plus the item frame and points of interest.
@@ -85,7 +84,7 @@ public final class DiamondContinentTemplate {
             throw error;
         }
 
-        data.setSpawn(SPAWN, 0);
+        data.setSpawn(DiamondContinentWorld.SPAWN, 0);
         data.setDayTime(DAY_TIME);
         // The template already has a spawn. Skip vanilla's spawn search and bonus chest placement.
         data.setInitialized(true);

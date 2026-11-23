@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.33`
+Current version: `1.4.33-hotfix1`
 
 ## Features
 
@@ -28,7 +28,7 @@ Current version: `1.4.33`
 
 ### World resources
 
-- New singleplayer worlds use the built-in Diamond Continent template. The diamond ore terrain continues beyond the starter house and pit. The template includes the house's containers, machines and hanging item frame. Normal difficulty and cheats on are the defaults, and the World tab is hidden.
+- New singleplayer worlds use the built-in Diamond Continent template, spawning inside the starter house at exactly `2, -6, -2`, without a half-block offset or randomized surface placement. The diamond ore terrain continues beyond the starter house and pit. The template includes the house's containers, machines and hanging item frame. Normal difficulty and cheats on are the defaults, and the World tab is hidden.
 - Adds small, medium, large, and full clusters for earth, wood, water, fire, and metal corundum. Breaking a full cluster always drops 2-3 matching GT gems, independent of tool and Fortune.
 - Create spouts can grow clusters by pouring at least 325 mB of mana. The first growth requires the matching Botania metamorphic stone above its corresponding base block; later stages can also grow on blackstone. Stage growth chances are 75%, 65%, and 55%. Each successful pour has a 22% chance to turn the metamorphic stone into blackstone.
 
@@ -59,7 +59,7 @@ Current version: `1.4.33`
 ### Player features and recipe tools
 
 - **Chat flight:** Send `中国人能飞` in chat to enable and immediately enter creative-style flight, or `曼巴out` to stop it. No operator permission is required, and the player's game mode stays unchanged. Flight permission persists through reconnects, respawns, and dimension changes until disabled. Normal flight controls still apply, and disabling the feature preserves Creative/Spectator mode flight permission.
-- **`/spawn`:** Teleports a player to a safe standing position near the Overworld world spawn. It can be used without an operator permission level.
+- **`/spawn`:** Teleports a player to the Overworld world spawn, moving upward only if the standing space is obstructed. Works at any distance and from other dimensions without operator permission or consuming an item, with Botania world seed sound and particles.
 - **Structure Detect:** Reports GT multiblock formation errors and highlights the problem position. Sneak-right-clicking air toggles Cable Facades disguise rendering.
 - **Employee Companion:** Summons and manages Minopp employee projections.
 - **Machine Soul effects:** Adds machine speed effects triggered by the corresponding potion effects; Jade can show the multiplier and remaining time.
