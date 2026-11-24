@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.recipe.lookup.RecipeManagerHandler;
 import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
 import com.oritong.superflatcore.recipe.ElectricImplosionRecipes;
 import com.oritong.superflatcore.recipe.PackRecipeRestrictions;
+import com.oritong.superflatcore.recipe.PackRecipeManagerAccess;
 import com.oritong.superflatcore.recipe.GmcSmelteryRecipes;
 import com.oritong.superflatcore.recipe.TinkersFuelCache;
 import com.google.gson.JsonObject;
@@ -30,7 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Mixin(RecipeManager.class)
-public abstract class PackRecipeManagerMixin {
+public abstract class PackRecipeManagerMixin implements PackRecipeManagerAccess {
     @Shadow private Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes;
     @Shadow private Map<ResourceLocation, Recipe<?>> byName;
 
@@ -50,6 +51,11 @@ public abstract class PackRecipeManagerMixin {
     // Cover both datapack reloads and recipes received from a server or replaced by scripts.
     @Inject(method = {"apply", "replaceRecipes"}, at = @At("TAIL"))
     private void superflatcore$removePackRecipes(CallbackInfo ci) {
+        superflatcore$finalizeRecipes();
+    }
+
+    @Override
+    public void superflatcore$finalizeRecipes() {
         Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> keptTypes = new LinkedHashMap<>();
         Map<ResourceLocation, Recipe<?>> keptByName = new LinkedHashMap<>(byName);
         recipes.forEach((type, entries) -> {

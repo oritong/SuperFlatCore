@@ -10,8 +10,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.mixin.GmcMaterialMeltingRecipeAccessor;
-import com.oritong.superflatcore.mixin.GmcMeltingRecipeAccessor;
-import com.oritong.superflatcore.mixin.GmcMaterialFluidRecipeAccessor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +26,6 @@ import slimeknights.mantle.recipe.ingredient.FluidIngredient;
 import slimeknights.tconstruct.library.recipe.TinkerRecipeTypes;
 import slimeknights.tconstruct.library.recipe.casting.ICastingRecipe;
 import slimeknights.tconstruct.library.recipe.casting.ItemCastingRecipe;
-import slimeknights.tconstruct.library.recipe.casting.material.MaterialFluidRecipe;
 import slimeknights.tconstruct.library.recipe.melting.IMeltingRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MeltingRecipe;
 import slimeknights.tconstruct.library.recipe.melting.MaterialMeltingRecipe;
@@ -104,32 +101,10 @@ public final class GmcSmelteryRecipes {
         return material == null ? original : temperature(material);
     }
 
-    /** KubeJS and network deserialization can bypass RecipeManager.fromJson entirely. */
-    private static boolean normalizeLoadedTemperature(Recipe<?> recipe) {
-        if (recipe instanceof MeltingRecipe source) {
-            int temperature = meltingTemperature(source.getOutput().getFluid(), source.getTemperature());
-            if (temperature != source.getTemperature()) {
-                ((GmcMeltingRecipeAccessor) source).superflatcore$setTemperature(temperature);
-                return true;
-            }
-        } else if (recipe instanceof MaterialMeltingRecipe) {
-            GmcMaterialMeltingRecipeAccessor source = (GmcMaterialMeltingRecipeAccessor) recipe;
-            int temperature = meltingTemperature(source.superflatcore$getResult().get().getFluid(), source.superflatcore$getTemperature());
-            if (temperature != source.superflatcore$getTemperature()) {
-                source.superflatcore$setTemperature(temperature);
-                // Expanded EMI/JEI part recipes contain their own temperature and time snapshots.
-                source.superflatcore$setMultiRecipes(null);
-                return true;
-            }
-        } else if (recipe instanceof MaterialFluidRecipe source) {
-            GmcMaterialFluidRecipeAccessor accessor = (GmcMaterialFluidRecipeAccessor) source;
-            int temperature = fluidTemperature(accessor.superflatcore$getFluid().serialize());
-            if (temperature >= 0 && temperature != source.getTemperature()) {
-                accessor.superflatcore$setTemperature(temperature);
-                return true;
-            }
-        }
-        return false;
+    public static int materialFluidTemperature(FluidIngredient fluid, int original) {
+        if (fluid == FluidIngredient.EMPTY) return original;
+        int temperature = fluidTemperature(fluid.serialize());
+        return temperature < 0 ? original : temperature;
     }
 
     private static boolean canMelt(Material material) {
@@ -172,6 +147,12 @@ public final class GmcSmelteryRecipes {
 
     public static void populate(Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> recipes,
                                 Map<ResourceLocation, Recipe<?>> byName) {
+        // Network synchronization already contains the server's complete recipe set.
+        // Rebuilding it on the client can make different duplicate/tag choices while
+        // its tags are still synchronizing, especially for casting recipes.
+        if (byName.keySet().stream().anyMatch(GmcSmelteryRecipes::isGenerated)) {
+            return;
+        }
         RecipeType<?> meltingType = TinkerRecipeTypes.MELTING.get();
         Map<ResourceLocation, Recipe<?>> melting = copyOriginals(recipes, meltingType);
         Map<ResourceLocation, Recipe<?>> table = copyOriginals(recipes, TinkerRecipeTypes.CASTING_TABLE.get());
@@ -184,13 +165,6 @@ public final class GmcSmelteryRecipes {
             return true;
         });
         blocked -= melting.size();
-        int normalized = 0;
-        for (Recipe<?> recipe : melting.values()) {
-            if (normalizeLoadedTemperature(recipe)) normalized++;
-        }
-        for (Recipe<?> recipe : recipes.getOrDefault(TinkerRecipeTypes.DATA.get(), Map.of()).values()) {
-            if (normalizeLoadedTemperature(recipe)) normalized++;
-        }
         Map<Fluid, List<MeltingRecipe>> meltingIndex = new IdentityHashMap<>();
         for (Recipe<?> recipe : melting.values()) {
             if (recipe instanceof MeltingRecipe source) {
@@ -257,8 +231,8 @@ public final class GmcSmelteryRecipes {
         recipes.put(meltingType, Collections.unmodifiableMap(melting));
         recipes.put(TinkerRecipeTypes.CASTING_TABLE.get(), Collections.unmodifiableMap(table));
         recipes.put(TinkerRecipeTypes.CASTING_BASIN.get(), Collections.unmodifiableMap(basin));
-        LOGGER.info("Completed GMC smeltery recipes: {} additional melting recipes, {} additional casting recipes, {} EV+ melting recipes removed, {} loaded temperatures corrected",
-                melted, cast, blocked, normalized);
+        LOGGER.info("Completed GMC smeltery recipes: {} additional melting recipes, {} additional casting recipes, {} EV+ melting recipes removed",
+                melted, cast, blocked);
     }
 
     private static boolean hasMelting(Iterable<MeltingRecipe> recipes, Material material, Form form, ItemStack output) {
