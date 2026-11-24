@@ -40,12 +40,12 @@ public final class ComponentAssemblyRecipeRulesTest {
         expect(ComponentAssemblyRecipeRules.scaleDuration(10) == 10, "Copied recipe duration retains every tick");
         expect(ComponentAssemblyRecipeRules.scaleDuration(1) == 1, "Positive minimum duration");
         expect(ComponentAssemblyRecipeRules.scaleDuration(Integer.MAX_VALUE) == Integer.MAX_VALUE, "Duration saturates");
-        expect(ComponentAssemblyRecipeRules.scaleVoltage(32) == 29, "LV power rounds to 29 EU/t");
-        expect(ComponentAssemblyRecipeRules.scaleVoltage(120) == 108, "Exact 10 percent power discount");
-        expect(ComponentAssemblyRecipeRules.scaleVoltage(5) == 5, "Half EU rounds up");
-        expect(ComponentAssemblyRecipeRules.scaleVoltage(1) == 1, "Positive minimum EU/t");
-        expect(ComponentAssemblyRecipeRules.scaleVoltage(0) == 0, "Zero EU stays zero");
-        expect(ComponentAssemblyRecipeRules.scaleVoltage(Long.MAX_VALUE) == 8301034833169298226L,
+        expect(ComponentAssemblyRecipeRules.scaleMachineVoltage(32) == 29, "Machine LV power rounds to 29 EU/t");
+        expect(ComponentAssemblyRecipeRules.scaleMachineVoltage(120) == 108, "Machine retains its 10 percent power discount");
+        expect(ComponentAssemblyRecipeRules.scaleMachineVoltage(5) == 5, "Half EU rounds up");
+        expect(ComponentAssemblyRecipeRules.scaleMachineVoltage(1) == 1, "Positive minimum EU/t");
+        expect(ComponentAssemblyRecipeRules.scaleMachineVoltage(0) == 0, "Zero EU stays zero");
+        expect(ComponentAssemblyRecipeRules.scaleMachineVoltage(Long.MAX_VALUE) == 8301034833169298226L,
                 "Long voltage arithmetic retains precision without overflow");
         System.out.println("Passed " + checks + " component assembly selection and scaling checks.");
     }

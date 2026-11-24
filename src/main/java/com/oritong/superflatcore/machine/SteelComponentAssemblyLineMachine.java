@@ -1,11 +1,13 @@
 package com.oritong.superflatcore.machine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
@@ -16,6 +18,7 @@ import com.oritong.superflatcore.recipe.ComponentAssemblyRecipes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SteelComponentAssemblyLineMachine extends WorkableElectricMultiblockMachine {
@@ -50,6 +53,29 @@ public class SteelComponentAssemblyLineMachine extends WorkableElectricMultibloc
             return null;
         }
         return super.getRealRecipe(recipe);
+    }
+
+    public static ModifierFunction energyModifier(MetaMachine machine, GTRecipe recipe) {
+        if (!(machine instanceof SteelComponentAssemblyLineMachine)) {
+            return ModifierFunction.NULL;
+        }
+        return original -> {
+            // Discount only the runtime copy, before overclocking and parallel power checks.
+            // The registered recipe retains the assembler's full EU/t for recipe viewers and sync.
+            GTRecipe adjusted = original.copy();
+            var energyInputs = adjusted.tickInputs.get(EURecipeCapability.CAP);
+            if (energyInputs != null) {
+                var scaled = new ArrayList<Content>(energyInputs.size());
+                for (Content input : energyInputs) {
+                    var energy = EURecipeCapability.CAP.of(input.content);
+                    scaled.add(new Content(energy.withVoltage(
+                            ComponentAssemblyRecipeRules.scaleMachineVoltage(energy.voltage())),
+                            input.chance, input.maxChance, input.tierChanceBoost));
+                }
+                adjusted.tickInputs.put(EURecipeCapability.CAP, scaled);
+            }
+            return adjusted;
+        };
     }
 
     public static ModifierFunction parallelModifier(MetaMachine machine, GTRecipe recipe) {

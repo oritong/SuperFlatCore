@@ -1,6 +1,5 @@
 package com.oritong.superflatcore.recipe;
 
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -13,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -71,16 +69,6 @@ public final class ComponentAssemblyRecipes {
     private static GTRecipe copyRecipe(GTRecipe source, ResourceLocation id) {
         GTRecipe copied = source.copy();
         var type = SFComponentRecipeTypes.COMPONENT_ASSEMBLY_LINE_RECIPES;
-        var energyInputs = copied.tickInputs.get(EURecipeCapability.CAP);
-        if (energyInputs != null) {
-            var scaled = new ArrayList<Content>(energyInputs.size());
-            for (Content input : energyInputs) {
-                var energy = EURecipeCapability.CAP.of(input.content);
-                scaled.add(new Content(energy.withVoltage(ComponentAssemblyRecipeRules.scaleVoltage(energy.voltage())),
-                        input.chance, input.maxChance, input.tierChanceBoost));
-            }
-            copied.tickInputs.put(EURecipeCapability.CAP, scaled);
-        }
         return new GTRecipe(type, id, copied.inputs, copied.outputs, copied.tickInputs, copied.tickOutputs,
                 copied.inputChanceLogics, copied.outputChanceLogics, copied.tickInputChanceLogics,
                 copied.tickOutputChanceLogics, copied.conditions, copied.ingredientActions, copied.data.copy(),

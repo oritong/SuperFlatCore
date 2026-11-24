@@ -25,7 +25,8 @@ public final class SFComponentMachines {
             .langValue("Steel Component Assembly Line")
             .rotationState(RotationState.ALL)
             .recipeType(SFComponentRecipeTypes.COMPONENT_ASSEMBLY_LINE_RECIPES)
-            .recipeModifiers(GTRecipeModifiers.OC_NON_PERFECT,
+            .recipeModifiers(SteelComponentAssemblyLineMachine::energyModifier,
+                    GTRecipeModifiers.OC_NON_PERFECT,
                     SteelComponentAssemblyLineMachine::parallelModifier,
                     SteelComponentAssemblyLineMachine::durationModifier)
             .alwaysTryModifyRecipe(true)

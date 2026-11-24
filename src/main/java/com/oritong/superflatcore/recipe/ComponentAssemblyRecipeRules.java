@@ -39,11 +39,12 @@ public final class ComponentAssemblyRecipeRules {
         return Math.max(1, ticks);
     }
 
-    public static long scaleVoltage(long voltage) {
+    public static long scaleMachineVoltage(long voltage) {
         if (voltage <= 0) {
             return voltage;
         }
-        // Exact 9/10 scaling without overflowing a long or losing precision through a double.
+        // Apply the machine's 9/10 energy factor without changing the registered recipe.
+        // Keep exact rounding without overflowing a long or losing precision through a double.
         return Math.max(1, voltage / 10 * 9 + (voltage % 10 * 9 + 5) / 10);
     }
 }
