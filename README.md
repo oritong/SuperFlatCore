@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.35`
+Current version: `1.4.35-hotfix1`
 
 ## Features
 
@@ -14,7 +14,7 @@ Current version: `1.4.35`
 
 ### Machines and parts
 
-- GT singleblock steam, gas, and combustion generators, plus GTNN rocket engines and naquadah reactors, produce up to `2 × tier voltage` EU/t and output 2A at their existing voltage. Fuel use scales with generation at the original efficiency.
+- GT singleblock steam, gas, and combustion generators, plus GTNN rocket engines and naquadah reactors, produce up to `2 × tier voltage` EU/t and output 2A at their existing voltage. Their existing output tooltip reports this doubled EU/t while retaining the voltage tier. Fuel use scales with generation at the original efficiency.
 - **Combustion Generator fuel:** GregTech combustion generators accept 4 mB of `gtceu:creosote` for 12 ticks (0.6 seconds) at 32 EU/t, generating 384 EU per batch.
 - **Large Coke Oven:** An 11x11x11 multiblock using existing GT coke oven recipes with up to 32 parallel operations, without adding EU consumption or changing recipe duration. Coke bricks in the lower B positions accept item/fluid input and output parts; the top E position requires exactly one muffler hatch. The controller and formed hatches use the GT coke-brick casing appearance.
 - **Wind Generator:** A GregTech-style Mekanism wind generator that outputs EU. It requires open sky and Y >= 0. Height efficiency rises from 35% at Y=0 to 100% at Y=128, then remains at 100%. Output is `base output × height efficiency × rotor wind output`. The rotor slot accepts SFC wind rotors. Defaults are 60 EU/t base output, 6 durability lost per second while generating, and 2 per second when wind is available but the buffer is full; all three values are configurable.
