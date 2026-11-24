@@ -94,6 +94,7 @@
     "botania.TerrestrialAgglomerationPlateBlockEntityMixin"
   ],
   "client": [
+    "client.RecountItemDecorationsMixin",
     "client.ContainerEventHandlerMouseClickedMixin",
     "client.CreateWorldScreenMixin",
     "client.JemiRecipeSlotIngredientListMixin",

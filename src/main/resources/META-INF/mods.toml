@@ -5,7 +5,7 @@ issueTrackerURL=""
 
 [[mods]]
 modId="superflatcore"
-version="1.4.33-hotfix1"
+version="1.4.33-hotfix2"
 displayName="SuperFlatCore"
 logoFile="superflatcore.png"
 authors="oritong(use ChatGPT)"
@@ -241,6 +241,13 @@ Core mod for the pack **Diamond Continent Jiahao Version**
     modId="gtmqol"
     mandatory=true
     versionRange="[0,)"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.superflatcore]]
+    modId="o123456789"
+    mandatory=true
+    versionRange="[1.0.3,)"
     ordering="AFTER"
     side="CLIENT"
 

@@ -1,5 +1,6 @@
 package com.oritong.superflatcore.mixin;
 
+import com.oritong.superflatcore.asm.RecountItemDecorationPatch;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.LoadingModList;
 import org.objectweb.asm.tree.ClassNode;
@@ -14,6 +15,8 @@ public final class SuperFlatCoreMixinConfigPlugin implements IMixinConfigPlugin 
     private static final String QUICK_MATH_MOD_ID = "pattern_encoding_terminal_quick_math";
     private static final String PROCESSING_PATTERN_AMOUNT_MIXIN =
             "com.oritong.superflatcore.mixin.diamondcore.ae2.MixinSetProcessingPatternAmountScreen";
+    private static final String RECOUNT_ITEM_DECORATIONS_MIXIN =
+            "com.oritong.superflatcore.mixin.client.RecountItemDecorationsMixin";
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -48,5 +51,8 @@ public final class SuperFlatCoreMixinConfigPlugin implements IMixinConfigPlugin 
 
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+        if (RECOUNT_ITEM_DECORATIONS_MIXIN.equals(mixinClassName)) {
+            RecountItemDecorationPatch.apply(targetClass);
+        }
     }
 }

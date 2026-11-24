@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.33-hotfix1`
+Current version: `1.4.33-hotfix2`
 
 ## Features
 
@@ -55,6 +55,7 @@ Current version: `1.4.33-hotfix1`
 - This also applies to Industrial Foregoing: Extra Upgrades (`ifeu`) tier 3-6 speed, efficiency, and processing addons, with their original upgrade values.
 - **Other integrations:** RainRot drink effects and a 64-item Data Pearl stack limit; GTNN mining output; AE2 radioactive-fluid restrictions; Super Factory Manager catalyst display; GT multiblock preview panning; spring bounce behavior; and TIAB/Jade machine effect displays.
 - **Merged Diamond Core fixes:** AE2 pattern amount limits and ExtendedAE Infinity Cell handling; GT parallel hatch initialization; Pipez energy transfer into GT machines; GTMThings wireless FE input; BetterGTAE pattern hatch/assembler behavior; EMI recipe filling for TConstruct crafting stations and Botania fluid outputs; and fixes for ME Requester fields, GTMQOL data-stick rendering, and Industrial Foregoing JEI subtype lookup.
+- **GTMQOL fluid bars:** Restores Forge item decorators after Reliable Recount (`o123456789`) draws its compact stack counts, so tank capacity bars and other registered decorations render again.
 
 ### Player features and recipe tools
 
@@ -93,6 +94,6 @@ SFC is a modpack core mod and is not intended to run without its companion mods.
 - **Technology:** Create `6.0.8+`, Mekanism and Mekanism Generators `10.4.16+`, AE2 `15.4.10+`, ExtendedAE (`expatternprovider`), Industrial Foregoing `3.5.21+`, IFEU, Pipez, BetterGTAE
 - **Magic and resources:** Botania, Ars Nouveau, Occultism `1.158.0+`, Embers `1.4.7+`, Technical Flowers `1.3.1+`, MoreBurners `1.20.1-0.3.5+`, AtomicEmbersDecayed, EzUnclear, RainRot
 - **Other integrations:** Minopp, ME Requester, GTMQOL, Time in a Bottle `4.0.4+`, Curios `5.14.1+`, Jade `11.13.1+`, Beyond Dimensions `0.4.17+`, Super Factory Manager
-- **Client-side required mods:** Cable Facades `2.1.3+`, JEI, EMI `1.1.24+`, Tinkers' Construct and Mantle
+- **Client-side required mods:** Cable Facades `2.1.3+`, JEI, EMI `1.1.24+`, Tinkers' Construct, Mantle, Reliable Recount (`o123456789`) `1.0.3+`
 - **Recipe restrictions:** Iron Furnaces `4.1.8+`; Tinkers' Construct is also required on the server.
 - **Diamond Continent template:** Create: Connected and FTB Quests supply blocks and items in the starter house.
