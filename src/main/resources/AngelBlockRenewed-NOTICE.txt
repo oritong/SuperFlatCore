@@ -1,4 +1,4 @@
-Angel Block code, texture and crafting recipe adapted from AngelBlockRenewed.
+Angel Block code and texture adapted from AngelBlockRenewed.
 Author: LaidBackSloth
 Source: https://github.com/LaidBackSloth/AngelBlockRenewed
 Branch: forge-1.20-1.20.1

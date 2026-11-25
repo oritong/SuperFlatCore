@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.37`
+Current version: `1.4.37-hotfix1`
 
 ## Features
 
@@ -14,7 +14,7 @@ Current version: `1.4.37`
 
 ### Machines and parts
 
-- **Angel Block:** Ports AngelBlockRenewed's midair building block. Right-click air to place it 4.5 blocks along the player's view, or place it normally against a block. It breaks instantly and returns to the player's inventory in survival. Includes the original texture and feather/stick recipe under the MIT license; source: [LaidBackSloth/AngelBlockRenewed](https://github.com/LaidBackSloth/AngelBlockRenewed).
+- **Angel Block:** Ports AngelBlockRenewed's midair building block. Right-click air to place it 4.5 blocks along the player's view, or place it normally against a block. It breaks instantly and returns to the player's inventory in survival. Includes the original texture under the MIT license; crafting recipes are supplied by the pack. Source: [LaidBackSloth/AngelBlockRenewed](https://github.com/LaidBackSloth/AngelBlockRenewed).
 - GTM's Large Assembling Factory also accepts the pack's `gtceu:ae_assembler` recipe type.
 - GT singleblock steam, gas, and combustion generators, plus GTNN rocket engines and naquadah reactors, produce up to `2 × tier voltage` EU/t and output 2A at their existing voltage. Their existing output tooltip reports this doubled EU/t while retaining the voltage tier. Fuel use scales with generation at the original efficiency.
 - **GT output through Pipez:** Prevents GT's EU-to-FE adapter from stalling when its buffered remainder is smaller than a destination's minimum energy packet. The adapter probes buffered energy together with incoming packets and retains GT's existing energy accounting.
