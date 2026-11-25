@@ -29,6 +29,7 @@
     "WorkableTieredMachineMixin",
     "SimpleGeneratorMachineMixin",
     "SmallGeneratorEnergyOutputMixin",
+    "EUToFEBufferedOutputMixin",
     "GTNNNaquadahGeneratorMixin",
     "GTMachineUtilsMixin",
     "GTToolRecipeHandlerMixin",
