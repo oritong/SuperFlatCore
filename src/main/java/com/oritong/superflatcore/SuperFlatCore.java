@@ -27,6 +27,7 @@ import com.oritong.superflatcore.integration.botania.ManaSparkHatchIntegration;
 import com.oritong.superflatcore.integration.create.CorundumSpoutingIntegration;
 import com.oritong.superflatcore.integration.embers.EmbersMalletIntegration;
 import com.oritong.superflatcore.integration.gtceu.SFCeramicMaterials;
+import com.oritong.superflatcore.integration.gtceu.LargeAssemblerRecipeIntegration;
 import com.oritong.superflatcore.integration.gtceu.SFMaterialProperties;
 import com.oritong.superflatcore.integration.gtceu.SFMineralProcessingMaterials;
 import com.oritong.superflatcore.integration.rainrot.RainrotDrinkIntegration;
@@ -84,6 +85,7 @@ public class SuperFlatCore {
         ManaSparkHatchIntegration.register();
         modBus.addListener(CorundumSpoutingIntegration::commonSetup);
         modBus.addListener(RainrotDrinkIntegration::commonSetup);
+        modBus.addListener(LargeAssemblerRecipeIntegration::commonSetup);
         EmbersMalletIntegration.register();
         TimeCrystalTiabEvents.requestTiabApi();
         SFNetwork.register();

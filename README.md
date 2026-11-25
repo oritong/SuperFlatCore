@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.35-hotfix3`
+Current version: `1.4.36`
 
 ## Features
 
@@ -14,6 +14,7 @@ Current version: `1.4.35-hotfix3`
 
 ### Machines and parts
 
+- GTM's Large Assembling Factory also accepts the pack's `gtceu:ae_assembler` recipe type.
 - GT singleblock steam, gas, and combustion generators, plus GTNN rocket engines and naquadah reactors, produce up to `2 × tier voltage` EU/t and output 2A at their existing voltage. Their existing output tooltip reports this doubled EU/t while retaining the voltage tier. Fuel use scales with generation at the original efficiency.
 - **GT output through Pipez:** Prevents GT's EU-to-FE adapter from stalling when its buffered remainder is smaller than a destination's minimum energy packet. The adapter probes buffered energy together with incoming packets and retains GT's existing energy accounting.
 - **Pipez round-robin power:** Uses real transfer probes and finite buffer room when GregFluxology and Curvy Pipes wrap GT machines, so full destinations do not reserve simulated energy and starve other machines.
