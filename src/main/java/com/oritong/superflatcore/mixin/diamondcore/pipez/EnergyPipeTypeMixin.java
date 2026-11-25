@@ -54,7 +54,7 @@ public abstract class EnergyPipeTypeMixin {
                 int gtBudget = Math.min(Math.max(fairShare, oritongsdiamondcore$getMinimumGtPacketFe(target.gtEnergy())),
                         remaining);
                 pushed = oritongsdiamondcore$pushForgeEnergyToGt(source, target.gtEnergy(),
-                        target.connection().getDirection(), gtBudget);
+                        target.connection().getDirection(), gtBudget, target.forgeEnergy());
             }
 
             if (pushed > 0) {
@@ -94,7 +94,7 @@ public abstract class EnergyPipeTypeMixin {
                 int gtBudget = Math.min(Math.max(fairShare, oritongsdiamondcore$getMinimumGtPacketFe(target.gtEnergy())),
                         remaining);
                 inserted = oritongsdiamondcore$receiveForgeEnergyIntoGt(target.gtEnergy(),
-                        target.connection().getDirection(), gtBudget, simulate);
+                        target.connection().getDirection(), gtBudget, simulate, target.forgeEnergy());
             }
 
             if (inserted > 0) {
@@ -139,8 +139,9 @@ public abstract class EnergyPipeTypeMixin {
         if (energyStorage == null || !energyStorage.canReceive() || budgetFe <= 0) {
             return false;
         }
-        int probe = Math.max(1, Math.min(budgetFe, oritongsdiamondcore$getMinimumFeProbe()));
-        return energyStorage.receiveEnergy(probe, true) > 0 || energyStorage.receiveEnergy(budgetFe, true) > 0;
+        // GregFluxology's one-FE probe only reports connectivity, even for a
+        // full GT machine. Probe an actual transfer before sharing the budget.
+        return energyStorage.receiveEnergy(budgetFe, true) > 0;
     }
 
     private boolean oritongsdiamondcore$canReceiveGtEnergy(IEnergyContainer energyContainer, Direction side,
@@ -150,25 +151,25 @@ public abstract class EnergyPipeTypeMixin {
         }
         long inputVoltage = energyContainer.getInputVoltage();
         return inputVoltage > 0 && energyContainer.getInputAmperage() > 0 &&
-                energyContainer.getEnergyCanBeInserted() >= inputVoltage &&
+                oritongsdiamondcore$getGtSpace(energyContainer) >= inputVoltage &&
                 FeCompat.toEu(budgetFe, oritongsdiamondcore$getFeToEuRatio()) >= inputVoltage;
     }
 
     private int oritongsdiamondcore$pushForgeEnergyToGt(IEnergyStorage source, IEnergyContainer target,
-                                                        Direction side, int maxFe) {
+                                                        Direction side, int maxFe, IEnergyStorage forgeEnergy) {
         int extractable = source.extractEnergy(maxFe, true);
-        int transferable = oritongsdiamondcore$getGtTransferFe(target, side, extractable);
+        int transferable = oritongsdiamondcore$getGtTransferFe(target, side, extractable, forgeEnergy);
         if (transferable <= 0) {
             return 0;
         }
 
         int extracted = source.extractEnergy(transferable, false);
-        return oritongsdiamondcore$receiveForgeEnergyIntoGt(target, side, extracted, false);
+        return oritongsdiamondcore$receiveForgeEnergyIntoGt(target, side, extracted, false, forgeEnergy);
     }
 
     private int oritongsdiamondcore$receiveForgeEnergyIntoGt(IEnergyContainer target, Direction side, int maxFe,
-                                                             boolean simulate) {
-        int acceptedFe = oritongsdiamondcore$getGtTransferFe(target, side, maxFe);
+                                                             boolean simulate, IEnergyStorage forgeEnergy) {
+        int acceptedFe = oritongsdiamondcore$getGtTransferFe(target, side, maxFe, forgeEnergy);
         if (acceptedFe <= 0) {
             return 0;
         }
@@ -184,7 +185,8 @@ public abstract class EnergyPipeTypeMixin {
         return FeCompat.toFeBounded(voltage * acceptedAmperage, ratio, acceptedFe);
     }
 
-    private int oritongsdiamondcore$getGtTransferFe(IEnergyContainer target, Direction side, int maxFe) {
+    private int oritongsdiamondcore$getGtTransferFe(IEnergyContainer target, Direction side, int maxFe,
+                                                    IEnergyStorage forgeEnergy) {
         if (maxFe <= 0 || target == null || !target.inputsEnergy(side)) {
             return 0;
         }
@@ -203,21 +205,31 @@ public abstract class EnergyPipeTypeMixin {
 
         long availableEu = FeCompat.toEu(alignedFe, ratio);
         long amperage = Math.min(maxAmperage,
-                Math.min(availableEu / voltage, target.getEnergyCanBeInserted() / voltage));
+                Math.min(availableEu / voltage, oritongsdiamondcore$getGtSpace(target) / voltage));
         if (amperage <= 0) {
             return 0;
         }
 
-        return FeCompat.toFeBounded(voltage * amperage, ratio, alignedFe);
+        int transferable = FeCompat.toFeBounded(voltage * amperage, ratio, alignedFe);
+        if (forgeEnergy != null) {
+            // The FE wrapper can simulate whole-packet receipt instead of
+            // relying on capability wrappers that may overstate free space.
+            transferable = Math.min(transferable, forgeEnergy.receiveEnergy(transferable, true));
+        }
+        return transferable;
+    }
+
+    private long oritongsdiamondcore$getGtSpace(IEnergyContainer target) {
+        // Curvy Pipes returns Long.MAX_VALUE from getEnergyCanBeInserted even
+        // around finite GT buffers. Keep those wrappers within their real room.
+        long capacity = target.getEnergyCapacity();
+        return capacity > 0 ? Math.min(target.getEnergyCanBeInserted(),
+                Math.max(0, capacity - target.getEnergyStored())) : target.getEnergyCanBeInserted();
     }
 
     private int oritongsdiamondcore$getMinimumGtPacketFe(IEnergyContainer energyContainer) {
         return FeCompat.toFeBounded(energyContainer.getInputVoltage(), oritongsdiamondcore$getFeToEuRatio(),
                 Integer.MAX_VALUE);
-    }
-
-    private int oritongsdiamondcore$getMinimumFeProbe() {
-        return Math.max(1, oritongsdiamondcore$getFeToEuRatio());
     }
 
     private int oritongsdiamondcore$getFeToEuRatio() {
