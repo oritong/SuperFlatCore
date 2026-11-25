@@ -2,6 +2,7 @@ package com.oritong.superflatcore.registry;
 
 import com.oritong.superflatcore.SuperFlatCore;
 import com.oritong.superflatcore.block.AccelerationRailBlock;
+import com.oritong.superflatcore.block.AngelBlock;
 import com.oritong.superflatcore.block.RadioactiveFluidTankBlock;
 import com.oritong.superflatcore.block.CorundumClusterBlock;
 import com.oritong.superflatcore.block.WindGeneratorCollisionBlock;
@@ -12,6 +13,7 @@ import com.gregtechceu.gtceu.api.block.property.GTBlockStateProperties;
 import com.gregtechceu.gtceu.common.data.models.GTModels;
 import com.simibubi.create.content.fluids.tank.FluidTankGenerator;
 import com.oritong.superflatcore.item.RadioactiveFluidTankItem;
+import com.oritong.superflatcore.item.AngelBlockItem;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.oritong.superflatcore.client.RadioactiveFluidTankModel;
@@ -26,6 +28,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -42,6 +45,19 @@ public final class SFBlocks {
             new ResourceLocation("forge", "mineable/wrench"));
     public static final TagKey<Block> BLACK_HOLE_BLACKLIST = TagKey.create(Registries.BLOCK,
             SuperFlatCore.id("blackhole_blacklist"));
+
+    public static final BlockEntry<AngelBlock> ANGEL_BLOCK = SFRegistrate.REGISTRATE
+            .block("angel_block", AngelBlock::new)
+            .properties(properties -> properties.mapColor(MapColor.WOOD).instabreak()
+                    .explosionResistance(0).noOcclusion().noLootTable())
+            .addLayer(() -> RenderType::cutout)
+            .blockstate((context, provider) -> provider.simpleBlock(context.getEntry(),
+                    provider.models().getExistingFile(SuperFlatCore.id("block/angel_block"))))
+            .item(AngelBlockItem::new)
+            .model((context, provider) -> provider.withExistingParent(context.getName(),
+                    SuperFlatCore.id("block/angel_block")))
+            .build()
+            .register();
 
     public static final BlockEntry<BlackHoleBlock> BLACK_HOLE = SFRegistrate.REGISTRATE
             .block("black_hole", BlackHoleBlock::new)
@@ -141,6 +157,7 @@ public final class SFBlocks {
 
     public static void addCreativeTabItems(BuildCreativeModeTabContentsEvent event) {
         if (GTCEu.id("item").equals(event.getTabKey().location())) {
+            event.accept(ANGEL_BLOCK.asStack());
             event.accept(NAQUADAH_ALLOY_CASING.asStack());
             event.accept(ACCELERATION_RAIL_1.asStack());
             event.accept(ACCELERATION_RAIL_2.asStack());
