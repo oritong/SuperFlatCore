@@ -90,6 +90,7 @@
     "diamondcore.pipez.PipeLogicTileEntityMixin",
     "botania.CorporeaCrystalCubeBlockMixin",
     "botania.CorporeaSparkEntityMixin",
+    "botania.ExtrapolatedBucketFluidHandlerMixin",
     "botania.HoveringHourglassBlockMixin",
     "botania.ManaEnchanterBlockMixin",
     "botania.ManaSparkEntityMixin",
