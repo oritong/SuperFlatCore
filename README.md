@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.37-hotfix1`
+Current version: `1.4.37-hotfix2`
 
 ## Features
 
@@ -50,7 +50,7 @@ Current version: `1.4.37-hotfix1`
 
 - **Tinkers' Construct:** Completes the server's melting and casting recipes after KubeJS finishes loading, before clients receive them. Material temperatures are set when recipes are constructed, including part recipes; loaded recipe objects and their display caches are no longer rewritten afterward.
 - **Pack recipe restrictions:** Removes all three Iron Furnaces generator categories (`ironfurnaces:generator_regular`, `generator_blasting`, and `generator_smoking`), including dynamically generated fuel/food entries; IFEU dragon/dragon-star generator, infuser, and structure-information categories; Industrial Foregoing biofuel recipes; selected Mekanism processing categories; and Tinkers' Construct modifiers, tool building, and modifier worktable recipes from EMI. Corresponding registered processing recipes are removed on reload and synchronization. Industrial Foregoing machine-output displays retain only meat, pink slime, and dry rubber. Mekanism fission reactors no longer check or form their multiblock structure, and nutritional liquifiers no longer generate food recipes.
-- **Botania and Ars Nouveau:** Sets Source Jar capacity to 128,000 Source, adds Botania wand interactions to the Dominion Wand, launches a fireball when Fire Essence is used, and connects Botania infusion recipes to the Mana Oppressor.
+- **Botania and Ars Nouveau:** Sets Source Jar capacity to 128,000 Source, adds Botania wand interactions to the Dominion Wand, launches a fireball when Fire Essence is used, and connects Botania infusion recipes to the Mana Oppressor. Dominion Wand spark interactions use Botania's native handler, without depending on private transfer field names that differ between Botania 448 and 456.
 - **Technical Flowers:** Functional flowers in Botania's `botania:floating_flowers` block tag can also draw mana from fluid pipes adjacent to their sides, using Technical Flowers' own pipe checks and mana conversion.
 - **Occultism:** Its dimensional mineshaft uses GTNN's dimension ore pool instead of its original drops; raw bauxite and raw coal are excluded. Otherstone trades require blackstone, Otherworld Tree trades require a Pure Daisy, and Manasteel Shears are needed to obtain leaves from Otherworld Leaves.
 - Occultism's outdated miner-result recipes are hidden from EMI because the Dimensional Mineshaft now uses GTNN's dimension-specific ore pool.
