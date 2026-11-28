@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.38`
+Current version: `1.4.39`
 
 ## Features
 
@@ -48,6 +48,7 @@ Current version: `1.4.38`
 
 ### Mod integrations
 
+- **AE2 Crafting Co-Processing Unit:** Sneak-right-click disassembly returns `kubejs:general_circuit_ev` instead of an Engineering Processor, retaining the Crafting Unit and original return quantities.
 - **Tinkers' Construct:** Completes the server's melting and casting recipes after KubeJS finishes loading, before clients receive them. Material temperatures are set when recipes are constructed, including part recipes; loaded recipe objects and their display caches are no longer rewritten afterward.
 - **Pack recipe restrictions:** Removes all three Iron Furnaces generator categories (`ironfurnaces:generator_regular`, `generator_blasting`, and `generator_smoking`), including dynamically generated fuel/food entries; IFEU dragon/dragon-star generator, infuser, and structure-information categories; Industrial Foregoing biofuel recipes; selected Mekanism processing categories; and Tinkers' Construct modifiers, tool building, and modifier worktable recipes from EMI. Corresponding registered processing recipes are removed on reload and synchronization. Industrial Foregoing machine-output displays retain only meat, pink slime, and dry rubber. Mekanism fission reactors no longer check or form their multiblock structure, and nutritional liquifiers no longer generate food recipes.
 - **Botania and Ars Nouveau:** Sets Source Jar capacity to 128,000 Source, adds Botania wand interactions to the Dominion Wand, launches a fireball when Fire Essence is used, and connects Botania infusion recipes to the Mana Oppressor. Dominion Wand spark interactions use Botania's native handler, without depending on private transfer field names that differ between Botania 448 and 456.

@@ -74,6 +74,7 @@
     "GTQuantumTankFluidCacheMixin",
     "AE2BasicCellInventoryMixin",
     "AE2CreativeCellInventoryMixin",
+    "AE2CraftingBlockItemMixin",
     "RadioactiveFluidHatchBlockMixin",
     "AE2InterfaceLogicMixin",
     "AE2PatternProviderLogicMixin",
