@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** Checks the pack update manifest without blocking the client or exposing player data. */
 @Mod.EventBusSubscriber(modid = SuperFlatCore.MODID, value = Dist.CLIENT)
 public final class SFUpdateChecker {
-    private static final String CURRENT_PACK_VERSION = "0.2.2";
+    private static final String CURRENT_PACK_VERSION = "0.2.3";
     private static final String MANIFEST_URL = "https://oritong.github.io/updates/superflatcore.json";
     private static final String FALLBACK_DOWNLOAD_URL =
             "https://www.xyebbs.com/res-id/diamond_continent_plus_and_plus_edition/downloads";

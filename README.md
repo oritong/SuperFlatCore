@@ -2,7 +2,7 @@
 
 Minecraft Forge 1.20.1 core mod for the pack **Diamond Continent Jiahao Version**.
 
-Current version: `1.4.39`
+Current version: `1.4.39-hotfix1`
 
 ## Features
 
@@ -67,6 +67,7 @@ Current version: `1.4.39`
 
 ### Player features and recipe tools
 
+- **Pack update check:** Uses `0.2.3` as the installed pack version when checking the update manifest in the background.
 - **Chat flight:** Send `中国人能飞` in chat to enable and immediately enter creative-style flight, or `曼巴out` to stop it. No operator permission is required, and the player's game mode stays unchanged. Flight permission persists through reconnects, respawns, and dimension changes until disabled. Normal flight controls still apply, and disabling the feature preserves Creative/Spectator mode flight permission.
 - **`/spawn`:** Teleports a player to the Overworld world spawn, moving upward only if the standing space is obstructed. Works at any distance and from other dimensions without operator permission or consuming an item, with Botania world seed sound and particles.
 - **Structure Detect:** Reports GT multiblock formation errors and highlights the problem position. Sneak-right-clicking air toggles Cable Facades disguise rendering.
